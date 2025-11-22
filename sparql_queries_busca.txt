@@ -1,0 +1,187 @@
+#1
+PREFIX :           <https://omc.co/vocabulary/>
+PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?idChunk ?score ?texto ?descricao ?documento ?tipo ?tipoDocSuperior
+FROM <https://omc.co/graph/5511993891773>
+WHERE {   
+  {
+    SELECT ?chunk (MAX(?s) AS ?score) (SAMPLE(?id) AS ?idChunk)(SAMPLE(?t) AS ?texto) (SAMPLE(?descRegra) AS ?descricao)
+    WHERE {
+      ?q a luc-index:omc_full ;
+         luc:query '''
+Realizar culto ou celebração com irmãos da igreja, 
+Promover encontro espiritual ou reunião religiosa, 
+No salão de festas ou espaço comunitário, 
+Próximo dia 10, Morador ou organizador da igreja, 
+Por meio de locação ou reserva do salão, Valor referente ao aluguel do salão, 
+Quantidade de presentes ou participantes não especificada,''' ;
+         luc:entities ?chunk .
+
+      ?chunk luc:score ?s .
+
+      OPTIONAL { ?chunk :idChunk ?id }
+      OPTIONAL { 
+        ?chunk :texto ?t .
+        FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt"))
+      }
+      OPTIONAL {
+        ?chunk a/rdfs:subClassOf* :Regra ;
+               :descricao ?descRegra .
+      }
+    }
+    GROUP BY ?chunk
+    ORDER BY DESC(?score)
+    LIMIT 500
+  }    
+  {
+    ?chunk a :Chunk .
+    ?chunk :estaContidoEm ?documento .
+    OPTIONAL { ?documento a ?tipo }
+    OPTIONAL {
+      ?tipo rdfs:subClassOf* ?tipoDocSuperior .
+      FILTER(?tipoDocSuperior != ?tipo)
+    }
+  }UNION{
+    ?chunk a :Regra .
+    BIND(?chunk AS ?documento)
+    OPTIONAL { ?documento a ?tipo }
+    OPTIONAL {
+      ?tipo rdfs:subClassOf* ?tipoDocSuperior .
+      FILTER(?tipoDocSuperior != ?tipo)
+    }
+  }
+}
+ORDER BY DESC(?score)
+LIMIT 100
+
+#2
+PREFIX :           <https://omc.co/vocabulary/>
+PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?idChunk ?score ?texto ?descricao ?pred ?neighbor ?tipoNeighbor 
+(GROUP_CONCAT(DISTINCT ?superTipoNeighbor; separator=", ") AS ?superTipos)
+FROM <https://omc.co/graph/5511993891773>
+WHERE {
+  {
+    SELECT ?chunk (MAX(?s) AS ?score)(SAMPLE(?id) AS ?idChunk)(SAMPLE(?t) AS ?texto)
+    WHERE {
+      ?q a luc-index:omc_full ;
+         luc:query '''
+Realizar culto ou celebração com irmãos da igreja, 
+Promover encontro espiritual ou reunião religiosa, 
+No salão de festas ou espaço comunitário, 
+Próximo dia 10, Morador ou organizador da igreja, 
+Por meio de locação ou reserva do salão, Valor referente ao aluguel do salão, 
+Quantidade de presentes ou participantes não especificada,''' ;
+         luc:entities ?chunk .
+
+      ?chunk luc:score ?s .
+
+      OPTIONAL { ?chunk :idChunk ?id }
+      OPTIONAL { ?chunk :texto ?t .FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt")) }
+    }
+    GROUP BY ?chunk
+    ORDER BY DESC(?score)
+    LIMIT 500
+  }
+
+  # Descrição da Regra (se for regra)
+  OPTIONAL {
+    ?chunk a/rdfs:subClassOf* :Regra ;
+           :descricao ?descricao .
+  }
+
+  # limite de predicados
+  VALUES ?pred { :estaContidoEm :aplicaA :possuiRelacionamento :mencionaEntidade :relacionamento :refereSeA }
+
+  OPTIONAL {
+    ?chunk ?pred ?neighbor .
+    OPTIONAL { ?neighbor a ?tipoNeighbor }
+    OPTIONAL {
+      ?tipoNeighbor rdfs:subClassOf* ?superTipoNeighbor .
+      FILTER(?superTipoNeighbor != ?tipoNeighbor)
+    }
+  }
+
+  FILTER EXISTS {
+    VALUES ?tipoPermitido { :Chunk :Regra }
+    ?chunk a ?tipoPermitido .
+  }
+}
+GROUP BY ?idChunk ?score ?texto ?descricao ?pred ?neighbor ?tipoNeighbor
+ORDER BY DESC(?score)
+LIMIT 100
+
+
+#3
+PREFIX :           <https://omc.co/vocabulary/>
+PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?idChunk ?score ?texto ?descricao ?documento ?tipo
+FROM <https://omc.co/graph/5511993891773>
+WHERE {  
+  {
+    SELECT ?chunk 
+           (MAX(?s) AS ?score) 
+           (SAMPLE(?id) AS ?idChunk) 
+           (SAMPLE(?t)  AS ?texto) 
+           (SAMPLE(?descRegra) AS ?descricao)
+    WHERE {
+      ?q a luc-index:omc_full ;
+         luc:query '''
+Realizar culto ou celebração com irmãos da igreja, 
+Promover encontro espiritual ou reunião religiosa, 
+No salão de festas ou espaço comunitário, 
+Próximo dia 10, Morador ou organizador da igreja, 
+Por meio de locação ou reserva do salão, Valor referente ao aluguel do salão, 
+Quantidade de presentes ou participantes não especificada,''' ;
+         luc:entities ?chunk .
+
+      ?chunk luc:score ?s .
+
+      OPTIONAL { ?chunk :idChunk ?id }
+
+      # Texto do Chunk
+      OPTIONAL {
+        ?chunk :texto ?t .
+        FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt"))
+      }
+
+      # Descrição da Regra (se for Regra)
+      OPTIONAL {
+        ?chunk a/rdfs:subClassOf* :Regra ;
+               :descricao ?descRegra .
+      }
+    }
+    GROUP BY ?chunk
+    ORDER BY DESC(?score)
+    LIMIT 500
+  }
+
+  OPTIONAL {
+  { 
+    # caso 1: chunk dentro de um documento
+    ?chunk :estaContidoEm ?documento .
+    OPTIONAL { ?documento a ?tipo }
+  }UNION{
+    # caso 2: o próprio chunk é um documento/regra
+    BIND(?chunk AS ?documento) .
+    OPTIONAL { ?documento a ?tipoDoc }
+  }
+}
+
+  FILTER EXISTS {
+    VALUES ?tipoPermitido { :Chunk :Regra }
+    ?chunk a ?tipoPermitido .
+  }
+}
+ORDER BY DESC(?score)
+LIMIT 100
+

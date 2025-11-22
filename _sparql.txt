@@ -1,0 +1,355 @@
+
+1 - Importar TBox no painel, via import para The Default Graph
+
+PREFIX v:    <https://omc.co/vocabulary/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?regra ?descricao
+
+WHERE {
+    GRAPH <https://omc.co/graph/5511993891773> {
+    ?regra rdf:type v:Regra ;
+            v:descricao ?descricao .
+    }
+}
+ORDER BY ?regra
+
+****************************************************************
+
+Regra com lucene
+
+PREFIX v:           <https://omc.co/vocabulary/>
+PREFIX rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX luc:         <http://www.ontotext.com/connectors/lucene#>
+PREFIX luc-index:   <http://www.ontotext.com/connectors/lucene/instance#>
+
+SELECT DISTINCT ?regra ?descricao ?score
+FROM <https://omc.co/graph/5511993891773>
+WHERE {
+  # Busca full-text em v:descricao
+  ?search a luc-index:omc_full ;
+          luc:query 'oi, boa tarde, quero fazer um culto religioso com os irmãos da igreja no salão, pode?';
+          luc:entities ?regra .
+
+  # Score do Lucene
+  ?regra luc:score ?score .
+
+  # Garante que é uma Regra e pega a descrição
+  ?regra rdf:type v:Regra ;
+         v:descricao ?descricao .
+}
+ORDER BY DESC(?score)
+LIMIT 10
+
+****************************************************************
+
+PREFIX v:    <https://omc.co/vocabulary/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?regra ?descricao
+FROM <https://omc.co/graph/5511993891773>
+WHERE {
+  ?regra rdf:type v:Regra ;
+  v:descricao ?descricao .
+}
+ORDER BY ?regra
+
+- busca classe e nós de: Vaga
+
+  PREFIX omc: <https://omc.co/vocabulary/>
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+  SELECT ?regra ?relacao ?nodo
+  WHERE {
+    ?regra rdf:type omc:Vaga .
+    { ?regra ?relacao ?nodo }
+    UNION
+    { ?nodo ?relacao ?regra }
+  }
+
+- busca todos os documentos com conteudo != vazio
+  
+  PREFIX : <https://omc.co/vocabulary/>
+
+  SELECT ?doc ?conteudo
+  WHERE {
+    ?doc a :Documento ;
+        :conteudo ?c .
+    FILTER( STRLEN(STR(?c)) > 0 )
+    BIND(?c AS ?conteudo)
+  }
+  LIMIT 10
+
+- busca usando REGEX
+
+  PREFIX : <https://omc.co/vocabulary/>
+
+  SELECT ?doc ?conteudo ?descricao
+  WHERE {
+    ?doc a :Documento .
+    OPTIONAL { ?doc :conteudo ?conteudo }
+    OPTIONAL { ?doc :descricao ?descricao }
+    
+    FILTER(
+      (BOUND(?conteudo) && REGEX(?conteudo, "moto", "i")) ||
+      (BOUND(?descricao) && REGEX(?descricao, "moto", "i"))
+    )
+  }
+  LIMIT 1
+
+- busca usando Lecne full text search
+
+  PREFIX :           <https://omc.co/vocabulary/>
+  PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+  PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+
+  SELECT ?doc ?conteudo ?descricao ?score ?field ?snippet WHERE {
+    # Consulta no índice omc_full_chunk
+    ?q a luc-index:omc_full_chunk ;
+      luc:query "(conteudo:posso um carro e uma moto na minha vaga?)" ;
+      luc:entities ?doc .
+
+    # Retorna score Lucene
+    ?doc luc:score ?score .
+
+    # Puxa propriedades RDF normais (como antes)
+    OPTIONAL { ?doc :conteudo ?conteudo }
+    OPTIONAL { ?doc :descricao ?descricao }
+
+    # Opcional: mostra em qual campo e trecho bateu
+    OPTIONAL {
+      ?doc luc:snippets ?s .
+      ?s luc:snippetField ?field ;
+        luc:snippetText  ?snippet .
+    }
+  }
+  ORDER BY DESC(?score)
+  LIMIT 10
+
+- apagar documento
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+  DELETE {
+    ?s ?p ?o .
+  }
+  WHERE {
+    ?s ?p ?o .
+    FILTER ( ?s = :doc_5511993891773_749_1 )
+  }
+
+- registrar classe
+
+  PREFIX :    <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+  INSERT DATA {
+    :Usuario a owl:Class ;
+      rdfs:label "Usuario"@pt ;
+      rdfs:comment "Proprietário, responsável pelo documento."@pt .
+  }
+
+- registrar propriedades
+
+  PREFIX :    <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+  INSERT DATA {
+    :estaContidoEm a owl:ObjectProperty ;
+      rdfs:label "está contido em"@pt ;
+      rdfs:comment "Relaciona um chunk à um documento do qual faz parte."@pt ;
+      rdfs:domain :Chunk ;
+      rdfs:range  :Documento .
+  }
+
+- listar todas as classes
+
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+  SELECT DISTINCT ?class ?label ?comment
+  WHERE {
+    {
+      ?class a owl:Class .
+    }
+    UNION
+    {
+      ?class a rdfs:Class .
+    }
+    OPTIONAL { ?class rdfs:label ?label }
+    OPTIONAL { ?class rdfs:comment ?comment }
+  }
+  ORDER BY ?class
+
+- listar todas as propriedades
+
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+  SELECT DISTINCT ?property ?type ?label ?comment ?domain ?range
+  WHERE {
+    VALUES ?type { owl:ObjectProperty owl:DatatypeProperty owl:AnnotationProperty }
+
+    ?property a ?type .
+
+    OPTIONAL { ?property rdfs:label ?label }
+    OPTIONAL { ?property rdfs:comment ?comment }
+    OPTIONAL { ?property rdfs:domain ?domain }
+    OPTIONAL { ?property rdfs:range ?range }
+  }
+  ORDER BY ?property
+
+- apagar
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+  DELETE { :estaContidoEm ?p ?o }
+  WHERE  { :estaContidoEm ?p ?o }
+
+- criar um usuário
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+  INSERT DATA {
+    GRAPH <https://omc.co/graph/5511993891773> {
+      <https://omc.co/id/usuario/5511993891773> a :Usuario ;
+        rdfs:label "5511993891773"@pt ;
+        rdfs:comment "Proprietário/responsável por documentos desse workspace."@pt .
+    }
+  }
+
+- cria um documento
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+  INSERT DATA {
+    GRAPH <https://omc.co/graph/usuario/5511993891773> {
+
+      # Documento 749
+      <https://omc.co/id/documento/749> a :Documento ;
+        rdfs:label "Regulamento Interno do Condomínio Nouveaux Alto do Ipiranga"@pt ;
+        :identificador "749" .
+
+      # Relacionamento do usuário -> documento
+      <https://omc.co/id/usuario/5511993891773> :possuiDocumento <https://omc.co/id/documento/749> ;
+                                                :responsavelPor <https://omc.co/id/documento/749> .
+    }
+  }
+
+  ------------------------------
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+  INSERT DATA {
+    GRAPH <https://omc.co/graph/5511993891773> {
+      
+      # Criando o documento 749 como instância da classe :Documento
+      <https://omc.co/id/documento/749> a :Documento ;
+        rdfs:label "749"@pt ;
+        rdfs:comment "Documento do condomínio."@pt .
+      
+      # Estabelecendo a relação: usuário possui documento
+      <https://omc.co/id/usuario/5511993891773> :possuiDocumento <https://omc.co/id/documento/749> .
+    }
+  }
+
+  -------------------------------- use este abaixo -------------------------------------
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+  INSERT DATA {
+    GRAPH <https://omc.co/graph/5511993891773> {
+      
+      # Criando o documento 749 como instância da classe :Documento
+      <https://omc.co/id/documento/749> a :Documento ;
+        :idexterno "749" ;
+        :arquivo "https://storage.googleapis.com/comtodos-607d6.appspot.com/5511969033344/5511993891773/Nouveaux_Regulamento_2023.pdf" ;
+        rdfs:label "Regulamento Interno do Condomínio Nouveaux Alto do Ipiranga"@pt ;
+        rdfs:comment "Documento do condomínio."@pt .
+      
+      # Estabelecendo a relação: usuário possui documento
+      <https://omc.co/id/usuario/5511993891773> :possuiDocumento <https://omc.co/id/documento/749> ;
+                                                :responsavelPor <https://omc.co/id/documento/749> .
+    }
+  }
+
+- apagar e criar de novo - propiedade
+
+  PREFIX :     <https://omc.co/vocabulary/>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+
+  DELETE {
+    :parteDe ?p ?o .
+  }
+  INSERT {
+    :parteDe a owl:ObjectProperty ;
+      rdfs:label "parte de"@pt ;
+      rdfs:comment "Relaciona uma entidade física a uma unidade maior (ex.: vaga faz parte da garagem)."@pt ;
+      rdfs:domain :EntidadeFisica ;
+      rdfs:range  :EntidadeFisica .
+  }
+  WHERE {
+    OPTIONAL { :parteDe ?p ?o }
+  }
+
+  - apaga o conteúdo
+  
+    DELETE WHERE { ?s ?p <https://omc.co/5511993891773/749/5511993891773_749_2> }
+
+- limpar
+
+  # Remove todos os triples que estão dentro do grafo
+  CLEAR GRAPH <https://omc.co/graph/5511993891773> ;
+
+  # Remove todos os triples e também remove a referência ao grafo
+  DROP GRAPH <https://omc.co/graph/5511993891773> ;
+
+- schema
+
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX owl: <http://www.w3.org/2002/07/owl#>
+  PREFIX : <https://omc.co/vocabulary/>
+
+  CONSTRUCT {
+      ?s ?p ?o .
+      # Esta parte é importante para incluir definições de blank nodes
+      # (usados em sua ontologia em owl:unionOf)
+      ?o ?p2 ?o2 .
+  }
+  WHERE {
+      # 1. Encontre os "pontos de partida" do schema
+      VALUES ?schema_type {
+          owl:Ontology
+          owl:Class
+          owl:ObjectProperty
+          owl:DatatypeProperty
+      }
+      ?s a ?schema_type .
+
+      # 2. Pegue todas as propriedades diretas desses elementos do schema
+      ?s ?p ?o .
+
+      # 3. Se o objeto (?o) for um nó em branco (blank node),
+      # pegue também as propriedades dele para ter a definição completa.
+      OPTIONAL {
+          FILTER(isBlank(?o))
+          ?o ?p2 ?o2 .
+      }
+  }
+
+pipeline, para criação: named graph -> criar o usuário -> criar o documento
+- loop nos chunks, criar o graph doc -> rdflib -> ttl e fazer o uplaod do chunk em ttl
+ou 
+- loop nos chunks, criar o graph doc -> rdflib -> ttl , salvar pickle e depois fazer um uplaod único com todos os chunks
+

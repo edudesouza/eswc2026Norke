@@ -1,0 +1,52 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CI: true  # Set CI environment to ensure API tests are skipped
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: 2.1.1
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        
+    - name: Cache Poetry dependencies
+      id: cache-poetry
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/pyproject.toml') }}
+        
+    - name: Install dependencies
+      if: steps.cache-poetry.outputs.cache-hit != 'true'
+      run: |
+        poetry install --no-interaction
+        
+    - name: Run tests with coverage
+      run: |
+        poetry run pytest -v --cov=saf_eval --cov-report=xml
+        
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v5
+      with:
+        fail_ci_if_error: true
