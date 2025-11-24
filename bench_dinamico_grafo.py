@@ -831,7 +831,7 @@ examples = [
     )
 ]
 
-# gemini-2.5-flash |
+# gemini-2.5-flash | gemini-3-pro-preview
 res_ex = lx.extract(
     text_or_documents=pergunta,
     prompt_description=prompt,
