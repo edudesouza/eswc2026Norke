@@ -9,6 +9,7 @@ langchain-community
 langchain-together
 langchain-anthropic
 langchain-google-genai
+langchain_experimental
 torch
 transformers
 sentence-transformers
@@ -18,4 +19,4 @@ bert-score
 deepeval
 langextract
 saf-eval
-
+rdflib

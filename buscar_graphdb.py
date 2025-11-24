@@ -22,8 +22,9 @@ TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
 OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
 OLLAMA           = 'http://localhost:11434/api/generate'
 
+GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
 GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
-GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
+GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')
 repositorio = 'omc_v1'
 
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
@@ -527,7 +528,7 @@ def buscar_grafo(palavras_chave,pergunta):
 
     '''
 
-    url     = f"http://localhost:7200/repositories/{repositorio}"
+    url     = f"{GRAPHDB_BASE_URL}/repositories/{repositorio}"
     headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
 
     #print( query_regras )
@@ -538,7 +539,7 @@ def buscar_grafo(palavras_chave,pergunta):
         url,
         data=query_regras,
         headers=headers,
-        auth=HTTPBasicAuth(GRAPHDB_USERNAME, GRAPHDB_PASSWORD)  # ajuste usuário/senha
+        auth=HTTPBasicAuth(GRAPHDB_USERNAME,GRAPHDB_PASSWORD)  # ajuste usuário/senha
     )
 
     if resp_regras.status_code == 200:
@@ -682,6 +683,7 @@ examples = [
     )
 ]
 
+# gemini-2.5-flash |
 res_ex = lx.extract(
     text_or_documents=pergunta,
     prompt_description=prompt,

@@ -44,8 +44,9 @@ TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
 OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
 OLLAMA           = 'http://localhost:11434/api/generate'
 
+GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
 GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
-GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
+GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')
 repositorio      = 'omc_v1'
 
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
@@ -830,11 +831,12 @@ examples = [
     )
 ]
 
+# gemini-2.5-flash |
 res_ex = lx.extract(
     text_or_documents=pergunta,
     prompt_description=prompt,
     examples=examples,
-    model_id="gemini-3-pro-preview", 
+    model_id="gemini-2.5-flash", 
     #api_key=os.environ["GEMINI_API_KEY"],
     #model_id="gpt-4.1",                
     #api_key=os.environ["OPENAI_API_KEY"],

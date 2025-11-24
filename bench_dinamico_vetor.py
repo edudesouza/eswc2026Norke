@@ -590,7 +590,7 @@ print('-'*100)
 inicio = time.time()
 vetor_md = buscar_vetor(palavras_chave,pergunta)
 diff_time('--> vetor OK: ', inicio)
-#print( vetor_md )
+print( vetor_md )
 
 inicio = time.time()
 resposta   = criar_resposta_v1(palavras_chave,pergunta,vetor_md,'gpt') 

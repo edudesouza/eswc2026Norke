@@ -1,6 +1,9 @@
 import sys,os,warnings,json,requests,re,time
 
 import openai
+import tiktoken
+import logging
+import asyncio
 
 from urllib.parse               import quote_plus,urlparse
 
@@ -9,6 +12,8 @@ from langchain_community.graphs import OntotextGraphDBGraph
 from langchain_openai           import ChatOpenAI, OpenAIEmbeddings
 from langchain_together         import ChatTogether     
 from langchain_ollama           import ChatOllama
+from langchain_anthropic        import ChatAnthropic
+from langchain_google_genai     import ChatGoogleGenerativeAI
 
 from elasticsearch import Elasticsearch
 
@@ -16,11 +21,41 @@ import langextract as lx
 
 from rich                       import print
 
+import numpy as np, torch
+from scipy.special  import softmax
+from rich           import print
+
+from transformers           import AutoModelForSequenceClassification, AutoTokenizer, AutoConfig
+from transformers.utils     import logging as hf_logging
+from sentence_transformers  import SentenceTransformer, util
+
+from bert_score import BERTScorer
+from bert_score import score
+
+from saf_eval.config import Config
+from saf_eval.core.pipeline import EvaluationPipeline
+from saf_eval.extraction.extractor import FactExtractor
+from saf_eval.llm.providers.openai import OpenAILLM
+from saf_eval.retrieval.providers.simple import SimpleRetriever
+from saf_eval.evaluation.classifier import FactClassifier
+from saf_eval.evaluation.scoring import FactualityScorer
+
+from saf_eval.config import Config, LoggingConfig
+from saf_eval.utils.logging import get_logger
+
+#https://github.com/dowhiledev/saf-eval
+
 from dotenv import load_dotenv
 load_dotenv()
 
 warnings.filterwarnings('ignore')
 
+hf_logging.set_verbosity_error()
+logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
+logging.getLogger("transformers").setLevel(logging.ERROR)
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+
+GEMINI_API_KEY   = os.getenv('GEMINI_API_KEY')
 TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
 OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
 OLLAMA           = 'http://localhost:11434/api/generate'
@@ -40,6 +75,14 @@ GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
 repositorio = 'omc_v1'
 
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+EMB_MODEL_NAME = "rufimelo/Legal-BERTimbau-sts-large-ma-v3" 
+NLI_MODEL_NAME = "joeddav/xlm-roberta-large-xnli"
+
+sim_model     = SentenceTransformer(EMB_MODEL_NAME)
+nli_tokenizer = AutoTokenizer.from_pretrained(NLI_MODEL_NAME, use_fast=False)
+nli_model     = AutoModelForSequenceClassification.from_pretrained(NLI_MODEL_NAME)
+config        = AutoConfig.from_pretrained(NLI_MODEL_NAME)
 
 def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo): 
 
@@ -319,112 +362,13 @@ def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo):
    
     return msg.content
 
-def criar_resposta_v2(pergunta,candidatos,modelo):  
-
-    #context = to_xml_blocks(documentos_similares)
-    
-    system_prompt = f"""
-        Você é um assistente que responde perguntas usando apenas o contexto fornecido nos documentos abaixo.
-        Você responde SOMENTE com base nos documentos abaixo.
-
-        Regras:
-        - Se a resposta não estiver nos documentos, diga que não pode responder com base nas informações disponíveis.
-
-        Atenção especial:
-        Fique atento a nomes e numerações de unidades e apartamentos (ex: Torre, Bloco, Quadra, Lote, Rua). Por exemplo, "42 A" pode significar "42 Bloco A" ou "42 Torre 1". Analise o contexto para interpretar corretamente.
-
-        Ao responder, inclua:
-        - O artigo ou cláusula em que encontrou a resposta
-        - A página onde encontrou a resposta (se disponível)
-        - Um trecho do texto dos documentos justificando sua resposta    
-
-        Instruções de saída:
-        Se encontrar a resposta, seja objetivo. Cite a página e o trecho exato dos documentos. Use só o markdown listado acima.
-        Se não encontrar, diga claramente que não pode responder com base nas informações disponíveis.
-
-        Formato de saída (JSON válido):
-        - resposta: insira aqui o texto da resposta
-        - chunks: caso tenha usado mais de 1 chunk concatene separando por vígula, use a variável id que está no contexto
-        -- veja o exemplo abaixo
-        {{"resposta":"","chunks": "111111_111_11,2222_222_22"}}
-
-        Documentos:
-        {candidatos}    
-    """
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": pergunta}
-    ]
-
-    response = client.chat.completions.create(
-        model=modelo,
-        messages=messages,
-        temperature=0.3
-    )
-
-    return response.choices[0].message.content
-
-def criar_resposta_v3(pergunta,candidatos,modelo):
-
-    system_prompt = f'''
-
-        Você é um assistente jurídico de condomínios no Brasil. 
-        Responda APENAS com base nas evidências fornecidas. 
-        Se houver uma regra explícita, cite.
-        Se não houver base suficiente, diga isso.
-        
-        Tarefa:
-        1) Mantenha o trecho-chave: selecione até ~200 caracteres de “texto” que respondam à pergunta        
-        2) Gere uma conclusão objetiva (sim/não/depende + condição), apenas com base nos chunks de maior score. Não invente fatos.
-        3) Ao escolher um chunk para usar geração da resposta armazene o id para enviar no JSON de resposta
-        4) Cite o chunk usado para usar geração da resposta
-
-        Exemplo de resposta:
-        É pertmitodo uso da piscina depois da 22hs, techo chave: 
-        “o horário da piscina é da 8 - 22hs de terça a domingo, segunda estará 
-        fechada da tratamento” chunk(111111_11_11,111111_11_12)
-
-        Regras de estilo:
-        - Português claro e direto.
-        - Não invente entidades/nós. Use apenas o que aparece nos chunks.
-        - Priorize os 2-3 chunks com maior score que sejam realmente pertinentes.
-
-        Retorne um objeto json:
-        - resposta: insira aqui o texto da resposta
-        - chunks: caso tenha usado mais de 1 chunk concatene separando por vígula, use a variável id que está no contexto
-        - veja o exemplo abaixo:
-        {{
-            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência>",            
-            "chunks": ["<id1>", "<id2>"]
-        }}
-
-        Pergunta do usuário:
-        {pergunta}
-
-        Documentos encontrados: 
-        {candidatos}
-    '''
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": pergunta}
-    ]
-
-    response = client.chat.completions.create(
-        model=modelo,
-        messages=messages,
-        temperature=0.3
-    )
-
-    return response.choices[0].message.content
-
 def buscar_vetor(palavras_chave,pergunta):
 
-    resp        = ''
-    resp_md     = ''   
-    index_name  = 'documentos'
-    user_id     = 5511993891773
+    resp            = ''
+    resp_md         = ''   
+    index_name      = 'documentos'
+    user_id         = 5511993891773
+    knowledge_base  = {}
 
     embeddings      = OpenAIEmbeddings(model="text-embedding-3-small")
     query_embedding = embeddings.embed_query(palavras_chave) 
@@ -443,7 +387,7 @@ def buscar_vetor(palavras_chave,pergunta):
             "bool": {
                 "must": {
                     "multi_match": {
-                        "query": palavras_chave,
+                        "query": pergunta,
                         "fields": ["texto"],                        
                     }
                 },
@@ -469,7 +413,170 @@ def buscar_vetor(palavras_chave,pergunta):
         texto = {normalizar(item['_source']['texto'])}
         '''
 
-    return resp_md
+        knowledge_base[item['_id']] = normalizar(item['_source']['texto'])
+
+    return {'resposta':resp_md,'dataset':knowledge_base}
+
+def criar_gt(dataset,pergunta,modelo,size):
+
+    print(f'-> criar ground truth {size} candidatos')
+
+    referencia = ''
+
+    for item in dataset:
+        referencia += item
+
+    system = '''Você é um assistente jurídico especializado em condomínios brasileiros.
+        Deve criar perguntas e respostas baseadas em um documento de referência (como convenções ou regulamentos).
+        Seu objetivo é gerar perguntas realistas e úteis para um chatbot de dúvidas condominiais.
+        Nunca começar a resposta com: sim, não,claro,com certeza, negativo, positivo
+        Siga rigorosamente o formato e a contagem solicitada.'''
+
+    user = f'''Documento (texto de referência):
+        {referencia}
+
+        Pergunta do usuário:
+        {pergunta}
+
+        Tarefa:
+        1. Leia com atenção o documento / regras.
+        2. Leia com atenção a pergunta do usuário.
+        3. Crie **{size} perguntas e respostas** com base SOMENTE no documento / regras.
+        4. As perguntas devem ser escritas em tom coloquial (como em conversas de WhatsApp) e as respostas devem refletir fielmente o conteúdo no documento / regras.
+        
+        Regras de estilo:
+        - {size} perguntas (ou mais, se houver vários temas no documento / regras).
+        - Português claro, natural e direto.
+        - Não invente perguntas ou respostas fora do texto.
+        - Cada resposta deve ter de **180 a 220 caracteres**.
+
+        Execução:
+        - Gere {size} perguntas e respostas para a pergunta: {pergunta}
+
+        Contexto usado na pergunta e resposta:
+        - Gere um resumo do contexto que foi usado para gerar a pergunta e resposta.
+        - Este texto deve trazer os argumentos que justificam a resposta, pois será usado para avaliar a acuracidade e precisão da resposta.
+          
+        Retorne um objeto json chamado "perguntas_respostas" como no exemplo abaixo:
+        {{
+            "pergunta": "<texto curto com a pergunta, máximo de 200 caracteres, não colocar o id do chunk aqui>",            
+            "resposta": "<texto curto com a resposta, extamente 200 caracteres, não colocar o id do chunk aqui>",
+            "contexto":"<texto contento o contexto usado para criar a pergunta, entre 800 e 1000 caracteres>",
+        }} 
+
+    '''  
+
+    llm = modelo
+    msg = llm.invoke([("system", system), ("user", user)])
+
+    #print( msg.content )
+    print('-> Perguntas e respostas OK')
+
+    return msg.content 
+
+    return
+
+def sim(referencia,candidate):
+
+    print("-> SIM")
+    
+    emb_gold = sim_model.encode(referencia)
+    emb_cand = sim_model.encode(candidate)
+    
+    sim = util.cos_sim(emb_gold, emb_cand).item()   
+    
+    if sim >= 0.85:
+        return {"status":"EXCELENTE (aprovada)", "score":float(sim)}
+    elif sim >= 0.75:
+        return {"status":"BOA (aprovada)", "score":float(sim)}
+    elif sim >= 0.65:
+        return {"status":"RAZOÁVEL (revisar)", "score":float(sim)}
+    elif sim >= 0.50:
+        return {"status":"RUIM (reprovar)", "score":float(sim)}
+    else:
+        return {"status":"PÉSSIMA (completamente errada)", "score":float(sim)}
+
+def nli( referencia,candidato ):
+
+    print("-> NLI")
+
+    model_input = nli_tokenizer(
+        *([referencia],[candidato]), 
+        padding=True, 
+        return_tensors="pt"
+    )
+
+    with torch.no_grad():
+
+        output  = nli_model(**model_input)
+        scores  = output[0][0].detach().numpy()
+        scores  = softmax(scores)
+        ranking = np.argsort(scores)
+        ranking = ranking[::-1]
+
+        score_por_label = {config.id2label[i]: scores[i] for i in range(len(scores))}
+
+        entailment      = score_por_label.get('entailment', 0)
+        neutral         = score_por_label.get('neutral', 0)
+        contradiction   = score_por_label.get('contradiction', 0)     
+
+        score_final = entailment - (contradiction * 2.5) - (neutral * 0.6)
+        
+        return {
+            "score":float(score_final),
+            "entailment":float(entailment), 
+            "contradiction":float(contradiction), 
+            "neutral":float(neutral)
+        }
+
+async def saf(knowledge_base,response,context,debug=False):
+
+    print( '-> SAF ')
+    
+    # Initialize configuration
+    config = Config(
+        scoring_rubric={
+            "supported": 1.0,
+            "contradicted": 0.0,
+            "unverifiable": 0.5
+        },
+        retrieval_config={"top_k": 3},
+        logging=LoggingConfig( 
+            console=False
+        )       
+    )
+    
+    # Initialize components
+    llm = OpenAILLM(
+        model="gpt-4.1", 
+        api_key=os.getenv("OPENAI_API_KEY")
+    )
+      
+    extractor   = FactExtractor(config=config, llm=llm)
+    retriever   = SimpleRetriever(config=config, knowledge_base=knowledge_base)
+    classifier  = FactClassifier(config=config, llm=llm)
+    scorer      = FactualityScorer(config=config)
+    
+    # Create the evaluation pipeline
+    pipeline = EvaluationPipeline(
+        config=config,
+        extractor=extractor,
+        retriever=retriever,
+        classifier=classifier,
+        scorer=scorer
+    )
+        
+    # Run the evaluation
+    result = await pipeline.run(response, context)
+
+    #print( result )
+
+    if debug==True:
+        for i, evaluation in enumerate(result.evaluations):
+            print(f"Fact: {evaluation.fact.text}")
+            print(f"Confidence: {evaluation.confidence:.2f}")
+
+    return result.factuality_score
 
 def normalizar(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "")).strip()
@@ -500,11 +607,48 @@ pergunta14 = 'oi, bom dia, eu preciso fazer uma demonstração de produtos para 
 pergunta15 = 'oi, bom dia, quero fazer um culto com os irmãos da igreja no próximo dia 10 e quero alugar o salão, OK?' 
 pergunta16 = 'porque meus convidados que estão no meu aniversário não podem fumar aqui na area de fora, perto da churrasqueira'
 
+# gpt-4.1
+gpt = ChatOpenAI(
+    model="gpt-4.1", 
+    temperature=0.2,
+    model_kwargs={"response_format": {"type": "json_object"}}
+) 
+
+# claude-3-7-sonnet-20250219 | claude-sonnet-4-5-20250929 | claude-haiku-4-5-20251001
+claude = ChatAnthropic(
+    model="claude-3-7-sonnet-20250219",
+    temperature=0.2,
+    max_tokens=1024,
+    timeout=None,
+    max_retries=3,   
+)
+
+# gemini-3-pro-preview | gemini-2.5-pro | gemini-2.5-flash
+google = ChatGoogleGenerativeAI(
+    model="gemini-3-pro-preview",
+    temperature=0.2,
+    google_api_key=GEMINI_API_KEY,
+    response_mime_type="application/json",
+    model_kwargs={"max_output_tokens": 8192},
+    request_timeout=30000,
+    #se quiser garantir system como system:
+    #convert_system_message_to_human=False,
+)
+
+
+#--------------------------------------------------------------------------------------
+
 print( '\n--- inicio ---\n')
 inicio = time.time()
 
+if len(sys.argv) < 2:
+    print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
+    sys.exit(1)
+
 chave    = sys.argv[1].strip()
 pergunta = globals().get(chave)
+
+#--------------------------------------------------------------------------------------
 
 prompt = '''
     Analise com atenção para obter o principal item questionado.
@@ -550,12 +694,13 @@ examples = [
     )
 ]
 
+# gemini-3-pro-preview | gemini-2.5-flash
 res_ex = lx.extract(
     text_or_documents=pergunta,
     prompt_description=prompt,
     examples=examples,
-    model_id="gemini-2.5-flash", 
-    api_key=os.environ["GEMINI_API_KEY"],
+    model_id="gemini-3-pro-preview", 
+    #api_key=os.environ["GEMINI_API_KEY"],
     #model_id="gpt-4.1",                
     #api_key=os.environ["OPENAI_API_KEY"],
     fence_output=False,
@@ -593,12 +738,43 @@ diff_time('--> vetor OK: ', inicio)
 #print( vetor_md )
 
 inicio = time.time()
-resposta   = criar_resposta_v1(palavras_chave,pergunta,vetor_md,'gpt') 
+gt = criar_gt(vetor_md['dataset'],pergunta,gpt,5)
+diff_time('--> GT OK: ', inicio)
+#print( gt )
+
+inicio = time.time()
+resposta   = criar_resposta_v1(palavras_chave,pergunta,vetor_md['resposta'],'gpt') 
 diff_time('--> resposta OK: ', inicio)
 
 resp_json = json.loads(resposta)
 
 print( f'{resp_json}' )
-print( f'\n{resp_json["resposta"]}\n' )
+print( f'\nLLM: {resp_json["resposta"]}\n' )
 
 #print( vetor_md )
+
+print('--- calcular saf ---\n')
+
+inicio  = time.time()
+saf_score = asyncio.run( saf(vetor_md['dataset'],resp_json["resposta"],palavras_chave,debug=True) )
+print( saf_score )
+diff_time('--> saf OK: ', inicio)
+
+print('--- calcular nli e sim ---\n')
+
+inicio  = time.time()
+gt_dict = json.loads(gt)
+
+for item in gt_dict['perguntas_respostas']:
+
+    print( item['resposta'] )
+    
+    score_sim = sim( item['resposta'], resp_json["resposta"] )      
+    print( score_sim['score'] )
+
+    score_nli = nli( item['resposta'], resp_json["resposta"] )      
+    print( score_nli['score'] )
+
+    print( '-'*100 )
+
+diff_time('\n--> calcular score OK: ', inicio)
