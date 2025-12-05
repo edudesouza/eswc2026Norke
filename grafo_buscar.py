@@ -1,9 +1,7 @@
-import sys,os,warnings,json,requests,re,time,textwrap,csv
+import sys,os,warnings,json,requests,re,time, textwrap
 
 import openai
 import tiktoken
-import logging
-import asyncio
 
 from urllib.parse               import quote_plus,urlparse
 
@@ -12,66 +10,24 @@ from langchain_community.graphs import OntotextGraphDBGraph
 from langchain_openai           import ChatOpenAI, OpenAIEmbeddings
 from langchain_together         import ChatTogether     
 from langchain_ollama           import ChatOllama
-from langchain_anthropic        import ChatAnthropic
-from langchain_google_genai     import ChatGoogleGenerativeAI
 
 import langextract as lx
 
-import numpy as np, torch
-from scipy.special  import softmax
-from rich           import print
-
-from transformers           import AutoModelForSequenceClassification, AutoTokenizer, AutoConfig
-from transformers.utils     import logging as hf_logging
-from sentence_transformers  import SentenceTransformer, util
-
-from bert_score import BERTScorer
-from bert_score import score
-
-from saf_eval.config import Config
-from saf_eval.core.pipeline import EvaluationPipeline
-from saf_eval.extraction.extractor import FactExtractor
-from saf_eval.llm.providers.openai import OpenAILLM
-from saf_eval.retrieval.providers.simple import SimpleRetriever
-from saf_eval.evaluation.classifier import FactClassifier
-from saf_eval.evaluation.scoring import FactualityScorer
-
-from saf_eval.config import Config, LoggingConfig
-from saf_eval.utils.logging import get_logger
-
-#https://github.com/dowhiledev/saf-eval
+from rich                       import print
 
 from dotenv import load_dotenv
 load_dotenv()
 
-warnings.filterwarnings("ignore")
-
-hf_logging.set_verbosity_error()
-e1 = logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
-e2 = logging.getLogger("transformers").setLevel(logging.ERROR)
-e3 = logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
-
-#print( f'e1: {e1}\ne2: {e2}\ne3: {e3} ' )
-
-GEMINI_API_KEY   = os.getenv('GEMINI_API_KEY')
 TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
 OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
 OLLAMA           = 'http://localhost:11434/api/generate'
 
-GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
+GRAPHDB_BASE_URL = os.getenv('GRAPHDB_BASE_URL')
 GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
-GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')
+GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
 repositorio = 'omc_v1'
 
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
-
-EMB_MODEL_NAME = "rufimelo/Legal-BERTimbau-sts-large-ma-v3" 
-NLI_MODEL_NAME = "joeddav/xlm-roberta-large-xnli"
-
-sim_model     = SentenceTransformer(EMB_MODEL_NAME)
-nli_tokenizer = AutoTokenizer.from_pretrained(NLI_MODEL_NAME, use_fast=False)
-nli_model     = AutoModelForSequenceClassification.from_pretrained(NLI_MODEL_NAME)
-config        = AutoConfig.from_pretrained(NLI_MODEL_NAME)
 
 def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo): 
 
@@ -106,10 +62,167 @@ def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo):
         "Se não houver base suficiente, diga isso."
         "Relacionamentos, mostre atributos que trazem o relacionamento entre os itens usados na resposta"
         "Saída OBRIGATÓRIA: JSON válido com EXATAMENTE três campos: "
-        "Nunca começar a resposta com: sim, não, claro, com certeza, negativo, positivo"
-        "A resposta deve ter de 180 a 220 caracteres, nunca mais de 220 caracteres."
         '{"resposta": string, "resposta_completa": string, "chunks": array de strings}. Sem texto extra.'
     )   
+
+    user_1 = f"""
+        Pergunta do usuário:
+        {pergunta}
+
+        Documentos encontrados:  
+        {candidatos}   
+
+        Tarefa:
+        1) Leia os documentos acima
+        2) Escolha o(s) trecho(s) que melhor respondem à pergunta
+        3) Cite o trecho-chave: selecione até ~200 caracteres de “texto” que respondam à pergunta        
+        4) Gere uma conclusão objetiva (sim/não/depende + condição), apenas com base nos chunks de maior score. Não invente fatos.
+        5) Copie EXATAMENTE o ID do chunk usado, pois será usado no JSON de resposta  
+          
+        Regras de estilo:
+        - Português claro e direto.
+        - Não invente entidades/nós. Use apenas o que aparece nos chunks.
+        - Priorize os 2-3 chunks com maior score que sejam realmente pertinentes.
+
+        Retorne um objeto json como no exemplo abaixo:
+        {{
+            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência>",            
+            "chunks": ["<1111_11_11>", "<1111_11_12>"]
+        }}  
+
+        ATENÇÃO: Você DEVE usar APENAS os IDs contidos nos documentos. 
+        VALIDAÇÃO: Antes de responder, confirme cada ID em "idChunk" existe na lista "IDs DISPONÍVEIS".
+    """
+    
+    user_2 = f'''    
+    Pergunta do usuário:
+    {pergunta}
+
+    Entidades relevantes: 
+    {candidatos}
+
+    Tarefa:
+    1) Agrupe por idChunk (dedupe). Para cada idChunk, mantenha:
+    - score (o maior entre os repetidos)
+    - trecho-chave: selecione até ~200 caracteres de “texto” que respondam à pergunta (se “snippet” ajudar, use-o para localizar a parte certa no “texto”, mas remova <em>…</em>).
+    2) Gere uma conclusão objetiva (sim/não/depende + condição), apenas com base nos chunks de maior score. Evite inventar fatos.
+    3) Formate exatamente assim (texto livre + lista):
+    Não pode parar duas motos na mesma vaga. A regra é 1 veículo por vaga. Para ter duas motos, só com segunda vaga de motocicletas (via sorteio quando houver disponibilidade).
+
+    Evidências (chunks)
+    - idChunk: 5511993891773_749_52
+    Trecho-chave: “Será designada uma motocicleta por apartamento e por vaga… Uma segunda vaga…”
+    - idChunk: 5511993891773_749_53
+    Trecho-chave: “Mantém-se a regra de um veículo por vaga…”
+
+    Relacionamentos, obrigatório na resposta
+    - Use o elemento pred, campo value 
+    - Use o elemento neighbor, campo value
+    - Use o elemento tipoNeighbor, campo value
+    - exemplos: "pred": {{ "type": "uri", "value": "https://omc.co/vocabulary/estaContidoEm" }}, nesta caso o relacionamento é: estaContidoEm
+        - https://omc.co/vocabulary/estaContidoEm  → estaContidoEm
+        - https://omc.co/vocabulary/refereSeA      → refereSeA
+    - idChunk (apresente o idChunk) → pred.value            (apresente apenas o localName)
+    - idChunk (apresente o idChunk) → neighbor.value        (apresente apenas o localName)
+    - idChunk (apresente o idChunk) → tipoNeighbor.value    (apresente apenas o localName)
+
+    Formato final (copie esta estrutura):
+    {{
+        "resposta": "<TEXTO PRINCIPAL USADO NA RESPOSTA, COM OS TRECHOS CHAVES CONTIDOS NAS EVIDÊNCIAS>",
+        "resposta_completa": "<TEXTO COMPLETO (incluindo a seção 'Evidências (chunks)', 'Relacionamentos: ...' e 'Conclusão: ...')>",
+        "chunks": ["<id_1>", "<id_2>"]
+    }}
+    '''
+    
+    user_3 = f'''
+        Você é um assistente jurídico especializado em direito condominial brasileiro.
+        
+        {pergunta}
+
+        Contexto:
+        {candidatos}
+
+        # METODOLOGIA DE ANÁLISE JURÍDICA
+
+        ## 1. CONCEITOS FUNDAMENTAIS
+        - **Trecho-chave**: Excerto textual específico do documento que fundamenta juridicamente sua resposta
+        - **Análise multi-chunk**: Capacidade de sintetizar informações de múltiplos documentos
+        - **Hierarquia de relevância**: Score (_score) indica confiabilidade da fonte
+        - Nunca use **depende** em suas respostas
+
+        ## 2. PROCESSO ANALÍTICO (execute nesta ordem)
+        ### Fase 1: Compreensão
+        - Identifique a natureza jurídica da pergunta (normativa, interpretativa, consultiva)\n
+        - Mapeie conceitos-chave e termos jurídicos relevantes
+        - Considere implicações práticas e exceções possíveis
+
+        ### Fase 2: Investigação nos Chunks
+        - Priorize chunks com _score > 0.85 como fontes primárias
+        - a partir do questionamento do usuário crie uma premissa, analise cuidadosamente o contexto, 
+        - busque uma conclusão lógica para esta premissa, esta conclusão pode ser afirmativa, ou negativa
+        - você pode encontrar no contexto, fatos e argumentos que justificam ou repudiam o que está sendo perguntado
+        - Identifique chunks complementares (0.70-0.85) para contexto adicional
+        - Fique atento às ambiguidades, pois em um chunk você poderá termos oum escrita que conflite com outro chunk
+        -- como proceder à desambiguação: 
+        -- analise a pergunta determinando qual é o real motivador do que está sendo questionado
+        -- analise entre as opções candidatas qula melhor atende aos requisitos que respondem ao questionamento 
+        - Busque relações lógicas entre diferentes chunks:
+        * Regra geral + exceções
+        * Direito + obrigação correspondente
+        * Norma + penalidade
+        * Permissão + requisitos
+
+        ### Fase 3: Síntese Jurídica
+        - Construa resposta que integre múltiplos chunks quando aplicável
+        - Identifique o trecho mais relevante (até 200 caracteres)
+        - Forneça conclusão clara: SIM / NÃO / DEPENDE + condições
+        - Mantenha linguagem acessível sem perder precisão técnica
+
+        ## 3. PRINCÍPIOS DE RACIOCÍNIO
+        - **Literalidade controlada**: Base-se estritamente no texto, mas interprete com contexto jurídico
+        - **Economia informacional**: Priorize qualidade sobre quantidade de chunks
+        - **Transparência**: Explicite quando houver ambiguidade ou informação insuficiente
+        - **Conexões inteligentes**: Relacione chunks que tratam do mesmo tema sob ângulos diferentes
+
+        ## 4. VALIDAÇÕES OBRIGATÓRIAS
+        - [ ] Todos os IDs de chunks existem no contexto fornecido
+        - [ ] Percentuais somam 100% e refletem contribuição real de cada chunk
+        - [ ] Trecho-chave é citação literal (não paráfrase)
+        - [ ] Resposta tem consequência lógica baseada nos chunks
+        - [ ] Nenhuma informação foi inventada ou inferida sem base textual
+
+        ## 6. Evidências
+        - idChunk: 5511993891773_749_52
+        Trecho-chave: “Será designada uma motocicleta por apartamento e por vaga… Uma segunda vaga…”
+        - idChunk: 5511993891773_749_53
+        Trecho-chave: “Mantém-se a regra de um veículo por vaga…”
+
+        ##7. Relacionamentos, obrigatório na resposta
+        - Use o elemento pred, campo value 
+        - Use o elemento neighbor, campo value
+        - Use o elemento tipoNeighbor, campo value
+        - exemplos: "pred": {{ "type": "uri", "value": "https://omc.co/vocabulary/estaContidoEm" }}, nesta caso o relacionamento é: estaContidoEm
+            - https://omc.co/vocabulary/estaContidoEm  → estaContidoEm
+            - https://omc.co/vocabulary/refereSeA      → refereSeA
+        - idChunk (apresente o idChunk) → pred.value            (apresente apenas o localName)
+        - idChunk (apresente o idChunk) → neighbor.value        (apresente apenas o localName)
+        - idChunk (apresente o idChunk) → tipoNeighbor.value    (apresente apenas o localName)
+
+        ## 5. FORMATO DE SAÍDA
+        Sempre que possível use as palavras-chaves na sua resposta.
+        É obrigatório trazer o trecho-chave na resposta, conforme o exemplo abaixo.
+        Retorne exclusivamente JSON sem markdown, seguindo estrutura exata especificada no exemplo abaixo:
+        {{
+            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência, trecho-chave: caso exista colocar aqui o trecho encontrado no documento>",            
+            "chunks": ["<1111_11_11>", "<1111_11_12>"],
+            "trecho_chave": "<Trecho-chave é a transcrição completa do documento que valiada a resposta apresentada>",
+            "percentual": ["<80>", "<20>"],
+            "evidencias": ["<idChunk → pred.value>","<idChunk → tipoNeighbor.value>"]
+        }}  
+
+        ATENÇÃO: Você DEVE usar APENAS os IDs contidos nos documentos. 
+        VALIDAÇÃO: Antes de responder, confirme que cada ID em "chunks" exista no contexto.
+    '''
 
     user_4 = f'''
         Você é um assistente jurídico especializado em direito condominial brasileiro.
@@ -156,7 +269,7 @@ def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo):
 
         ### Fase 3: Síntese Jurídica
         - Construa resposta que integre múltiplos chunks quando aplicável
-        - Identifique o trecho mais relevante (até 100 caracteres)
+        - Identifique o trecho mais relevante (até 200 caracteres)
         - Forneça conclusão clara: SIM / NÃO / DEPENDE + condições
         - Mantenha linguagem acessível sem perder precisão técnica
 
@@ -178,7 +291,7 @@ def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo):
         É obrigatório trazer o trecho-chave na resposta, conforme o exemplo abaixo.
         Retorne exclusivamente JSON sem markdown, seguindo estrutura exata especificada no exemplo abaixo:
         {{
-            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência, trecho-chave: caso exista colocar aqui o trecho encontrado no documento, deve ter de **180 a 220 caracteres**, nunca mais de 220 caracteres.>",            
+            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência, trecho-chave: caso exista colocar aqui o trecho encontrado no documento>",            
             "chunks": ["<1111_11_11>", "<1111_11_12>"],
             "trecho_chave": "<Trecho-chave é a transcrição do documento que valiada a resposta apresentada>",
             "percentual": ["<80>", "<20>"]
@@ -194,13 +307,113 @@ def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo):
    
     return msg.content
 
+def criar_resposta_v2(pergunta,candidatos,modelo):  
+
+    #context = to_xml_blocks(documentos_similares)
+    
+    system_prompt = f"""
+        Você é um assistente que responde perguntas usando apenas o contexto fornecido nos documentos abaixo.
+        Você responde SOMENTE com base nos documentos abaixo.
+
+        Regras:
+        - Se a resposta não estiver nos documentos, diga que não pode responder com base nas informações disponíveis.
+
+        Atenção especial:
+        Fique atento a nomes e numerações de unidades e apartamentos (ex: Torre, Bloco, Quadra, Lote, Rua). Por exemplo, "42 A" pode significar "42 Bloco A" ou "42 Torre 1". Analise o contexto para interpretar corretamente.
+
+        Ao responder, inclua:
+        - O artigo ou cláusula em que encontrou a resposta
+        - A página onde encontrou a resposta (se disponível)
+        - Um trecho do texto dos documentos justificando sua resposta    
+
+        Instruções de saída:
+        Se encontrar a resposta, seja objetivo. Cite a página e o trecho exato dos documentos. Use só o markdown listado acima.
+        Se não encontrar, diga claramente que não pode responder com base nas informações disponíveis.
+
+        Formato de saída (JSON válido):
+        - resposta: insira aqui o texto da resposta
+        - chunks: caso tenha usado mais de 1 chunk concatene separando por vígula, use a variável id que está no contexto
+        -- veja o exemplo abaixo
+        {{"resposta":"","chunks": "111111_111_11,2222_222_22"}}
+
+        Documentos:
+        {candidatos}    
+    """
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": pergunta}
+    ]
+
+    response = client.chat.completions.create(
+        model=modelo,
+        messages=messages,
+        temperature=0.3
+    )
+
+    return response.choices[0].message.content
+
+def criar_resposta_v3(pergunta,candidatos,modelo):
+
+    system_prompt = f'''
+
+        Você é um assistente jurídico de condomínios no Brasil. 
+        Responda APENAS com base nas evidências fornecidas. 
+        Se houver uma regra explícita, cite.
+        Se não houver base suficiente, diga isso.
+        
+        Tarefa:
+        1) Mantenha o trecho-chave: selecione até ~200 caracteres de “texto” que respondam à pergunta        
+        2) Gere uma conclusão objetiva (sim/não/depende + condição), apenas com base nos chunks de maior score. Não invente fatos.
+        3) Ao escolher um chunk para usar geração da resposta armazene o id para enviar no JSON de resposta
+        4) Cite o chunk usado para usar geração da resposta
+
+        Exemplo de resposta:
+        É pertmitodo uso da piscina depois da 22hs, techo chave: 
+        “o horário da piscina é da 8 - 22hs de terça a domingo, segunda estará 
+        fechada da tratamento” chunk(111111_11_11,111111_11_12)
+
+        Regras de estilo:
+        - Português claro e direto.
+        - Não invente entidades/nós. Use apenas o que aparece nos chunks.
+        - Priorize os 2-3 chunks com maior score que sejam realmente pertinentes.
+
+        Retorne um objeto json:
+        - resposta: insira aqui o texto da resposta
+        - chunks: caso tenha usado mais de 1 chunk concatene separando por vígula, use a variável id que está no contexto
+        - veja o exemplo abaixo:
+        {{
+            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência>",            
+            "chunks": ["<id1>", "<id2>"]
+        }}
+
+        Pergunta do usuário:
+        {pergunta}
+
+        Documentos encontrados: 
+        {candidatos}
+    '''
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": pergunta}
+    ]
+
+    response = client.chat.completions.create(
+        model=modelo,
+        messages=messages,
+        temperature=0.3
+    )
+
+    return response.choices[0].message.content
+
 def buscar_grafo(palavras_chave,pergunta):
 
     print('\n-> buscar grafo')
 
-    knowledge_base = {}
-    resp_final     = resp_chunks_regras = resp_chunks_md  = ""
-    pergunta       = re.sub(r'[\\/]+', ' ', pergunta) 
+    chunks_set = set()
+    resp_final = resp_chunks_regras = resp_chunks_md  = ""
+    pergunta   = re.sub(r'[\\/]+', ' ', pergunta) 
 
     query_regras = f'''
         PREFIX :           <https://omc.co/vocabulary/>
@@ -209,7 +422,7 @@ def buscar_grafo(palavras_chave,pergunta):
         PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
 
         SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao
-        FROM <https://omc.co/graph/5511993891773>
+        FROM <https://omc.co/graph/lgpd>
         WHERE {{
         {{
             # 1. SUBQUERY: Busca focada na REGRA (onde a descrição é boa)
@@ -269,7 +482,7 @@ def buscar_grafo(palavras_chave,pergunta):
         PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
 
         SELECT ?idChunk ?score ?texto ?descricao ?documento ?tipo
-        FROM <https://omc.co/graph/5511993891773>
+        FROM <https://omc.co/graph/lgpd>
         WHERE {{  
         {{
             SELECT ?chunk (MAX(?s) AS ?score) (SAMPLE(?id) AS ?idChunk) (SAMPLE(?t)  AS ?texto) (SAMPLE(?descRegra) AS ?descricao)
@@ -319,7 +532,6 @@ def buscar_grafo(palavras_chave,pergunta):
     headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
 
     #print( query_regras )
-    #print( query_chunks )
 
     # Buscar apenas Regras
 
@@ -333,26 +545,25 @@ def buscar_grafo(palavras_chave,pergunta):
     if resp_regras.status_code == 200:
         
         results   = resp_regras.json()  
-        bindings = results.get("results", {}).get("bindings", [])  
-
-        resp_chunks_regras = 'id_chunk;texto_regra\n'  
+        bindings = results.get("results", {}).get("bindings", [])        
 
         for index,item in enumerate(bindings,1):        
 
             score     = float( item.get("score", {}).get("value", 0) )
             score     = round(score, 3)
             id_chunk  = item.get("idChunk", {}).get("value", "")
-            regra_uri = item.get("regraURI", {}).get("value", "")
             descricao = normalizar(item.get("descricao", {}).get("value", ""))            
 
-            resp_chunks_regras += f'{id_chunk};{descricao}\n' 
-           
-            knowledge_base[regra_uri] = descricao
+            resp_chunks_regras += f'''
+            id_chunk relacionado: {id_chunk} 
+            texto_regra: {descricao}
+            ''' 
+
+            chunks_set.add(descricao)
     
     else:
         print("Erro:", resp_regras.status_code, resp_regras.text)
         print( query_regras )
-        exit()
 
     # Buscar apenas Chunks
 
@@ -368,8 +579,6 @@ def buscar_grafo(palavras_chave,pergunta):
         results   = resp_chunks.json()  
         bindings = results.get("results", {}).get("bindings", [])
 
-        resp_chunks_md = 'id_chunk;score;texto_chunk\n'
-
         for index,item in enumerate(bindings,1):        
 
             score    = float( item.get("score", {}).get("value", 0) )
@@ -377,8 +586,13 @@ def buscar_grafo(palavras_chave,pergunta):
             id_chunk = item.get("idChunk", {}).get("value", "")
             texto    = normalizar(item.get("texto", {}).get("value", ""))
 
-            resp_chunks_md += f'{id_chunk};{score};{texto}\n' 
-            knowledge_base[id_chunk] = texto
+            resp_chunks_md += f'''            
+            score: {score}  
+            id_chunk: {id_chunk}               
+            texto: {texto}
+            ''' 
+
+            chunks_set.add(texto)
             
     else:
         print("Erro:", resp_regras.status_code, resp_regras.text)
@@ -388,237 +602,7 @@ def buscar_grafo(palavras_chave,pergunta):
     {textwrap.dedent(resp_chunks_regras)}
     {textwrap.dedent(resp_chunks_md) }
     ''' 
-    
-    return {'resposta':resp_final,'dataset':knowledge_base}
-
-def criar_gt(dataset,pergunta,modelo,size):
-
-    print(f'-> criar ground truth {size} candidatos')
-
-    referencia = ''
-
-    for item in dataset:
-        referencia += item
-
-    system = '''Você é um assistente jurídico especializado em condomínios brasileiros.
-        Deve criar perguntas e respostas baseadas em um documento de referência (como convenções ou regulamentos).
-        Seu objetivo é gerar perguntas realistas e úteis para um chatbot de dúvidas condominiais.
-        Nunca começar a resposta com: sim, não,claro,com certeza, negativo, positivo
-        Siga rigorosamente o formato e a contagem solicitada.'''
-
-    user = f'''Documento (texto de referência):
-        {referencia}
-
-        Pergunta do usuário:
-        {pergunta}
-
-        Tarefa:
-        1. Leia com atenção o documento / regras.
-        2. Leia com atenção a pergunta do usuário.
-        3. Crie **{size} perguntas e respostas** com base SOMENTE no documento / regras.
-        4. As perguntas devem ser escritas em tom coloquial (como em conversas de WhatsApp) e as respostas devem refletir fielmente o conteúdo no documento / regras.
-        
-        Regras de estilo:
-        - {size} perguntas (ou mais, se houver vários temas no documento / regras).
-        - Português claro, natural e direto.
-        - Não invente perguntas ou respostas fora do texto.
-        - Cada resposta deve ter de **180 a 220 caracteres**.
-
-        Execução:
-        - Gere {size} perguntas e respostas para a pergunta: {pergunta}
-
-        Contexto usado na pergunta e resposta:
-        - Gere um resumo do contexto que foi usado para gerar a pergunta e resposta.
-        - Este texto deve trazer os argumentos que justificam a resposta, pois será usado para avaliar a acuracidade e precisão da resposta.
-          
-        Retorne um objeto json chamado "perguntas_respostas" como no exemplo abaixo:
-        {{
-            "pergunta": "<texto curto com a pergunta, máximo de 200 caracteres, não colocar o id do chunk aqui>",            
-            "resposta": "<texto curto com a resposta, extamente 200 caracteres, não colocar o id do chunk aqui>",
-            "contexto":"<texto contento o contexto usado para criar a pergunta, entre 800 e 1000 caracteres>",
-        }} 
-
-    '''  
-
-    llm = modelo
-    msg = llm.invoke([("system", system), ("user", user)])
-
-    #print( msg.content )
-    print('-> Perguntas e respostas OK')
-
-    return msg.content 
-
-    return
-
-def sim(referencia,candidate):
-
-    print("-> SIM")
-    
-    emb_gold = sim_model.encode(referencia)
-    emb_cand = sim_model.encode(candidate)
-    
-    sim = util.cos_sim(emb_gold, emb_cand).item()   
-    
-    if sim >= 0.85:
-        return {"status":"EXCELENTE (aprovada)", "score":float(sim)}
-    elif sim >= 0.75:
-        return {"status":"BOA (aprovada)", "score":float(sim)}
-    elif sim >= 0.65:
-        return {"status":"RAZOÁVEL (revisar)", "score":float(sim)}
-    elif sim >= 0.50:
-        return {"status":"RUIM (reprovar)", "score":float(sim)}
-    else:
-        return {"status":"PÉSSIMA (completamente errada)", "score":float(sim)}
-
-def nli( referencia,candidato ):
-
-    print("-> NLI")
-
-    model_input = nli_tokenizer(
-        *([referencia],[candidato]), 
-        padding=True, 
-        return_tensors="pt"
-    )
-
-    with torch.no_grad():
-
-        output  = nli_model(**model_input)
-        scores  = output[0][0].detach().numpy()
-        scores  = softmax(scores)
-        ranking = np.argsort(scores)
-        ranking = ranking[::-1]
-
-        score_por_label = {config.id2label[i]: scores[i] for i in range(len(scores))}
-
-        entailment      = score_por_label.get('entailment', 0)
-        neutral         = score_por_label.get('neutral', 0)
-        contradiction   = score_por_label.get('contradiction', 0)     
-
-        score_final = entailment - (contradiction * 2.5) - (neutral * 0.6)
-        
-        return {
-            "score":float(score_final),
-            "entailment":float(entailment), 
-            "contradiction":float(contradiction), 
-            "neutral":float(neutral)
-        }
-
-def bertscore( referencia,candidato ):
-
-    print("-> Bert score")
-
-    scorer = BERTScorer(
-        #model_type="neuralmind/bert-base-portuguese-cased", num_layers=12,
-        model_type="xlm-roberta-large", num_layers=24,
-        #model_type="rufimelo/Legal-BERTimbau-sts-large-ma-v3", num_layers=12,
-        lang="pt", 
-        rescale_with_baseline=False,    
-    )
-
-    P, R, F1 = scorer.score(candidato, referencia, verbose=False)
-
-    
-    precision = P.item()
-    recall    = R.item()
-    f1        = F1.item()
-
-    return {
-        "precision":float(f1),
-        "recall":float(recall),
-        "f1":float(f1)
-    }
-
-def avaliar_resposta_completa(entailment, neutral, contradiction, f1):
-
-    print('-> score combinado')
-
-    # Score de fidelidade (NLI)
-    fidelidade = entailment + (neutral * 0.5)  # Tolera neutral parcialmente
-    
-    # Score de relevância (BERT)
-    relevancia = f1
-    
-    # Penalidade por contradição
-    penalidade = contradiction
-    
-    # Score final: média ponderada com penalidade
-    score_final = (
-        (fidelidade * 0.4) +      # 40% fidelidade
-        (relevancia * 0.6) -      # 60% relevância (mais importante)
-        (penalidade * 2.0)        # Penalidade forte para contradição
-    )
-    
-    # Garantir que fica entre 0 e 1
-    score_final = max(0, min(1, score_final))
-    
-    # Classificação
-    if score_final >= 0.8:
-        categoria = "EXCELENTE"
-    elif score_final >= 0.65:
-        categoria = "BOA"
-    elif score_final >= 0.5:
-        categoria = "ACEITÁVEL"
-    else:
-        categoria = "INADEQUADA"
-    
-    return {
-        'score_final': score_final,
-        'categoria': categoria,
-        'detalhes': {
-            'fidelidade': fidelidade,
-            'relevancia': relevancia,
-            'penalidade': penalidade
-        }
-    }
-
-async def saf(knowledge_base,response,context,debug=False):
-
-    print( '-> SAF ')
-    
-    # Initialize configuration
-    config = Config(
-        scoring_rubric={
-            "supported": 1.0,
-            "contradicted": 0.0,
-            "unverifiable": 0.5
-        },
-        retrieval_config={"top_k": 3},
-        logging=LoggingConfig( 
-            console=False
-        )       
-    )
-    
-    # Initialize components
-    llm = OpenAILLM(
-        model="gpt-4.1", 
-        api_key=os.getenv("OPENAI_API_KEY")
-    )
-      
-    extractor   = FactExtractor(config=config, llm=llm)
-    retriever   = SimpleRetriever(config=config, knowledge_base=knowledge_base)
-    classifier  = FactClassifier(config=config, llm=llm)
-    scorer      = FactualityScorer(config=config)
-    
-    # Create the evaluation pipeline
-    pipeline = EvaluationPipeline(
-        config=config,
-        extractor=extractor,
-        retriever=retriever,
-        classifier=classifier,
-        scorer=scorer
-    )
-        
-    # Run the evaluation
-    result = await pipeline.run(response, context)
-
-    #print( result )
-
-    if debug==True:
-        for i, evaluation in enumerate(result.evaluations):
-            print(f"Fact: {evaluation.fact.text}")
-            print(f"Confidence: {evaluation.confidence:.2f}")
-
-    return result.factuality_score
+    return {'resposta':resp_final,'dataset':chunks_set}
 
 def normalizar(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "")).strip()
@@ -648,54 +632,14 @@ pergunta13 = 'roubaram o carro do meu filho em frente ao condomínio, quero as i
 pergunta14 = 'oi, bom dia, eu preciso fazer uma demonstração de produtos para meus clientes e pensei em alugar o salão de festas, serão umas 20 pessoas, OK?'
 pergunta15 = 'oi, bom dia, quero fazer um culto com os irmãos da igreja no próximo dia 10 e quero alugar o salão, OK?' 
 pergunta16 = 'porque meus convidados que estão no meu aniversário não podem fumar aqui na area de fora, perto da churrasqueira'
-pergunta17 = 'o síndico não quer me passar as imagens da camera de segurança, o carro do meu irmão foi roubado em frente ao condomínio, ele pode negar isso? ele falou que a lgpd não deixa!'
-pergunta18 = 'É permitido o compartilhamento de dados entre os órgãos públicos?'
-pergunta19 = 'Falei hoje de manã com o síndico e ele me falou que está OK eu deixar o meu sofá antigo na garagem, por que vocês continuam me incomodando?'
-pergunta20 = 'U me recuso a me registrar na biometria facial, não existe nada legalmente que me obrigue a isso, certo?'
-
-# https://www.cge.pr.gov.br/FAQ/LGPD-Perguntas-Frequentes
-
-# gpt-4.1
-gpt = ChatOpenAI(
-    model="gpt-4.1", 
-    temperature=0.2,
-    model_kwargs={"response_format": {"type": "json_object"}}
-) 
-
-# claude-3-7-sonnet-20250219 | claude-sonnet-4-5-20250929 | claude-haiku-4-5-20251001
-claude = ChatAnthropic(
-    model="claude-3-7-sonnet-20250219",
-    temperature=0.2,
-    max_tokens=1024,
-    timeout=None,
-    max_retries=3,   
-)
-
-# gemini-3-pro-preview | gemini-2.5-pro | gemini-2.5-flash
-google = ChatGoogleGenerativeAI(
-    model="gemini-3-pro-preview",
-    temperature=0.2,
-    google_api_key=GEMINI_API_KEY,
-    response_mime_type="application/json",
-    model_kwargs={"max_output_tokens": 8192},
-    request_timeout=30000,
-    #se quiser garantir system como system:
-    #convert_system_message_to_human=False,
-)
-
-#--------------------------------------------------------------------------------------
 
 print( '\n--- inicio ---\n')
 inicio = time.time()
 
-if len(sys.argv) < 2:
-    print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
-    sys.exit(1)
+#chave    = sys.argv[1].strip()
+#pergunta = globals().get(chave)
 
-chave    = sys.argv[1].strip()
-pergunta = globals().get(chave)
-
-#--------------------------------------------------------------------------------------
+pergunta = 'o síndico não quer me passar as imagens da camera de segurança, o carro do meu irmão foi roubado em frente ao condomínio, ele pode negar isso? ele falou que a lgpd não deixa!'
 
 prompt = '''
     Analise com atenção para obter o principal item questionado.
@@ -742,13 +686,13 @@ examples = [
     )
 ]
 
-# gemini-3-pro-preview | gemini-2.5-flash
+# gemini-2.5-flash | gemini-3-pro-preview
 res_ex = lx.extract(
     text_or_documents=pergunta,
     prompt_description=prompt,
     examples=examples,
     model_id="gemini-2.5-flash", 
-    api_key=os.environ["GEMINI_API_KEY"],
+    #api_key=os.environ["GEMINI_API_KEY"],
     #model_id="gpt-4.1",                
     #api_key=os.environ["OPENAI_API_KEY"],
     fence_output=False,
@@ -782,12 +726,6 @@ print('-'*100)
 inicio = time.time()
 grafo_md = buscar_grafo(palavras_chave,pergunta)
 diff_time('--> grafo OK: ', inicio)
-#print(grafo_md['resposta'])
-
-inicio = time.time()
-gt = criar_gt(grafo_md['resposta'],pergunta,gpt,5)
-diff_time('--> GT OK: ', inicio)
-#print( gt )
 
 inicio = time.time()
 resposta   = criar_resposta_v1(palavras_chave,pergunta,grafo_md['resposta'],'gpt') 
@@ -796,72 +734,6 @@ diff_time('--> resposta OK: ', inicio)
 resp_json = json.loads(resposta)
 
 print( f'{resp_json}' )
-print( f'\nLLM: {resp_json["resposta"]} {len(resp_json["resposta"])}\n' ) 
-
-resp_llm = resp_json["resposta"]
+print( f'\n{resp_json["resposta"]}\n' ) 
 
 #print( grafo_md )
-
-print('--- calcular saf ---\n')
-
-inicio  = time.time()
-saf_score = asyncio.run( saf(grafo_md['dataset'],resp_json["resposta"],pergunta,debug=False) )
-print( saf_score )
-diff_time('--> saf OK: ', inicio)
-
-print('--- calcular nli e sim ---')
-
-inicio  = time.time()
-gt_dict = json.loads(gt)
-
-nli_score, sim_score = 0, 0
-best_score_sum       = 0
-best_item            = None
-
-for item in gt_dict['perguntas_respostas']:
-
-    print( item['resposta'], len(item['resposta']) )
-    
-    score_sim = sim( item['resposta'], resp_json["resposta"] )      
-    print( score_sim['score'] )
-
-    score_nli = nli( item['resposta'], resp_json["resposta"] )      
-    print( score_nli['score'] )
-
-    # Verifica se ambos os scores são maiores que 0.75
-    if score_sim['score'] > 0.75 and score_nli['score'] > 0.75:
-        
-        score_sum = score_sim['score'] + score_nli['score']
-        
-        if score_sum > best_score_sum:
-            best_score_sum = score_sum
-            best_item = item
-            nli_score = score_nli['score']
-            sim_score = score_sim['score']
-
-    print( '-'*100 )
-
-diff_time('\n--> calcular score OK: ', inicio)
-
-if best_item:
-    print(f'''Melhor item
-    Pergunta: {best_item['pergunta']}
-    Resposta: {best_item['resposta']}
-    SAF: {saf_score:.2f} SIM: {sim_score:.2f} NLI: {nli_score:.2f}\n''')
-
-else:
-    print("Nenhum item com ambos scores acima de 0.75 encontrado.\n")
-
-csv_file = "bench_saf_v1.csv"
-output_row = [ 'grafo', chave, f'{saf_score:.2f}', f'{nli_score:.2f}', f'{sim_score:.2f}', resp_llm ]
-
-file_exists = os.path.isfile(csv_file)
-
-with open(csv_file, mode='a', newline='', encoding='utf-8-sig') as f:
-    
-    writer = csv.writer(f, quoting=csv.QUOTE_ALL, delimiter=';')
-    
-    if not file_exists:
-        writer.writerow(['tipo', 'chave', 'saf_score', 'nli_score', 'sim_score', 'resposta_llm'])
-    
-    writer.writerow(output_row)

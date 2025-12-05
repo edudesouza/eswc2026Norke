@@ -14,11 +14,6 @@ from langchain_community.graphs import OntotextGraphDBGraph
 from langchain_openai           import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.llms   import Ollama
 
-from ragas          import evaluate as ev_ragas
-from ragas.metrics  import faithfulness, answer_relevancy, context_precision, context_recall, answer_correctness
-from datasets       import Dataset
-from ragas.llms     import llm_factory
-
 from deepeval           import evaluate as ev_deep
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics   import AnswerRelevancyMetric, FaithfulnessMetric
@@ -50,6 +45,11 @@ openai_client      = openai.OpenAI(api_key=OPENAI_API_KEY)
 ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST')
 ELASTICSEARCH_USER = os.getenv('ELASTICSEARCH_USER')
 ELASTICSEARCH_PASS = os.getenv('ELASTICSEARCH_PASS')
+
+GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
+GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
+GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')
+repositorio = 'omc_v1'
 
 elastic_client = Elasticsearch( 
     ELASTICSEARCH_HOST
@@ -340,11 +340,7 @@ def buscar_grafo(palavras_chave,pergunta,modelo):
     print('\n-> buscar grafo')
 
     pergunta       = re.sub(r'[\\/]+', ' ', pergunta)
-    palavras_chave = re.sub(r'[\\/]+', ' ', palavras_chave)
-
-    GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
-    GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
-    repositorio = 'omc_v1'
+    palavras_chave = re.sub(r'[\\/]+', ' ', palavras_chave)    
 
     # lucene basico
     query_luc = f'''
@@ -454,7 +450,7 @@ def buscar_grafo(palavras_chave,pergunta,modelo):
         LIMIT 90
     '''
 
-    url     = f"http://localhost:7200/repositories/{repositorio}"
+    url     = f"{GRAPHDB_BASE_URL}/repositories/{repositorio}"
     headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
 
     resp = requests.post(
@@ -870,7 +866,9 @@ for index, item in enumerate(resp["hits"]["hits"],start=1):
         print( f'ERRO confiabilidade: {erro}' )
 
     diff_time( '-> DeepEval: ',inicio )
-    print("-"*100)       
+    print("-"*100)   
+
+    exit()    
 
     resp_elastic = atualizar_elastic(
         id, 

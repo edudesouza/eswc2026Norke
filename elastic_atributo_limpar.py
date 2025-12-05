@@ -41,8 +41,6 @@ ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST')
 ELASTICSEARCH_USER = os.getenv('ELASTICSEARCH_USER')
 ELASTICSEARCH_PASS = os.getenv('ELASTICSEARCH_PASS')
 
-OLLAMA = 'http://localhost:11434/api/generate'
-
 elastic_client = Elasticsearch( 
     ELASTICSEARCH_HOST,
     basic_auth=(ELASTICSEARCH_USER, ELASTICSEARCH_PASS),
@@ -53,11 +51,11 @@ print('\n--- inicio ---\n')
 
 inicio = time.time()
 
-id = 'iumbb5oB89dtCZp8OR-z'
+id = 'cumbb5oB89dtCZp8OR-z'
 
 body = {
     "doc": {            
-        "avaliacoes":[]
+        "avaliacao_vetor1":[]
     },
     "doc_as_upsert": True
 }

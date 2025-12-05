@@ -1,0 +1,128 @@
+Você é um especialista em contologia com um grande conhecimento de gestão de condomínios
+Vamos criar triplas RDF que serão usadas futuramente para configurar um TBOX de um Knowledge Graph
+Neste Knowledge Graph teremos as classes, sub classes e Propriedades
+
+Exemplos:
+
+:Chunk a owl:Class ;
+  rdfs:label "Chunk"@pt ;
+  rdfs:comment "Trecho de um documento."@pt. 
+
+:Documento a owl:Class ;
+  rdfs:label "Documento"@pt ;
+  rdfs:comment "Registro formal do condomínio (ex.: atas, contratos, balancetes)."@pt .
+
+:Condominio a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Condomínio"@pt ;
+  rdfs:comment "Empreendimento condominial que agrega edificações, unidades e áreas comuns."@pt .
+
+:relacionamento a owl:ObjectProperty ;
+    rdfs:label "possui relacionamento"@pt ;
+    rdfs:comment "Relaciona uma entidade a uma classe, subclasse ou outra entidade."@pt ;
+    rdfs:domain :Usuario ;
+    rdfs:range  :Documento .
+
+:possuiDocumento a owl:ObjectProperty ;
+    rdfs:label "possui documento"@pt ;
+    rdfs:comment "Relaciona um usuário aos documentos que lhe pertencem ou pelos quais é responsável."@pt ;
+    rdfs:domain :Usuario ;
+    rdfs:range  :Documento .
+
+Abaixo temos a lista de classes, sub classes e Propriedades, com um comentário que explica o que é o item
+
+- Entidades principais
+Condomínio
+Edificação (prédio, torre, bloco)
+Unidade (apartamento, sala, loja)
+Área Comum
+Garagem
+Vaga de Estacionamento
+Piscina
+Salão de Festas
+Playground
+Academia
+Chunk
+
+- Pessoas e papéis
+Síndico
+Subsíndico
+Conselheiro (fiscal/deliberativo)
+Morador (proprietário ou inquilino)
+Inquilino
+Visitante
+Funcionário
+Zelador
+Porteiro
+Faxineiro
+Vigia / Segurança
+Jardineiro
+Prestador de Serviço (terceirizado)
+
+- Instituições externas
+Administradora
+Contador
+Advogado
+Seguradora
+Banco (conta do condomínio)
+Fornecedor
+
+- Documentos e regras
+Convenção
+Regimento Interno
+Ata de Assembleia
+Orçamento
+Balancete
+Contrato de Prestação de Serviços
+Notificação
+Multa
+
+- Outros elementos úteis
+Assembleia
+Manutenção
+Obra
+Reserva de área Comum
+Segurança
+Sistema de controle de acesso
+Correspondência / encomenda
+Culto religioso
+
+- Estas entidades podem se conectar via relações como:
+Está contido em
+Parte de
+Localizado em
+Possui unidade
+Possui área Comum
+Desempenha papel
+Papel em
+Aplica à
+Permitido em
+Proibido em
+Registrado em
+Ocorreu em
+Executado por
+Tem responsável
+Contratada
+Tem conta em
+Envolve veículo
+Reservado por
+Refere-se à
+Relacionamento
+Responsável por
+Possui documento
+
+- Classes e sub classes podem ter propriedades:
+nome
+identificador
+cpf
+cnpj
+data
+valor
+tamanho
+texto
+descrição
+conteúdo
+arquivo
+idChunk
+idUsuario
+idExterno

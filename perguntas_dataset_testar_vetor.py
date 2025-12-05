@@ -1,29 +1,46 @@
-import sys,os,warnings,json,requests,re,time
+import os, re, time, warnings, requests, json, datetime as dt
+
+from rich           import print
+from elasticsearch  import Elasticsearch, helpers
+from typing         import Dict, List, Any
 
 import openai
+import logging
 
 from urllib.parse               import quote_plus,urlparse
 
 from requests.auth              import HTTPBasicAuth
 from langchain_community.graphs import OntotextGraphDBGraph
 from langchain_openai           import ChatOpenAI, OpenAIEmbeddings
-from langchain_together         import ChatTogether     
-from langchain_ollama           import ChatOllama
+from langchain_community.llms   import Ollama
 
-from elasticsearch import Elasticsearch
+from deepeval           import evaluate as ev_deep
+from deepeval.test_case import LLMTestCase
+from deepeval.metrics   import AnswerRelevancyMetric, FaithfulnessMetric
+from deepeval.models    import OllamaModel
+from langchain_together import ChatTogether
+
+from deepeval.metrics import (
+    ContextualPrecisionMetric,
+    ContextualRecallMetric,
+    ContextualRelevancyMetric
+)
 
 import langextract as lx
 
-from rich                       import print
-
-from dotenv import load_dotenv
+from rich           import print
+from dotenv         import load_dotenv
 load_dotenv()
 
-warnings.filterwarnings('ignore')
+os.environ['CONFIDENT_METRIC_LOGGING_VERBOSE'] = '0'
+os.environ["DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE"] = "200"
 
-TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
-OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
-OLLAMA           = 'http://localhost:11434/api/generate'
+warnings.filterwarnings('ignore')
+logging.basicConfig(level=logging.WARNING)
+
+TOGETHER_API_KEY   = os.getenv('TOGETHER_API_KEY')
+OPENAI_API_KEY     = os.getenv('OPENAI_API_KEY')
+openai_client      = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST')
 ELASTICSEARCH_USER = os.getenv('ELASTICSEARCH_USER')
@@ -35,37 +52,31 @@ elastic_client = Elasticsearch(
     verify_certs=False
 )
 
-GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
-GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
-repositorio = 'omc_v1'
-
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
-
 def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo): 
 
     print('-> criar resposta')
 
-    if modelo=='gpt':
-        llm = ChatOpenAI(
-            model=os.getenv("LLM_MODEL",modelo), 
-            temperature=0.3,
-            model_kwargs={"response_format": {"type": "json_object"}}
-        )    
+    '''llm_model = os.getenv("LLM_MODEL",modelo)
+    llm = ChatOpenAI(
+        model=llm_model, 
+        temperature=0.3,
+        model_kwargs={"response_format": {"type": "json_object"}}
+    ) ''' 
 
-    if modelo=='together':
-        llm = ChatTogether(
-            together_api_key=TOGETHER_API_KEY,
-            temperature=0.3,
-            model="ServiceNow-AI/Apriel-1.5-15b-Thinker",
-            model_kwargs={"response_format": {"type": "json_object"}}
-        )
+    llm = Ollama(
+        model=modelo,
+        temperature=0.3,
+        format="json"
+    )
 
-    if modelo=='ollama':
-        llm = ChatOllama(
-            model="kimi-k2:1t-cloud",
-            temperature=0.3,
-            model_kwargs={"response_format": {"type": "json_object"}}
-        )
+    '''llm = ChatTogether(
+        together_api_key=TOGETHER_API_KEY,
+        temperature=0.3,
+        model=resolvedor,
+        model_kwargs={
+            "response_format": {"type": "json_object"}
+        }
+    )''' 
 
     system = (
         "Você é um assistente jurídico de condomínios no Brasil. "
@@ -314,126 +325,28 @@ def criar_resposta_v1(palavras_chave,pergunta,candidatos,modelo):
     '''
 
     msg = llm.invoke([("system", system), ("user", user_4)])
-
-    print(f'tokens: {msg.usage_metadata}\n' )
-   
-    return msg.content
-
-def criar_resposta_v2(pergunta,candidatos,modelo):  
-
-    #context = to_xml_blocks(documentos_similares)
     
-    system_prompt = f"""
-        Você é um assistente que responde perguntas usando apenas o contexto fornecido nos documentos abaixo.
-        Você responde SOMENTE com base nos documentos abaixo.
+    #return msg.content
+  
+    return msg   
 
-        Regras:
-        - Se a resposta não estiver nos documentos, diga que não pode responder com base nas informações disponíveis.
-
-        Atenção especial:
-        Fique atento a nomes e numerações de unidades e apartamentos (ex: Torre, Bloco, Quadra, Lote, Rua). Por exemplo, "42 A" pode significar "42 Bloco A" ou "42 Torre 1". Analise o contexto para interpretar corretamente.
-
-        Ao responder, inclua:
-        - O artigo ou cláusula em que encontrou a resposta
-        - A página onde encontrou a resposta (se disponível)
-        - Um trecho do texto dos documentos justificando sua resposta    
-
-        Instruções de saída:
-        Se encontrar a resposta, seja objetivo. Cite a página e o trecho exato dos documentos. Use só o markdown listado acima.
-        Se não encontrar, diga claramente que não pode responder com base nas informações disponíveis.
-
-        Formato de saída (JSON válido):
-        - resposta: insira aqui o texto da resposta
-        - chunks: caso tenha usado mais de 1 chunk concatene separando por vígula, use a variável id que está no contexto
-        -- veja o exemplo abaixo
-        {{"resposta":"","chunks": "111111_111_11,2222_222_22"}}
-
-        Documentos:
-        {candidatos}    
-    """
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": pergunta}
-    ]
-
-    response = client.chat.completions.create(
-        model=modelo,
-        messages=messages,
-        temperature=0.3
-    )
-
-    return response.choices[0].message.content
-
-def criar_resposta_v3(pergunta,candidatos,modelo):
-
-    system_prompt = f'''
-
-        Você é um assistente jurídico de condomínios no Brasil. 
-        Responda APENAS com base nas evidências fornecidas. 
-        Se houver uma regra explícita, cite.
-        Se não houver base suficiente, diga isso.
-        
-        Tarefa:
-        1) Mantenha o trecho-chave: selecione até ~200 caracteres de “texto” que respondam à pergunta        
-        2) Gere uma conclusão objetiva (sim/não/depende + condição), apenas com base nos chunks de maior score. Não invente fatos.
-        3) Ao escolher um chunk para usar geração da resposta armazene o id para enviar no JSON de resposta
-        4) Cite o chunk usado para usar geração da resposta
-
-        Exemplo de resposta:
-        É pertmitodo uso da piscina depois da 22hs, techo chave: 
-        “o horário da piscina é da 8 - 22hs de terça a domingo, segunda estará 
-        fechada da tratamento” chunk(111111_11_11,111111_11_12)
-
-        Regras de estilo:
-        - Português claro e direto.
-        - Não invente entidades/nós. Use apenas o que aparece nos chunks.
-        - Priorize os 2-3 chunks com maior score que sejam realmente pertinentes.
-
-        Retorne um objeto json:
-        - resposta: insira aqui o texto da resposta
-        - chunks: caso tenha usado mais de 1 chunk concatene separando por vígula, use a variável id que está no contexto
-        - veja o exemplo abaixo:
-        {{
-            "resposta": "<texto curto usando apenas o contexto ou mensagem de insuficiência>",            
-            "chunks": ["<id1>", "<id2>"]
-        }}
-
-        Pergunta do usuário:
-        {pergunta}
-
-        Documentos encontrados: 
-        {candidatos}
-    '''
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": pergunta}
-    ]
-
-    response = client.chat.completions.create(
-        model=modelo,
-        messages=messages,
-        temperature=0.3
-    )
-
-    return response.choices[0].message.content
-
-def buscar_vetor(palavras_chave,pergunta):
+def buscar_vetor(palavras_chave,pergunta,modelo):
 
     resp        = ''
     resp_md     = ''   
     index_name  = 'documentos'
     user_id     = 5511993891773
 
+    result_json = []
+
     embeddings      = OpenAIEmbeddings(model="text-embedding-3-small")
     query_embedding = embeddings.embed_query(palavras_chave) 
 
     script_query = {
         "size": 10,
-        "_source": ["file_url", "id_usuario", "id_externo", "texto_rico"],
+        "_source": ["file_url", "id_usuario", "id_externo", "texto"],
         "knn": {
-            "field": "embedding_rico",
+            "field": "embedding",
             "query_vector": query_embedding,
             "k": 50,
             "num_candidates": 500,         
@@ -444,7 +357,7 @@ def buscar_vetor(palavras_chave,pergunta):
                 "must": {
                     "multi_match": {
                         "query": pergunta,
-                        "fields": ["texto_rico"],                        
+                        "fields": ["texto"],                        
                     }
                 },
                 "filter": [
@@ -463,16 +376,154 @@ def buscar_vetor(palavras_chave,pergunta):
 
     for index,item in enumerate(candidatos,1):
 
-        resp_md += f'''# {index}
-        id_chunk: {item['_id']}
-        score = {item['_score']}
-        texto = {normalizar(item['_source']['texto'])}
-        '''
+        result_json.append({
+            "score":            item['_score'],
+            "id_chunk":         item['_id'],     
+            "texto_chunk":      normalize_ws(item['_source']['texto']),
+        })  
 
-    return resp_md
+    try:
+        resposta = criar_resposta_v1(palavras_chave,pergunta,result_json,modelo) 
+    except Exception as erro:
+        print( f'ERRO: {erro}')
+        
+    return {"resposta":resposta,"contexto":result_json}
 
-def normalizar(s: str) -> str:
-    return re.sub(r"\s+", " ", (s or "")).strip()
+def criar_palavra_chave(pergunta):
+    
+    prompt = '''
+        Analise com atenção para obter o principal item questionado.
+        Para os principais temas sempre busque pelo menos 2 sinomimos.  
+        Vamos usar o 5W3H que é uma metodologia estruturada de questionamento, voltada para organizar o pensamento e o planejamento de ações.
+        Sigla	    Pergunta	        Função prática
+        What	    O que será feito?	Define o objetivo ou tarefa.
+        Why	Por     que será feito?	    Define o propósito ou justificativa.
+        Where	    Onde será feito?	Define o local ou contexto.
+        When	    Quando será feito?	Define o prazo ou cronograma.
+        Who	        Quem fará?	        Define o responsável.
+        How	        Como será feito?	Define o método ou processo.
+        How much	Quanto custará?	    Define o custo ou recursos necessários.
+        How many	Quantos recursos?	Define a quantidade ou escala.
+        Caso necessário, crie mais de um conjunto
+        Não traga stop words
+        Não use aspas duplas, nem aspas simples
+        Não use barras, pipes ou barra invertida: '/','\','|', ao invés seja textual, use: 'ou','e'
+        Evite duplicatas
+    '''
+
+    examples = [
+        lx.data.ExampleData(
+            text="Quero saber até que horas posso usar a piscina",
+            extractions=[
+                lx.data.Extraction(
+                    extraction_class = "triple",
+                    extraction_text  = "Quero saber até que horas posso usar a piscina",
+                    attributes       = 
+                    {
+                        "what":     "O horário permitido de uso da piscina", 
+                        "why":      "Para utilizar o espaço comum dentro das regras do condomínio", 
+                        "where":    "Na piscina do condomínio",
+                        "when":     "Hoje / em um dia específico (implícito)",
+                        "who":      "Um morador do condomínio",
+                        "how":      "Através do uso comum do espaço (seguindo regras internas)",
+                        "how_much": "Não aplicável (uso comum)",
+                        "how_many": "Não informado (pode influenciar em regras de uso)"
+                    },
+                )
+            ],
+        )
+    ]
+
+    try:
+
+        res_ex = lx.extract(
+            text_or_documents=pergunta,
+            prompt_description=prompt,
+            examples=examples,
+            model_id="gemini-2.5-flash", 
+            api_key=os.environ["GEMINI_API_KEY"],
+            #model_id="gpt-4.1",                
+            #api_key=os.environ["OPENAI_API_KEY"],
+            fence_output=False,
+            use_schema_constraints=True,
+        )
+    
+    except Exception as erro:
+        
+        print( f'ERRO: {erro}' )
+        exit()
+        
+        return
+
+    triples = []
+
+    for ext in getattr(res_ex, "extractions", []):
+        if ext.extraction_class == "triple":
+            triples.append(ext.attributes)
+
+    palavras_chave = ''
+
+    for t in triples:
+        palavras_chave +=f"{t.get('what')}, {t.get('why')}, {t.get('where')}, {t.get('when')}, {t.get('who')}, {t.get('how')}, {t.get('how_much')}, {t.get('how_many')},"
+
+    return palavras_chave
+
+def atualizar_elastic(id,resposta,relevancy,faithfulness,versao,avaliador):
+
+    status = 'OK'
+
+    texto = (resposta or "").strip()
+
+    '''body = {
+        "doc": {            
+            "avaliacao":[
+                    {
+                    "versao":versao,
+                    "avaliador":avaliador,
+                    "grafo": texto,
+                    "relevancia":relevancy,
+                    "confiabilidade":faithfulness,
+                }
+            ]
+        },
+        "doc_as_upsert": True
+    }'''
+
+    body = {
+        "script": {
+            "lang": "painless",
+            "source": """
+                if (ctx._source.containsKey('avaliacao_vetor1') == false || ctx._source.avaliacao_vetor1 == null) {
+                    ctx._source.avaliacao_vetor1 = new ArrayList();
+                }
+                ctx._source.avaliacao_vetor1.add(params.nova_avaliacao);
+            """,
+            "params": {
+                "nova_avaliacao": {
+                    "versao": versao,
+                    "avaliador": avaliador,
+                    "vetor": texto,
+                    "relevancia": relevancy,
+                    "confiabilidade": faithfulness
+                }
+            }
+        },
+        "upsert": {
+            "avaliacao_vetor1": [
+                {
+                    "versao": versao,
+                    "avaliador": avaliador,
+                    "grafo": texto,
+                    "relevancia": relevancy,
+                    "confiabilidade": faithfulness
+                }
+            ]
+        }
+    }
+
+    res = elastic_client.update(index="perguntas", id=id, body=body)
+ 
+    return res
 
 def diff_time(legenda,inicio):
 
@@ -483,122 +534,252 @@ def diff_time(legenda,inicio):
 
     return
 
-pergunta1  = 'posso parar duas motos na minha vaga?'
-pergunta2  = 'meu carro é pequeno e vi que se eu parar a minha moto dentro da minha vaga, cabe e não atrabalha ninguem, blz?'
-pergunta3  = 'oi, bom dia, eu preciso fazer uma apresentação para uns clientes e pensei em fazer no salão de festas é algo pequeno só 20 pessoas, posso?' 
-pergunta4  = 'Poderia me ajudar com uma dúvida sobre o fundo de obra ... para que eu preciso pagar se não está acontecendo nenhuma obra?' 
-pergunta5  = 'estou recebendo uns parentes aqui no meu apartamento e hoje está muito quente a gente pode ir para a piscina rapidinho?'
-pergunta6  = 'sou médico e só tenho o domingo livre, não existe forma alguma de fazer a minha mudança no próximo domingo? o síndico não pode aprovar essa exceção, ele me falou no elevador que por ele OK'
-pergunta7  = 'estou com a perna quebrada e é a segunda vez que vcs impendem meu ifood de ser entregue, eu não tenho como descer da próxima vez vou chamar a polícia!'
-pergunta8  = 'estou com a perna quebrada e vcs impendem meu ifood subir, não temo como abrir uma exceção?'
-pergunta9  = 'minha arquiteta sugeriu a aplicação de um sobre piso, disse que é rápido não afeta a carga e não precisa de ART, posso fazer?'
-pergunta10 = 'quero fazer um churrasco mas vi que a churrasqueira está ocupada, posso fazer um churrasco com um churrasqueira portátil lá perto do jardim, vi que o regulamento não proibe, concorda?'
-pergunta11 = 'vou passar 3 meses fora trabalhando em um outro estado e nesse período vou fazer um AirBnB aqui, vi o regulamento e a convenção e nenhum probe então entendo que está OK, blz?'
-pergunta12 = 'roubaram minha bike dentro do condomínio, isso é um absurso, o condomínio deve me reembolsar?'
-pergunta13 = 'roubaram o carro do meu filho em frente ao condomínio, quero as imagens agora e o síndico não quer me fornecer, pode isso?'
-pergunta14 = 'oi, bom dia, eu preciso fazer uma demonstração de produtos para meus clientes e pensei em alugar o salão de festas, serão umas 20 pessoas, OK?'
-pergunta15 = 'oi, bom dia, quero fazer um culto com os irmãos da igreja no próximo dia 10 e quero alugar o salão, OK?' 
-pergunta16 = 'porque meus convidados que estão no meu aniversário não podem fumar aqui na area de fora, perto da churrasqueira'
+def normalize_ws(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "")).strip()
 
-print( '\n--- inicio ---\n')
-inicio = time.time()
+def build_retrieval_context(items, top_k=100, max_chars=1500, prefix_ids=True):
+    
+    # ordena por score desc (se houver)
+    items_sorted = sorted(items, key=lambda x: x.get("score", 0), reverse=True)
 
-chave    = sys.argv[1].strip()
-pergunta = globals().get(chave)
+    seen = set()
+    out  = []
 
-prompt = '''
-    Analise com atenção para obter o principal item questionado.
-    Para os principais temas sempre busque pelo menos 2 sinomimos.  
-    Vamos usar o 5W3H que é uma metodologia estruturada de questionamento, voltada para organizar o pensamento e o planejamento de ações.
-    Sigla	    Pergunta	        Função prática
-    What	    O que será feito?	Define o objetivo ou tarefa.
-    Why	Por     que será feito?	    Define o propósito ou justificativa.
-    Where	    Onde será feito?	Define o local ou contexto.
-    When	    Quando será feito?	Define o prazo ou cronograma.
-    Who	        Quem fará?	        Define o responsável.
-    How	        Como será feito?	Define o método ou processo.
-    How much	Quanto custará?	    Define o custo ou recursos necessários.
-    How many	Quantos recursos?	Define a quantidade ou escala.
-    Caso necessário, crie mais de um conjunto
-    Não traga stop words
-    Não use aspas duplas, nem aspas simples
-    Não use barras, pipes ou barra invertida: '/','\','|', ao invés seja textual, use: 'ou','e'
-    Use no máximo 300 caracteres
-    Evite duplicatas
-'''
+    for it in items_sorted:
+        
+        # escolha do texto: Chunk -> texto_chunk; Regra -> descricao_regra
+        raw = it.get("texto_chunk")
+        txt = normalize_ws(raw)
+        
+        if not txt:
+            print("AVISO: texto vazio em build_retrieval_context")
+            exit()
+            continue
 
-examples = [
-    lx.data.ExampleData(
-        text="Quero saber até que horas posso usar a piscina",
-        extractions=[
-            lx.data.Extraction(
-                extraction_class = "triple",
-                extraction_text  = "Quero saber até que horas posso usar a piscina",
-                attributes       = 
-                {
-                    "what":     "O horário permitido de uso da piscina", 
-                    "why":      "Para utilizar o espaço comum dentro das regras do condomínio", 
-                    "where":    "Na piscina do condomínio",
-                    "when":     "Hoje ou um dia específico (implícito)",
-                    "who":      "Um morador do condomínio",
-                    "how":      "Através do uso comum do espaço (seguindo regras internas)",
-                    "how_much": "Não aplicável (uso comum)",
-                    "how_many": "Não informado (pode influenciar em regras de uso)"
-                },
-            )
-        ],
+        # opcional: prefixar id_chunk p/ rastreabilidade
+        if prefix_ids:
+            ident = it.get("id_chunk") 
+            if ident:
+                txt = f"[{ident}] {txt}"
+
+        # corta muito longo (evita estourar prompt)
+        if len(txt) > max_chars:
+            txt = txt[:max_chars] + "..."
+
+        # dedup
+        key = txt.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+
+        out.append(txt)
+        if len(out) >= top_k:
+            break
+
+    return out
+
+#-------------------------------------------------------
+
+query = {
+    "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks"],
+    "query"     : {"match_all":{}}, 
+    "size"      : 1500
+}
+
+query_unico = {
+    "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","chunks","avaliacoes","score_grafo"],
+    "query": {
+        "ids": {
+            "values": ["cumbb5oB89dtCZp8OR-z"]
+        }
+    },
+    "size": 1
+}
+
+resp = elastic_client.search(index="perguntas", body=query)
+
+total = len(resp["hits"]["hits"])
+
+for index, item in enumerate(resp["hits"]["hits"],start=1):     
+
+    id       = item['_id']
+    pergunta = item['_source']['pergunta']
+    resposta = item['_source']['resposta']
+    contexto = item['_source']['contexto']
+    
+    try:
+        vetor = item['_source']['vetor']
+    except Exception as erro:
+        vetor = ''
+
+    print(f"\n{id} - {pergunta}\n\nGT: {resposta}")
+
+    inicio = time.time()
+
+    '''
+    qwen3:4b                não retornou 
+    llama3.2:3b             302s
+    gemma3:1b               94s
+    gemma3:latest           336s
+    gpt-oss:20b             não retornou
+
+    kimi-k2:1t-cloud        muito bom e rápido
+    minimax-m2:cloud        muito bom e rápido
+
+    ServiceNow-AI/Apriel-1.5-15b-Thinker
+    meta-llama/Llama-3.2-3B-Instruct-Turbo
+    Qwen/Qwen3-Next-80B-A3B-Thinking
+    Qwen/Qwen3-Next-80B-A3B-Instruct
+    
+    X google/gemma-3n-E4B-it
+    '''
+
+    resolvedor = "kimi-k2:1t-cloud"
+    avaliador  = "kimi-k2:1t-cloud"
+
+    print( f'\n-> resolvedor: {resolvedor}' )
+    print( f'-> avaliador: {avaliador}' )
+
+    palavras_chave  = criar_palavra_chave(pergunta)
+    vetor           = buscar_vetor(palavras_chave,pergunta,resolvedor)   
+
+    try:     
+        vetor_json = json.loads(vetor["resposta"])   
+        print( f"\nVetor: {vetor_json["resposta"]}" )
+        print("-"*100)
+        diff_time( '-> Grafo:',inicio )
+    except Exception as erro:
+        print( f'ERRO: {erro}' )    
+
+    inicio = time.time() 
+    
+    '''print('-> RAGAS\n')
+    llm = ChatOpenAI(model="gpt-4.1")
+
+    dataset = Dataset.from_list([
+        {
+            "question"      : pergunta,
+            "answer"        : grafo_json["resposta"],
+            "ground_truth"  : resposta,
+            "contexts"      : [contexto]
+        }
+    ])
+
+    result = ev_ragas(
+        dataset,   
+        llm=llm,    
+        run_config=None,
+        show_progress=False,        
+        metrics=[
+            faithfulness,          # resposta é fiel ao(s) contexto(s)?
+            answer_relevancy,      # resposta é relevante à pergunta?
+            context_precision,     # quanto do contexto citado é realmente útil?
+            context_recall,        # os contextos cobrem o que a resposta usa?
+            answer_correctness     # proximidade com a ground truth
+        ]
     )
-]
 
-res_ex = lx.extract(
-    text_or_documents=pergunta,
-    prompt_description=prompt,
-    examples=examples,
-    model_id="gemini-2.5-flash", 
-    api_key=os.environ["GEMINI_API_KEY"],
-    #model_id="gpt-4.1",                
-    #api_key=os.environ["OPENAI_API_KEY"],
-    fence_output=False,
-    use_schema_constraints=True,
-)
+    print( result )
 
-triples = []
+    print("-"*100)
+    diff_time('-> RAGAS: ',inicio)
+    inicio = time.time()'''
 
-for ext in getattr(res_ex, "extractions", []):
-    if ext.extraction_class == "triple":
-        triples.append(ext.attributes)
+    '''print('-> Deep Eval 1\n')
 
-palavras_chave = ''
+    metric = AnswerRelevancyMetric(
+        threshold=0.7,
+        model="gpt-4.1",
+        include_reason=True,
+        verbose_mode=1
+    )
 
-for t in triples:
-    palavras_chave +=f"{t.get('what')}, {t.get('why')}, {t.get('where')}, {t.get('when')}, {t.get('who')}, {t.get('how')}, {t.get('how_much')}, {t.get('how_many')},"
+    tc = LLMTestCase(        
+        input           = pergunta,
+        actual_output   = grafo_json["resposta"],
+        expected_output = resposta,
+        context         = [contexto]
+    )
 
-remove_chars = ['|', '\\', '/', "'", '"']
+    result = ev_deep(       
+        test_cases=[tc],
+        metrics=[metric],
+    )
 
-for item in remove_chars:
-    palavras_chave = palavras_chave.replace(item, '')
+    print(result)
 
-diff_time('--> palavras chaves OK: ', inicio)
+    print("-"*100)
+    diff_time('-> DeepEval: ',inicio)
 
-print('-'*100)
-print( pergunta )
-print('-'*100)
-print( palavras_chave )
-print('-'*100)
+    inicio = time.time()
+    print('-> Deep Eval 2\n')'''
 
+    #precision = ContextualPrecisionMetric()
+    #recall    = ContextualRecallMetric()
+    #relevancy = AnswerRelevancyMetric()
 
-inicio = time.time()
-vetor_md = buscar_vetor(palavras_chave,pergunta)
-diff_time('--> vetor OK: ', inicio)
-print( vetor_md )
+    model = OllamaModel(
+        model = avaliador,
+        base_url = "http://localhost:11434",
+        temperature=0
+    )
 
-inicio = time.time()
-resposta   = criar_resposta_v1(palavras_chave,pergunta,vetor_md,'gpt') 
-diff_time('--> resposta OK: ', inicio)
+    '''model = ChatTogether(
+        together_api_key=TOGETHER_API_KEY,
+        temperature=0,
+        model=avaliador,
+        model_kwargs={
+            "response_format": {"type": "json_object"}
+        }
+    ) '''   
 
-resp_json = json.loads(resposta)
+    answer_relevancy = AnswerRelevancyMetric(model=model,include_reason=True)
+    faithfulness     = FaithfulnessMetric(model=model,include_reason=True)
 
-print( f'{resp_json}' )
-print( f'\n{resp_json["resposta"]}\n' )
+    retrieval_ctx = build_retrieval_context(vetor["contexto"], top_k=20)        
 
-#print( vetor_md )
+    test_case = LLMTestCase(
+        input             = pergunta,
+        actual_output     = vetor_json["resposta"],
+        expected_output   = resposta,
+        retrieval_context = retrieval_ctx,      
+        context           = [normalize_ws(contexto)]
+    )
+
+    try:
+        answer_relevancy.measure(test_case)
+        print("- Relevancia: ", answer_relevancy.score)
+        print("- Reason: ", answer_relevancy.reason)
+        print('-'*100)
+    except Exception as erro:
+        print( f'ERRO relevancia: {erro}' )
+
+    try:
+        faithfulness.measure(test_case)
+        print("- Confiabilidade: ", faithfulness.score)
+        print("- Reason: ", faithfulness.reason)
+        print('-'*100)
+    except Exception as erro:
+        print( f'ERRO confiabilidade: {erro}' )
+
+    diff_time( '-> DeepEval: ',inicio )
+    print("-"*100)   
+
+    resp_elastic = atualizar_elastic(
+        id, 
+        vetor_json["resposta"],
+        answer_relevancy.score,
+        faithfulness.score,'v2',
+        avaliador
+    )
+
+    try:   
+        print( f'-> Elastic: {resp_elastic['result']} {index} de {total}' )
+    except Exception as erro:
+        print( f'ERRO: {resp_elastic}' )  
+
+    inicio = 0
+
+    time.sleep(3)
+
+print('\n--- fim ---') 

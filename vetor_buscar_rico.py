@@ -1,7 +1,6 @@
-import sys,os,warnings,json,requests,re,time, textwrap
+import sys,os,warnings,json,requests,re,time
 
 import openai
-import tiktoken
 
 from urllib.parse               import quote_plus,urlparse
 
@@ -11,6 +10,8 @@ from langchain_openai           import ChatOpenAI, OpenAIEmbeddings
 from langchain_together         import ChatTogether     
 from langchain_ollama           import ChatOllama
 
+from elasticsearch import Elasticsearch
+
 import langextract as lx
 
 from rich                       import print
@@ -18,13 +19,24 @@ from rich                       import print
 from dotenv import load_dotenv
 load_dotenv()
 
+warnings.filterwarnings('ignore')
+
 TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
 OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
 OLLAMA           = 'http://localhost:11434/api/generate'
 
-GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
+ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST')
+ELASTICSEARCH_USER = os.getenv('ELASTICSEARCH_USER')
+ELASTICSEARCH_PASS = os.getenv('ELASTICSEARCH_PASS')
+
+elastic_client = Elasticsearch( 
+    ELASTICSEARCH_HOST
+    ,basic_auth=(ELASTICSEARCH_USER, ELASTICSEARCH_PASS),
+    verify_certs=False
+)
+
 GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
-GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')
+GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD')
 repositorio = 'omc_v1'
 
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
@@ -407,202 +419,57 @@ def criar_resposta_v3(pergunta,candidatos,modelo):
 
     return response.choices[0].message.content
 
-def buscar_grafo(palavras_chave,pergunta):
+def buscar_vetor(palavras_chave,pergunta):
 
-    print('\n-> buscar grafo')
+    resp        = ''
+    resp_md     = ''   
+    index_name  = 'documentos'
+    user_id     = 5511993891773
 
-    chunks_set = set()
-    resp_final = resp_chunks_regras = resp_chunks_md  = ""
-    pergunta   = re.sub(r'[\\/]+', ' ', pergunta) 
+    embeddings      = OpenAIEmbeddings(model="text-embedding-3-small")
+    query_embedding = embeddings.embed_query(palavras_chave) 
 
-    query_regras = f'''
-        PREFIX :           <https://omc.co/vocabulary/>
-        PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
-        PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
-        PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+    script_query = {
+        "size": 10,
+        "_source": ["file_url", "id_usuario", "id_externo", "texto_rico"],
+        "knn": {
+            "field": "embeddings_rico",
+            "query_vector": query_embedding,
+            "k": 50,
+            "num_candidates": 500,         
+            "filter": { "term": { "id_usuario": user_id } }  # pré-filtro no ANN
+        },
+        "query": {
+            "bool": {
+                "must": {
+                    "multi_match": {
+                        "query": pergunta,
+                        "fields": ["texto_rico"],                        
+                    }
+                },
+                "filter": [
+                    { "term": { "id_usuario": user_id } }  # filtro também na parte lexical
+                ]
+            }
+        }
+    }
 
-        SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao
-        FROM <https://omc.co/graph/5511993891773>
-        WHERE {{
-        {{
-            # 1. SUBQUERY: Busca focada na REGRA (onde a descrição é boa)
-            SELECT ?regra (MAX(?s) AS ?score)
-            WHERE {{
-            ?q a luc-index:omc_full ;
-                # Usamos a query rica em palavras-chave que você forneceu
-                luc:query '{palavras_chave}' ;
-                luc:entities ?regra .
-
-            ?regra luc:score ?s .
-            }}
-            GROUP BY ?regra
-            ORDER BY DESC(?score)
-            LIMIT 500
-        }}
-
-        # 2. FILTRO DE TIPO COM REASONING
-        # Garante que o item encontrado é uma Regra ou uma subclasse de Regra
-        ?regra a/rdfs:subClassOf* :Regra .
-        
-        # Pega o tipo específico para exibir (ex: https://omc.co/vocabulary/Regra)
-        OPTIONAL {{ ?regra a ?tipo }}
-
-        # 3. RECUPERA A DESCRIÇÃO (O motivo do match)
-        ?regra :descricao ?descricao . FILTER(LANG(?descricao) = "" || LANGMATCHES(LANG(?descricao), "pt"))
-
-        # 4. EXPANSÃO: BUSCA O CHUNK CONECTADO (Para não vir vazio)
-        OPTIONAL {{
-            
-            # Procura vizinhos em qualquer direção (Regra->Chunk OU Chunk->Regra)
-            {{ ?regra ?p ?chunkNode . }} UNION {{ ?chunkNode ?p ?regra . }}
-
-            # O filtro é: esse vizinho é um Chunk e tem texto?
-            ?chunkNode a :Chunk ;
-                :texto ?textoBruto .
-            
-            # Valida idioma e atribui à variável de saída
-            FILTER(LANG(?textoBruto) = "" || LANGMATCHES(LANG(?textoBruto), "pt"))
-            BIND(?textoBruto AS ?texto)
-
-            # Tenta pegar o ID do Chunk
-            OPTIONAL {{ ?chunkNode :idChunk ?id }}
-            BIND(?id AS ?idChunk)
-        }}
-
-        BIND(?regra AS ?regraURI)
-        }}
-        ORDER BY DESC(?score)
-        LIMIT 10
-    '''   
-
-    query_chunks = f'''
-        PREFIX :           <https://omc.co/vocabulary/>
-        PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
-        PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
-        PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
-
-        SELECT ?idChunk ?score ?texto ?descricao ?documento ?tipo
-        FROM <https://omc.co/graph/5511993891773>
-        WHERE {{  
-        {{
-            SELECT ?chunk (MAX(?s) AS ?score) (SAMPLE(?id) AS ?idChunk) (SAMPLE(?t)  AS ?texto) (SAMPLE(?descRegra) AS ?descricao)
-            WHERE {{
-                ?q a luc-index:omc_full ;
-                luc:query '{palavras_chave}' ;
-                luc:entities ?chunk .
-
-                ?chunk luc:score ?s .
-
-                OPTIONAL {{ ?chunk :idChunk ?id }}
-                OPTIONAL {{ ?chunk :texto ?t . FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt")) }}
-                OPTIONAL {{
-                    ?chunk a/rdfs:subClassOf* :Regra ;
-                    :descricao ?descRegra .
-                }}
-            }}
-            GROUP BY ?chunk
-            ORDER BY DESC(?score)
-            LIMIT 500
-        }}
-
-        OPTIONAL {{
-        {{ 
-            # caso 1: chunk dentro de um documento
-            ?chunk :estaContidoEm ?documento .
-            OPTIONAL {{ ?documento a ?tipo }}
-        }}UNION{{
-            # caso 2: o próprio chunk é um documento/regra
-            BIND(?chunk AS ?documento) .
-            OPTIONAL {{ ?documento a ?tipo }}
-        }}
-        }}
-
-        FILTER EXISTS {{
-            # VALUES ?tipoPermitido {{ :Chunk :Regra }}
-            VALUES ?tipoPermitido {{ :Chunk }}
-            ?chunk a ?tipoPermitido .
-        }}
-    }}
-    ORDER BY DESC(?score)
-    LIMIT 10
-
-    '''
-
-    url     = f"{GRAPHDB_BASE_URL}/repositories/{repositorio}"
-    headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
-
-    #print( query_regras )
-
-    # Buscar apenas Regras
-
-    resp_regras = requests.post(
-        url,
-        data=query_regras,
-        headers=headers,
-        auth=HTTPBasicAuth(GRAPHDB_USERNAME,GRAPHDB_PASSWORD)  # ajuste usuário/senha
+    resp = elastic_client.search(
+        index=index_name,
+        body=script_query
     )
 
-    if resp_regras.status_code == 200:
-        
-        results   = resp_regras.json()  
-        bindings = results.get("results", {}).get("bindings", [])        
+    candidatos = resp['hits']['hits']
 
-        for index,item in enumerate(bindings,1):        
+    for index,item in enumerate(candidatos,1):
 
-            score     = float( item.get("score", {}).get("value", 0) )
-            score     = round(score, 3)
-            id_chunk  = item.get("idChunk", {}).get("value", "")
-            descricao = normalizar(item.get("descricao", {}).get("value", ""))            
+        resp_md += f'''# {index}
+        id_chunk: {item['_id']}
+        score = {item['_score']}
+        texto = {normalizar(item['_source']['texto_rico'])}
+        '''
 
-            resp_chunks_regras += f'''
-            id_chunk relacionado: {id_chunk} 
-            texto_regra: {descricao}
-            ''' 
-
-            chunks_set.add(descricao)
-    
-    else:
-        print("Erro:", resp_regras.status_code, resp_regras.text)
-        print( query_regras )
-
-    # Buscar apenas Chunks
-
-    resp_chunks = requests.post(
-        url,
-        data=query_chunks,
-        headers=headers,
-        auth=HTTPBasicAuth(GRAPHDB_USERNAME, GRAPHDB_PASSWORD)  # ajuste usuário/senha
-    )
-
-    if resp_chunks.status_code == 200:
-        
-        results   = resp_chunks.json()  
-        bindings = results.get("results", {}).get("bindings", [])
-
-        for index,item in enumerate(bindings,1):        
-
-            score    = float( item.get("score", {}).get("value", 0) )
-            score    = round(score, 3)
-            id_chunk = item.get("idChunk", {}).get("value", "")
-            texto    = normalizar(item.get("texto", {}).get("value", ""))
-
-            resp_chunks_md += f'''            
-            score: {score}  
-            id_chunk: {id_chunk}               
-            texto: {texto}
-            ''' 
-
-            chunks_set.add(texto)
-            
-    else:
-        print("Erro:", resp_regras.status_code, resp_regras.text)
-        print( query_regras )
-    
-    resp_final = f'''Regras:
-    {textwrap.dedent(resp_chunks_regras)}
-    {textwrap.dedent(resp_chunks_md) }
-    ''' 
-    return {'resposta':resp_final,'dataset':chunks_set}
+    return resp_md
 
 def normalizar(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "")).strip()
@@ -683,13 +550,12 @@ examples = [
     )
 ]
 
-# gemini-2.5-flash | gemini-3-pro-preview
 res_ex = lx.extract(
     text_or_documents=pergunta,
     prompt_description=prompt,
     examples=examples,
     model_id="gemini-2.5-flash", 
-    #api_key=os.environ["GEMINI_API_KEY"],
+    api_key=os.environ["GEMINI_API_KEY"],
     #model_id="gpt-4.1",                
     #api_key=os.environ["OPENAI_API_KEY"],
     fence_output=False,
@@ -720,17 +586,19 @@ print('-'*100)
 print( palavras_chave )
 print('-'*100)
 
-inicio = time.time()
-grafo_md = buscar_grafo(palavras_chave,pergunta)
-diff_time('--> grafo OK: ', inicio)
 
 inicio = time.time()
-resposta   = criar_resposta_v1(palavras_chave,pergunta,grafo_md['resposta'],'ollama') 
+vetor_md = buscar_vetor(palavras_chave,pergunta)
+diff_time('--> vetor OK: ', inicio)
+#print( vetor_md )
+
+inicio = time.time()
+resposta   = criar_resposta_v1(palavras_chave,pergunta,vetor_md,'gpt') 
 diff_time('--> resposta OK: ', inicio)
 
 resp_json = json.loads(resposta)
 
 print( f'{resp_json}' )
-print( f'\n{resp_json["resposta"]}\n' ) 
+print( f'\n{resp_json["resposta"]}\n' )
 
-#print( grafo_md )
+#print( vetor_md )

@@ -1,0 +1,118 @@
+Você é um especialista em contologia com um grande conhecimento jurídico
+Vamos criar triplas RDF (owl) no formato turtle (.ttl) que serão usadas futuramente para configurar um TBOX de um Knowledge Graph
+Neste Knowledge Graph teremos as classes, sub classes e Propriedades
+Referência: https://openscience.adaptcentre.ie/ontologies/GDPRtEXT/deliverables/docs/ontology.xml
+
+Exemplos:
+
+:Chunk a owl:Class ;
+  rdfs:label "Chunk"@pt ;
+  rdfs:comment "Trecho de um documento."@pt. 
+
+:Documento a owl:Class ;
+  rdfs:label "Documento"@pt ;
+  rdfs:comment "Registro formal entre partes (ex.: contratos, termo de adesão)."@pt .
+
+:Anpd a owl:Class ;
+  rdfs:subClassOf :Instituicao ;
+  rdfs:label "Anpd"@pt ;
+  rdfs:comment "Agência Nacional de Proteção de Dados, regulamento uso e compartilhado de dados pessoais."@pt .
+
+:relacionamento a owl:ObjectProperty ;
+    rdfs:label "possui relacionamento"@pt ;
+    rdfs:comment "Relaciona uma entidade a uma classe, subclasse ou outra entidade."@pt ;
+    rdfs:domain :Titular ;
+    rdfs:range  :Documento .
+
+:possuiDocumento a owl:ObjectProperty ;
+    rdfs:label "possui documento"@pt ;
+    rdfs:comment "Relaciona um usuário aos documentos que lhe pertencem ou pelos quais é responsável."@pt ;
+    rdfs:domain :Usuario ;
+    rdfs:range  :Cpf .
+
+Abaixo temos a lista de classes, sub classes e Propriedades, com um comentário que explica o que é o item
+
+- Entidades principais
+ANPD
+Controlador
+Operador
+DPO - Data Protection Officer
+Titular
+Norma
+Sanção
+Diretrizes
+
+- Instituições
+Orgãos e entidades
+Servidor público
+Entidade privada
+
+- Dados
+Dado pessoal
+Dado pessoal sensível
+Dado físico
+Dado digital
+Biometria
+Acesso autorizado
+Acessão não autorizado
+Descarte de informação
+Tratamento de dados
+Agentes de Tratamento
+Encarregado de dados
+Banco de dados
+Finalidade
+Adequação
+Necessidade
+Livre acesso
+Qualidade de dados
+Transparência
+Acesso a dados
+Dados desatualizados
+Dados atualizados
+Anonimização
+Portabilidade
+Compartilhamento
+Consentimento
+Revogação de consentimento
+
+- Segurança
+Vulnerabilidade
+Segurança da informação
+Incidente de segurança
+Prevenção
+Responsabilização
+
+- Estas entidades podem se conectar via relações como:
+Está contido em
+Parte de
+Localizado em
+Possui norma
+Possui diretiz
+Possui área Comum
+Desempenha papel
+Papel em
+Aplica à
+Permitido em
+Proibido em
+Registrado em
+Ocorreu em
+Executado por
+Tem responsável
+Contratada
+Refere-se à
+Relacionamento
+Responsável por
+
+- Classes e sub classes podem ter propriedades:
+nome
+carteira de motorista
+rg
+cpf
+cnpj
+data
+texto
+descrição
+conteúdo
+arquivo
+idChunk
+idExterno

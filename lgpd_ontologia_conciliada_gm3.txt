@@ -1,0 +1,146 @@
+@prefix :     <http://knowledgegraph.condominio/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+### ---------------------------------------------------------
+### 1. CLASSES ESTRUTURAIS E FÍSICAS (O MUNDO REAL)
+### ---------------------------------------------------------
+
+:EntidadeFisica      rdf:type owl:Class .
+
+:Condominio          rdf:type owl:Class ;
+                     rdfs:subClassOf :EntidadeFisica, :ControladorLGPD . # O Condomínio assume o papel de Controlador
+
+:Edificacao          rdf:type owl:Class ; rdfs:subClassOf :EntidadeFisica .
+:Unidade             rdf:type owl:Class ; rdfs:subClassOf :EntidadeFisica .
+:AreaComum           rdf:type owl:Class ; rdfs:subClassOf :EntidadeFisica .
+
+:SetorSeguranca      rdf:type owl:Class ; rdfs:subClassOf :AreaComum . # Ex: Guarita, Sala de Monitoramento
+
+### ---------------------------------------------------------
+### 2. AGENTES (PESSOAS E ORGANIZAÇÕES)
+### ---------------------------------------------------------
+
+:Agente              rdf:type owl:Class .
+
+:Pessoa              rdf:type owl:Class ;
+                     rdfs:subClassOf :Agente, :TitularLGPD . # Toda pessoa física é um Titular de dados
+
+:Morador             rdf:type owl:Class ; rdfs:subClassOf :Pessoa .
+:Funcionario         rdf:type owl:Class ; rdfs:subClassOf :Pessoa .
+:Visitante           rdf:type owl:Class ; rdfs:subClassOf :Pessoa .
+:Sindico             rdf:type owl:Class ; rdfs:subClassOf :Morador . # Ou Pessoa, dependendo se é síndico profissional
+
+:Organizacao         rdf:type owl:Class ; rdfs:subClassOf :Agente .
+
+:Administradora      rdf:type owl:Class ;
+                     rdfs:subClassOf :Organizacao, :OperadorLGPD .
+
+:PrestadorServico    rdf:type owl:Class ;
+                     rdfs:subClassOf :Organizacao, :OperadorLGPD . # Ex: Empresa de Portaria Remota
+
+:ANPD                rdf:type owl:Class ;
+                     rdfs:subClassOf :Organizacao ;
+                     rdfs:label "Autoridade Nacional de Proteção de Dados" .
+
+### ---------------------------------------------------------
+### 3. CLASSES LGPD (CONCEITOS LEGAIS)
+### ---------------------------------------------------------
+
+# Papéis LGPD
+:AgenteTratamento    rdf:type owl:Class .
+:ControladorLGPD     rdf:type owl:Class ; rdfs:subClassOf :AgenteTratamento .
+:OperadorLGPD        rdf:type owl:Class ; rdfs:subClassOf :AgenteTratamento .
+:EncarregadoDPO      rdf:type owl:Class ; rdfs:subClassOf :Pessoa . # O DPO é uma pessoa (ou comitê)
+:TitularLGPD         rdf:type owl:Class .
+
+# Tipos de Dados
+:Dado                rdf:type owl:Class .
+:DadoPessoal         rdf:type owl:Class ; rdfs:subClassOf :Dado .
+:DadoSensivel        rdf:type owl:Class ; rdfs:subClassOf :DadoPessoal .
+:DadoAnonimizado     rdf:type owl:Class ; rdfs:subClassOf :Dado .
+
+# Exemplos Específicos
+:Biometria           rdf:type owl:Class ; rdfs:subClassOf :DadoSensivel .
+:ImagemCCTV          rdf:type owl:Class ; rdfs:subClassOf :DadoPessoal .
+:PlacaVeiculo        rdf:type owl:Class ; rdfs:subClassOf :DadoPessoal .
+:CadastroMorador     rdf:type owl:Class ; rdfs:subClassOf :DadoPessoal .
+
+# Bases Legais e Princípios
+:BaseLegal           rdf:type owl:Class .
+:Consentimento       rdf:type owl:Class ; rdfs:subClassOf :BaseLegal .
+:LegitimoInteresse   rdf:type owl:Class ; rdfs:subClassOf :BaseLegal .
+:ObrigacaoLegal      rdf:type owl:Class ; rdfs:subClassOf :BaseLegal .
+
+:Principio           rdf:type owl:Class .
+:Finalidade          rdf:type owl:Class ; rdfs:subClassOf :Principio .
+:Minimizacao         rdf:type owl:Class ; rdfs:subClassOf :Principio .
+
+### ---------------------------------------------------------
+### 4. DOCUMENTAÇÃO E RAG (INTEGRAÇÃO TÉCNICA)
+### ---------------------------------------------------------
+
+:Documento           rdf:type owl:Class .
+:Norma               rdf:type owl:Class ; rdfs:subClassOf :Documento .
+:Contrato            rdf:type owl:Class ; rdfs:subClassOf :Documento .
+:RelatorioIncidente  rdf:type owl:Class ; rdfs:subClassOf :Documento .
+
+:Chunk               rdf:type owl:Class ;
+                     rdfs:comment "Fragmento de texto vetorizado para busca semântica" .
+
+### ---------------------------------------------------------
+### 5. PROPRIEDADES (RELACIONAMENTOS)
+### ---------------------------------------------------------
+
+# Relações LGPD
+:fiscalizadoPor      rdf:type owl:ObjectProperty ;
+                     rdfs:domain :AgenteTratamento ;
+                     rdfs:range :ANPD .
+
+:temEncarregado      rdf:type owl:ObjectProperty ;
+                     rdfs:domain :ControladorLGPD ;
+                     rdfs:range :EncarregadoDPO .
+
+:processaDado        rdf:type owl:ObjectProperty ;
+                     rdfs:domain :AgenteTratamento ;
+                     rdfs:range :Dado .
+
+:refereSeA           rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Dado ;
+                     rdfs:range :TitularLGPD .
+
+:temBaseLegal        rdf:type owl:ObjectProperty ;
+                     rdfs:domain :ProcessoTratamento ;
+                     rdfs:range :BaseLegal .
+
+# Relações de Documentos/Chunks
+:parteDe             rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Chunk ;
+                     rdfs:range :Documento .
+
+:origemDoDado        rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Dado ;
+                     rdfs:range :Documento . # O dado veio deste contrato/formulário
+
+# Relações Físicas
+:armazenadoEm        rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Dado ;
+                     rdfs:range [ rdf:type owl:Class ; owl:unionOf (:SetorSeguranca :BancoDados :ArquivoFisico) ] .
+
+### ---------------------------------------------------------
+### 6. PROPRIEDADES DE DADOS (ATRIBUTOS)
+### ---------------------------------------------------------
+
+:nome                rdf:type owl:DatatypeProperty ; rdfs:range xsd:string .
+:cpf                 rdf:type owl:DatatypeProperty ; rdfs:range xsd:string .
+:cnpj                rdf:type owl:DatatypeProperty ; rdfs:range xsd:string .
+:dataCriacao         rdf:type owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+:tempoRetencao       rdf:type owl:DatatypeProperty ; rdfs:range xsd:string . # Ex: "5 anos"
+
+# Atributos Técnicos para RAG
+:conteudoTexto       rdf:type owl:DatatypeProperty ; rdfs:range xsd:string .
+:idChunk             rdf:type owl:DatatypeProperty ; rdfs:range xsd:string .
+:idExterno           rdf:type owl:DatatypeProperty ; rdfs:range xsd:string .
+:vetorEmbedding      rdf:type owl:DatatypeProperty ; rdfs:range xsd:string . # Opcional, se quiser guardar ref do vetor
