@@ -8,7 +8,7 @@ from src.utils.text import normalize
 
 def graph_search(keyword,question,named_graph):
 
-    print('\n-> search graph')
+    print('--> search graph')
 
     status         = ''
     knowledge_base = {}

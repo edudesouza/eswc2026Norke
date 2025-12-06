@@ -1,4 +1,6 @@
 
+import warnings, logging
+
 import numpy as np, torch
 from scipy.special  import softmax
 from rich           import print
@@ -12,14 +14,22 @@ from bert_score import score
 
 from src.config import settings
 
+warnings.filterwarnings("ignore")
+
+hf_logging.set_verbosity_error()
+error1 = logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
+error2 = logging.getLogger("transformers").setLevel(logging.ERROR)
+error3 = logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+
+if error1 or error2 or error3:
+    print( f'error 1: {error1}\nerror 2: {error2}\nerror 3: {error3} ' )
+
 sim_model     = SentenceTransformer(settings.EMB_MODEL_NAME)
 nli_tokenizer = AutoTokenizer.from_pretrained(settings.NLI_MODEL_NAME, use_fast=False)
 nli_model     = AutoModelForSequenceClassification.from_pretrained(settings.NLI_MODEL_NAME)
 config        = AutoConfig.from_pretrained(settings.NLI_MODEL_NAME)
 
 def sim(reference,candidate):
-
-    print("-> SIM")
     
     emb_gold = sim_model.encode(reference)
     emb_cand = sim_model.encode(candidate)
@@ -27,22 +37,20 @@ def sim(reference,candidate):
     sim = util.cos_sim(emb_gold, emb_cand).item()   
     
     if sim >= 0.85:
-        return {"status":"EXCELENTE (aprovada)", "score":float(sim)}
+        return {"status":"EXCELLENT (approved)", "score":float(sim)}
     elif sim >= 0.75:
-        return {"status":"BOA (aprovada)", "score":float(sim)}
+        return {"status":"GOOD (approved)", "score":float(sim)}
     elif sim >= 0.65:
-        return {"status":"RAZOÁVEL (revisar)", "score":float(sim)}
+        return {"status":"FAIR (review)", "score":float(sim)}
     elif sim >= 0.50:
-        return {"status":"RUIM (reprovar)", "score":float(sim)}
+        return {"status":"POOR (failed)", "score":float(sim)}
     else:
-        return {"status":"PÉSSIMA (completamente errada)", "score":float(sim)}
+        return {"status":"TERRIBLE (completely wrong)", "score":float(sim)}
 
 def nli(reference,candidate):
 
-    print("-> NLI")
-
     model_input = nli_tokenizer(
-        *([referencia],[candidato]), 
+        *([reference],[candidate]), 
         padding=True, 
         return_tensors="pt"
     )
@@ -72,8 +80,6 @@ def nli(reference,candidate):
 
 def bertscore(reference,candidate):
 
-    print("-> Bert score")
-
     scorer = BERTScorer(
         #model_type="neuralmind/bert-base-portuguese-cased", num_layers=12,
         model_type=settings.BERTSCORE_MODEL_NAME, num_layers=24,
@@ -82,7 +88,7 @@ def bertscore(reference,candidate):
         rescale_with_baseline=False,    
     )
 
-    P, R, F1 = scorer.score(candidato, referencia, verbose=False)
+    P, R, F1 = scorer.score(candidate, reference, verbose=False)
 
     
     precision = P.item()
@@ -90,7 +96,7 @@ def bertscore(reference,candidate):
     f1        = F1.item()
 
     return {
-        "precision":float(f1),
+        "precision":float(precision),
         "recall":float(recall),
         "f1":float(f1)
     }

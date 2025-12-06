@@ -5,7 +5,7 @@ from langchain_openai import OpenAIEmbeddings
 
 def vector_search(palavras_chave, pergunta, index_name, user_id):
 
-    print('\n-> search vector')
+    print('--> search vector')
 
     resp_toon = ''
     knowledge_base = {}

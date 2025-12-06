@@ -1,9 +1,7 @@
 
 import langextract as lx
 
-from src.config import settings
-
-def keywords_create(question):
+def keywords_create(question,model,api):
     
     prompt = '''
         Analise com atenção para obter o principal item questionado.
@@ -54,10 +52,8 @@ def keywords_create(question):
             text_or_documents=question,
             prompt_description=prompt,
             examples=examples,
-            model_id="gemini-2.5-flash", 
-            api_key=settings.GEMINI_API_KEY,
-            #model_id="gpt-4.1",                
-            #api_key=settings.OPENAI_API_KEY,
+            model_id=model, 
+            api_key=api,  
             fence_output=False,
             use_schema_constraints=True,
         )

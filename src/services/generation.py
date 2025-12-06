@@ -11,7 +11,7 @@ from src.config import settings
 
 def response_create(keyword,question,context,model_provider): 
 
-    print('--> create response')
+    print('--> create llm response')
 
     if model_provider=='gpt':
         llm = ChatOpenAI(
@@ -128,7 +128,7 @@ def response_create(keyword,question,context,model_provider):
     msg = llm.invoke([("system", system), ("user", user)])
 
     #print(f'tokens: {msg.usage_metadata}\n' )
-    print('--> response OK')
+    print('--> llm response OK')
 
     try:
 
@@ -143,7 +143,7 @@ def response_create(keyword,question,context,model_provider):
             "resposta": f"Erro ao processar resposta do modelo: {e}"
          }
 
-def ground_truth(dataset,question,model_provider,size):
+def ground_truth(dataset,question,keywords,model_provider,size):
 
     print(f'--> create ground truth {size} candidates')
 
@@ -179,7 +179,13 @@ def ground_truth(dataset,question,model_provider,size):
         Deve criar perguntas e respostas baseadas em um documento de referência (como convenções ou regulamentos).
         Seu objetivo é gerar perguntas realistas e úteis para um chatbot de dúvidas condominiais.
         Nunca começar a resposta com: sim, não,claro,com certeza, negativo, positivo
-        Siga rigorosamente o formato e a contagem solicitada.'''
+        Siga rigorosamente o formato e a contagem solicitada.
+        
+        DIRETRIZES DE SEGURANÇA JURÍDICA:
+        1. Prioridade de Proibição: Se uma regra diz "É proibido X" e outra regra diz "É permitido reuniões em geral", a PROIBIÇÃO ESPECÍFICA prevalece.
+        2. Não crie exceções: Se o texto diz "Proibido eventos religiosos", não responda "Pode se for só entre moradores", a menos que o texto diga explicitamente "exceto se for entre moradores".
+        3. Cuidado com listas: Se o texto proíbe "eventos comerciais, religiosos E políticos", isso significa que eventos religiosos são proibidos MESMO QUE não sejam comerciais.
+        4. Em caso de conflito aparente entre duas regras, gere uma pergunta que aborde esse conflito e responda apontando a restrição mais severa.'''
 
     user = f'''Documento (texto de referência):
         {reference}
@@ -187,10 +193,13 @@ def ground_truth(dataset,question,model_provider,size):
         Pergunta do usuário:
         {question}
 
+        Pergunta do usuário, expandida usando 5W3H:
+        {keywords}
+
         Tarefa:
-        1. Leia com atenção o documento / regras.
-        2. Leia com atenção a pergunta do usuário.
-        3. Crie **{size} perguntas e respostas** com base SOMENTE no documento / regras.
+        1. Analise o documento em busca de REGRAS ESPECÍFICAS (proibições, taxas, horários).
+        2. Se houver uma proibição explícita para o tema da pergunta (ex: culto/religião), a resposta DEVE refletir essa proibição, mesmo que existam regras gerais de convivência.
+        3. Crie **{size} perguntas e respostas** com base SOMENTE no documento / regras, e que testem os limites das regras (o que pode e o que NÃO pode).
         4. As perguntas devem ser escritas em tom coloquial (como em conversas de WhatsApp) e as respostas devem refletir fielmente o conteúdo no documento / regras.
         
         Regras de estilo:
@@ -210,7 +219,7 @@ def ground_truth(dataset,question,model_provider,size):
         {{
             "pergunta": "<texto curto com a pergunta, máximo de 200 caracteres, não colocar o id do chunk aqui>",            
             "resposta": "<texto curto com a resposta, extamente 200 caracteres, não colocar o id do chunk aqui>",
-            "contexto":"<texto contento o contexto usado para criar a pergunta, entre 800 e 1000 caracteres>",
+            "contexto": "<texto contento o contexto usado para criar a pergunta, entre 800 e 1000 caracteres>",
         }} 
 
     '''  
