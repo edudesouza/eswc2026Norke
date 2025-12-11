@@ -17,7 +17,7 @@ def response_create(keyword,question,context,model_provider):
         llm = ChatOpenAI(
             model='gpt-4.1', 
             api_key=settings.OPENAI_API_KEY,
-            temperature=0.3,
+            temperature=0.1,
             model_kwargs={"response_format": {"type": "json_object"}}
         )    
 
@@ -186,7 +186,7 @@ def ground_truth(dataset,question,keywords,model_provider,size):
         2. Não crie exceções: Se o texto diz "Proibido eventos religiosos", não responda "Pode se for só entre moradores", a menos que o texto diga explicitamente "exceto se for entre moradores".
         3. Cuidado com listas: Se o texto proíbe "eventos comerciais, religiosos E políticos", isso significa que eventos religiosos são proibidos MESMO QUE não sejam comerciais.
         4. Em caso de conflito aparente entre duas regras, gere uma pergunta que aborde esse conflito e responda apontando a restrição mais severa.'''
-
+     
     user = f'''Documento (texto de referência):
         {reference}
 
@@ -224,7 +224,7 @@ def ground_truth(dataset,question,keywords,model_provider,size):
 
     '''  
 
-    msg = llm.invoke([("system", system), ("user", user)])
+    msg = llm.invoke([("system", system ), ("user", user )])
 
     #print( msg.content )
     print('--> ground truth OK')

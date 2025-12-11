@@ -3,7 +3,7 @@ from src.utils.text import normalize
 
 from langchain_openai import OpenAIEmbeddings
 
-def vector_search(palavras_chave, pergunta, index_name, user_id):
+def vector_search(palavras_chave, pergunta, index_name, user_id, retrieval_size):
 
     print('--> search vector')
 
@@ -20,7 +20,7 @@ def vector_search(palavras_chave, pergunta, index_name, user_id):
         query_embedding = embeddings.embed_query(palavras_chave) 
 
         script_query = {
-            "size": 10,
+            "size": retrieval_size,
             "_source": ["file_url", "id_usuario", "id_externo", "texto_rico"],
             "knn": {
                 "field": "embedding_rico",

@@ -6,14 +6,14 @@ from requests.auth  import HTTPBasicAuth
 from src.config     import settings
 from src.utils.text import normalize
 
-def graph_search(keyword,question,named_graph):
+def graph_search(keyword,question,named_graph,retrieval_size):
 
     print('--> search graph')
 
     status         = ''
     knowledge_base = {}
     resp_final     = resp_rules_toon = resp_chunks_toon  = ""
-    question       = re.sub(r'[\\/]+', ' ', question) 
+    keyword        = re.sub(r'[\\/]+', ' ', keyword) 
 
     try:
 
@@ -74,7 +74,7 @@ def graph_search(keyword,question,named_graph):
             BIND(?regra AS ?regraURI)
             }}
             ORDER BY DESC(?score)
-            LIMIT 10
+            LIMIT {retrieval_size}
         '''   
 
         query_chunks = f'''
@@ -126,7 +126,7 @@ def graph_search(keyword,question,named_graph):
             }}
         }}
         ORDER BY DESC(?score)
-        LIMIT 10
+        LIMIT {retrieval_size}
 
         '''
 

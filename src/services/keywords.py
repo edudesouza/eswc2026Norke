@@ -1,13 +1,18 @@
 
 import langextract as lx
 
+from sentence_transformers import SentenceTransformer, util
+
+from src.evaluation import keyword_complexity
+from src.config import settings
+
 def keywords_create(question,model,api):
     
     prompt = '''
         Analise com atenção para obter o principal item questionado.
         Para os principais temas sempre busque pelo menos 2 sinomimos.  
         Vamos usar o 5W3H que é uma metodologia estruturada de questionamento, voltada para organizar o pensamento e o planejamento de ações.
-        Sigla	    Pergunta	        Função prática
+        Sigla	    Pergunta	        Função prática        
         What	    O que será feito?	Define o objetivo ou tarefa.
         Why	Por     que será feito?	    Define o propósito ou justificativa.
         Where	    Onde será feito?	Define o local ou contexto.
@@ -15,7 +20,7 @@ def keywords_create(question,model,api):
         Who	        Quem fará?	        Define o responsável.
         How	        Como será feito?	Define o método ou processo.
         How much	Quanto custará?	    Define o custo ou recursos necessários.
-        How many	Quantos recursos?	Define a quantidade ou escala.
+        How many	Quantos recursos?	Define a quantidade ou escala.        
         Caso necessário, crie mais de um conjunto
         Não traga stop words
         Não use aspas duplas, nem aspas simples
@@ -73,7 +78,42 @@ def keywords_create(question,model,api):
 
     palavras_chave = ''
 
+    #complexity = keyword_complexity(triples)
+    #print( f'--> complexidade {complexity}')
+
+    components = []
+
     for t in triples:
         palavras_chave +=f"{t.get('what')}, {t.get('why')}, {t.get('where')}, {t.get('when')}, {t.get('who')}, {t.get('how')}, {t.get('how_much')}, {t.get('how_many')},"
 
-    return palavras_chave
+        components = [
+            t.get('what'),
+            t.get('why'),
+            #t.get('where'),
+            #t.get('when'),
+            #t.get('who'),
+            t.get('how'),
+            #t.get('how_much'),
+            #t.get('how_many')
+        ]
+
+        '''print( f' what:     {t.get('what')}' )
+        print( f' why:      {t.get('why')}' )
+        print( f' where:    {t.get('where')}' )
+        print( f' when:     {t.get('when')}' )
+        print( f' who:      {t.get('who')}' )
+        print( f' how:      {t.get('how')}' )
+        print( f' how_much: {t.get('how_much')}' )
+        print( f' how_many: {t.get('how_many')}' )'''
+
+    # Calcular embeddings
+    model = SentenceTransformer(settings.EMB_MODEL_NAME)
+    embeddings = model.encode(components)
+
+    # Matriz de similaridade
+    similarities = util.cos_sim(embeddings, embeddings)
+
+    # Análise
+    avg_similarity = similarities.mean().item()
+ 
+    return {"keywords":palavras_chave,"complexity_score":avg_similarity}
