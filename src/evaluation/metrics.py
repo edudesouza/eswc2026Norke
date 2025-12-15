@@ -51,7 +51,9 @@ def nli(reference,candidate):
 
     model_input = nli_tokenizer(
         *([reference],[candidate]), 
-        padding=True, 
+        padding=True,
+        truncation=True,
+        max_length=512, 
         return_tensors="pt"
     )
 

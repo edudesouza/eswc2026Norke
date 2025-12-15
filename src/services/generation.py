@@ -25,14 +25,19 @@ def response_create(keyword,question,context,model_provider):
         llm = ChatTogether(
             together_api_key=settings.TOGETHER_API_KEY,
             temperature=0.3,
-            model="ServiceNow-AI/Apriel-1.5-15b-Thinker",
+            #model="ServiceNow-AI/Apriel-1.5-15b-Thinker",
+            model="openai/gpt-oss-120b",
             model_kwargs={"response_format": {"type": "json_object"}}
         )
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            model="kimi-k2:1t-cloud",
-            temperature=0.3,
+            #model="kimi-k2:1t-cloud",
+            #model="minimax-m2:cloud",
+            #model="deepseek-v3.2:cloud",
+            model="gpt-oss:120b-cloud",
+            #model="gemini-3-pro-preview:latest",
+            temperature=0.2,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
 
@@ -159,14 +164,19 @@ def ground_truth(dataset,question,keywords,model_provider,size):
         llm = ChatTogether(
             together_api_key=settings.TOGETHER_API_KEY,
             temperature=0.3,
-            model="ServiceNow-AI/Apriel-1.5-15b-Thinker",
+            #model="ServiceNow-AI/Apriel-1.5-15b-Thinker",
+            model="openai/gpt-oss-120b",
             model_kwargs={"response_format": {"type": "json_object"}}
         )
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            model="kimi-k2:1t-cloud",
-            temperature=0.3,
+            #model="kimi-k2:1t-cloud",
+            #model="minimax-m2:cloud",
+            #model="deepseek-v3.2:cloud",
+            model="gpt-oss:120b-cloud",
+            #model="gemini-3-pro-preview:latest",
+            temperature=0.2,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
 
@@ -180,6 +190,7 @@ def ground_truth(dataset,question,keywords,model_provider,size):
         Seu objetivo é gerar perguntas realistas e úteis para um chatbot de dúvidas condominiais.
         Nunca começar a resposta com: sim, não,claro,com certeza, negativo, positivo
         Siga rigorosamente o formato e a contagem solicitada.
+        A saida deve ser um json puro e válido, sem ``` aspas triplas ou ```json
         
         DIRETRIZES DE SEGURANÇA JURÍDICA:
         1. Prioridade de Proibição: Se uma regra diz "É proibido X" e outra regra diz "É permitido reuniões em geral", a PROIBIÇÃO ESPECÍFICA prevalece.

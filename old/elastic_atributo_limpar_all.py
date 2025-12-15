@@ -49,20 +49,36 @@ elastic_client = Elasticsearch(
 
 print('\n--- inicio ---\n')
 
-inicio = time.time()
-
-id = 'cumbb5oB89dtCZp8OR-z'
-
-body = {
-    "doc": {            
-        "avaliacao_vetor1":[]
-    },
-    "doc_as_upsert": True
+query = {
+    "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks"],
+    "query"     : {"match_all":{}}, 
+    "size"      : 1500
 }
 
-resp_elastic = elastic_client.update(index="perguntas", id=id, body=body)
+resp = elastic_client.search(index="perguntas", body=query)
 
-print( f'-> Elastic: {resp_elastic["result"]}' )
+for index, item in enumerate(resp["hits"]["hits"],start=1):
+
+    id = item['_id']
+
+    body_limpar = {
+        "doc": {            
+            "saf_grafo":{}
+        },
+        "doc_as_upsert": True
+    }
+
+    body_remover = {
+        "doc": {            
+            "source": "ctx._source.remove('saf_vetor')",
+            "lang": "painless"
+        },
+        "upsert": {}
+    }
+
+    resp_elastic = elastic_client.update(index="perguntas", id=id, body=body_remover)
+
+    print( f'-> Elastic: {resp_elastic["result"]} {index}' )
     
 
     

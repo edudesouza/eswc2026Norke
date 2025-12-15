@@ -88,7 +88,7 @@ def keywords_create(question,model,api):
 
         components = [
             t.get('what'),
-            t.get('why'),
+            #t.get('why'),
             #t.get('where'),
             #t.get('when'),
             #t.get('who'),

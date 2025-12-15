@@ -3,12 +3,38 @@ import csv,os,sys,time,asyncio
 
 from rich import print
 
+from elasticsearch  import Elasticsearch
+
 from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
 from src.config     import settings
 
-async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=[],output=False):  
+elastic_client = Elasticsearch( 
+    settings.ELASTICSEARCH_HOST,basic_auth=(settings.ELASTICSEARCH_USER,settings.ELASTICSEARCH_PASS),verify_certs=False
+)
+
+def atualizar_elastic(id,complexity,nli,sim,saf,response):
+
+    body = {
+        "doc": {            
+            "saf_grafo_v2":{
+                "model":"gpt-oss:120b-cloud",
+                "response":response,
+                "complexity":complexity,
+                "nli":nli,
+                "sim":sim,
+                "saf": saf
+            }            
+        },
+        "doc_as_upsert": True
+    }
+
+    res = elastic_client.update(index="perguntas", id=id, body=body)
+ 
+    return res
+
+async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=[],output=False):  
 
     print( f'[red] \n--- inicio ---' )
 
@@ -130,48 +156,42 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
         print( '-'*100 )
         print( response_gt )'''
 
-    diff_time('-> Tempo total: ', inicio_global) 
-    print( f'[red] --- fim ---\n' )
+    resp_elastic = atualizar_elastic( id,f'{complexity_score:.2f}',f'{nli_val:.2f}', f'{sim_val:.2f}', f'{response_saf:.2f}',resposta )
+    print( f'-> Elastic: {resp_elastic['result']}' )
 
-if __name__ == "__main__":
+    diff_time('-> Tempo total: ', inicio_global)     
 
-    pergunta1  = 'posso parar duas motos na minha vaga?'
-    pergunta2  = 'meu carro é pequeno e vi que se eu parar a minha moto dentro da minha vaga, cabe e não atrabalha ninguem, blz?'
-    pergunta3  = 'oi, bom dia, eu preciso fazer uma apresentação para uns clientes e pensei em fazer no salão de festas é algo pequeno só 20 pessoas, posso?' 
-    pergunta4  = 'Poderia me ajudar com uma dúvida sobre o fundo de obra ... para que eu preciso pagar se não está acontecendo nenhuma obra?' 
-    pergunta5  = 'estou recebendo uns parentes aqui no meu apartamento e hoje está muito quente a gente pode ir para a piscina rapidinho?'
-    pergunta6  = 'sou médico e só tenho o domingo livre, não existe forma alguma de fazer a minha mudança no próximo domingo? o síndico não pode aprovar essa exceção, ele me falou no elevador que por ele OK'
-    pergunta7  = 'estou com a perna quebrada e é a segunda vez que vcs impendem meu ifood de ser entregue, eu não tenho como descer da próxima vez vou chamar a polícia!'
-    pergunta8  = 'estou com a perna quebrada e vcs impendem meu ifood subir, não temo como abrir uma exceção?'
-    pergunta9  = 'minha arquiteta sugeriu a aplicação de um sobre piso, disse que é rápido não afeta a carga e não precisa de ART, posso fazer?'
-    pergunta10 = 'quero fazer um churrasco mas vi que a churrasqueira está ocupada, posso fazer um churrasco com um churrasqueira portátil lá perto do jardim, vi que o regulamento não proibe, concorda?'
-    pergunta11 = 'vou passar 3 meses fora trabalhando em um outro estado e nesse período vou fazer um AirBnB aqui, vi o regulamento e a convenção e nenhum probe então entendo que está OK, blz?'
-    pergunta12 = 'roubaram minha bike dentro do condomínio, isso é um absurso, o condomínio deve me reembolsar?'
-    pergunta13 = 'roubaram o carro do meu filho em frente ao condomínio, quero as imagens agora e o síndico não quer me fornecer, pode isso?'
-    pergunta14 = 'oi, bom dia, eu preciso fazer uma demonstração de produtos para meus clientes e pensei em alugar o salão de festas, serão umas 20 pessoas, OK?'
-    pergunta15 = 'oi, bom dia, quero fazer um culto com os irmãos da igreja no próximo dia 10 e quero alugar o salão, OK?' 
-    pergunta16 = 'porque meus convidados que estão no meu aniversário não podem fumar aqui na area de fora, perto da churrasqueira'
-    pergunta17 = 'o síndico não quer me passar as imagens da camera de segurança, o carro do meu irmão foi roubado em frente ao condomínio, ele pode negar isso? ele falou que a lgpd não deixa!'
-    pergunta18 = 'É permitido o compartilhamento de dados entre os órgãos públicos?'
-    pergunta19 = 'Falei hoje de manã com o síndico e ele me falou que está OK eu deixar o meu sofá antigo na garagem, por que vocês continuam me incomodando?'
-    pergunta20 = 'Eu me recuso a me registrar na biometria facial, não existe nada legalmente que me obrigue a isso, certo?'
-
-    '''
-    Exemplo de pergunta com alto grau de ambiguidade: 
-    fazer um culto de final de ano com os irmãos aqui do predio - regras sobre reserva e regra sobre evento em áera comum
-    vi que o salão não está ocupado                             - chunk sobre procedimento de reserva
-    como é só pessoal daqui mesmo, acho que não precisa pagar   - regra sobre reserva e chunk sobre valores de localção
-    '''
+async def run_batch():
     
-    pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
+    print( '\n--- inicio benchmark ---') 
 
-    if len(sys.argv) < 2:
-        #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
-        #sys.exit(1)
-        pergunta = pergunta_debugger
-        banco    = 'grafo'        
-    else:
-        banco    = sys.argv[1].strip()
-        pergunta = globals().get( sys.argv[2].strip() )
+    inicio = time.time()
 
-    asyncio.run( main('5511993891773',pergunta,banco,10,5,False,[],False) )
+    query = {
+        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks"],
+        "query"     : {"match_all":{}}, 
+        "size"      : 1500
+    }
+   
+    resp = elastic_client.search(index="perguntas", body=query)
+
+    total = len(resp["hits"]["hits"])
+
+    for index, item in enumerate(resp["hits"]["hits"],start=1): 
+
+        id       = item['_id']
+        pergunta = item['_source']['pergunta']
+
+        try:           
+            resposta = item['_source']['saf_grafo_v2']    
+            print('-> next...')   
+        except Exception as erro:
+            await main(id,'5511993891773',pergunta,'grafo',10,5,False,[],False)      
+
+        print ( f'{index} de {total}')
+        print( f'[red] --- fim ---' )
+
+    diff_time('\n-> fim benchmark: ', inicio)
+
+if __name__ == "__main__":   
+    asyncio.run( run_batch() )
