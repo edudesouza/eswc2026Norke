@@ -127,7 +127,6 @@ def graph_search(keyword,question,named_graph,retrieval_size):
         }}
         ORDER BY DESC(?score)
         LIMIT {retrieval_size}
-
         '''
 
         url     = f"{settings.GRAPHDB_BASE_URL}/repositories/{settings.repositorio}"

@@ -1,11 +1,8 @@
 import numpy as np
 
 from sklearn.cluster        import KMeans
-from sentence_transformers  import SentenceTransformer, util
 
 from src.config import settings
-
-model = SentenceTransformer(settings.EMB_MODEL_NAME)
 
 def keyword_complexity(query_5w3h):
     

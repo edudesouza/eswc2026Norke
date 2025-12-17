@@ -67,7 +67,20 @@ query_unico = {
     "size": 1
 }
 
-resp = elastic_client.search(index="perguntas", body=query_unico)
+elastic_client.delete_by_query(
+    index="perguntas",
+    body={
+        "query": {
+            "ids": {
+                "values": ["<built-in function id>"]
+            }
+        }
+    },
+    refresh=True,
+    conflicts="proceed"
+)
+
+resp = elastic_client.search(index="perguntas", body=query)
 
 inicio = time.time()
 
@@ -83,8 +96,11 @@ minimax-m2:cloud
 modelo = "kimi-k2:1t-cloud" 
 resp   = elastic_client.search(index="perguntas", body=query)
 
+print( resp )
+
 diff_time('-> Buscar Elastic OK: ', inicio)
 
+'''
 for index, item in enumerate(resp["hits"]["hits"],start=1):  
     
     id       = item['_id']
@@ -98,6 +114,6 @@ for index, item in enumerate(resp["hits"]["hits"],start=1):
     print(  '-'*100 )
 
     diff_time('-> Resp OK: ', inicio)
-
+'''
 
     

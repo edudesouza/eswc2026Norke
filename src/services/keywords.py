@@ -1,10 +1,12 @@
 
 import langextract as lx
 
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import util
 
 from src.evaluation import keyword_complexity
 from src.config import settings
+
+from src.models import embedding_model
 
 def keywords_create(question,model,api):
     
@@ -20,11 +22,13 @@ def keywords_create(question,model,api):
         Who	        Quem fará?	        Define o responsável.
         How	        Como será feito?	Define o método ou processo.
         How much	Quanto custará?	    Define o custo ou recursos necessários.
-        How many	Quantos recursos?	Define a quantidade ou escala.        
+        How many	Quantos recursos?	Define a quantidade ou escala.
         Caso necessário, crie mais de um conjunto
+        Caso não encontre todos os itens do 5W3H, retorne apenas NULL no item onde não encontrou os fatos
         Não traga stop words
         Não use aspas duplas, nem aspas simples
         Não use barras, pipes ou barra invertida: '/','\','|', ao invés seja textual, use: 'ou','e'
+        Gere também uma query canonica (canonical) com no máximo 12 termos, apenas substantivos e verbos principais, sem termos genéricos como morador, condomínio, solicitante. 
         Evite duplicatas
     '''
 
@@ -38,13 +42,14 @@ def keywords_create(question,model,api):
                     attributes       = 
                     {
                         "what":     "O horário permitido de uso da piscina", 
-                        "why":      "Para utilizar o espaço comum dentro das regras do condomínio", 
+                        "why":      "Para utilizar o espaço dentro das regras do condomínio", 
                         "where":    "Na piscina do condomínio",
-                        "when":     "Hoje / em um dia específico (implícito)",
+                        "when":     "Hoje ou em um dia específico (implícito)",
                         "who":      "Um morador do condomínio",
                         "how":      "Através do uso comum do espaço (seguindo regras internas)",
                         "how_much": "Não aplicável (uso comum)",
-                        "how_many": "Não informado (pode influenciar em regras de uso)"
+                        "how_many": "Não informado (pode influenciar em regras de uso)",
+                        "canonical":"horário funcionamento piscina"
                     },
                 )
             ],
@@ -82,9 +87,12 @@ def keywords_create(question,model,api):
     #print( f'--> complexidade {complexity}')
 
     components = []
+    expansion  = {}
 
-    for t in triples:
-        palavras_chave +=f"{t.get('what')}, {t.get('why')}, {t.get('where')}, {t.get('when')}, {t.get('who')}, {t.get('how')}, {t.get('how_much')}, {t.get('how_many')},"
+    valid_parts = [v for t in triples for v in t.values() if str(v).upper() != 'NULL']
+    keywords    = ", ".join(valid_parts)
+
+    for t in triples:  
 
         components = [
             t.get('what'),
@@ -97,6 +105,18 @@ def keywords_create(question,model,api):
             #t.get('how_many')
         ]
 
+        expansion = {
+            "what":t.get('what'),
+            "why":t.get('why'),
+            "where":t.get('where'),
+            "when":t.get('when'),
+            "who":t.get('who'),
+            "how":t.get('how'),
+            "how_much":t.get('how_much'),
+            "how_many":t.get('how_many'),
+            "canonical":t.get('canonical')
+        }
+
         '''print( f' what:     {t.get('what')}' )
         print( f' why:      {t.get('why')}' )
         print( f' where:    {t.get('where')}' )
@@ -107,8 +127,7 @@ def keywords_create(question,model,api):
         print( f' how_many: {t.get('how_many')}' )'''
 
     # Calcular embeddings
-    model = SentenceTransformer(settings.EMB_MODEL_NAME)
-    embeddings = model.encode(components)
+    embeddings = embedding_model.encode(components)
 
     # Matriz de similaridade
     similarities = util.cos_sim(embeddings, embeddings)
@@ -116,4 +135,8 @@ def keywords_create(question,model,api):
     # Análise
     avg_similarity = similarities.mean().item()
  
-    return {"keywords":palavras_chave,"complexity_score":avg_similarity}
+    return {
+        "keywords":keywords,
+        "complexity_score":avg_similarity,
+        "query_expansion":expansion
+        }

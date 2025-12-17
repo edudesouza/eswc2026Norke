@@ -56,14 +56,14 @@ def response_create(keyword,question,context,model_provider):
     user = f'''
         Você é um assistente jurídico especializado em direito condominial brasileiro.
 
-        Pergunta:
+        Questionamento ou dúvida:
         {question}
 
-        Contexto:
-        {context}
-
-        Palavras chave:
+        Fatos que devem ser respondidos:
         {keyword}
+
+        Contexto:
+        {context}        
 
         # METODOLOGIA DE ANÁLISE JURÍDICA
 

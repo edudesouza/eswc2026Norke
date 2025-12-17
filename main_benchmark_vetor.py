@@ -156,8 +156,11 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
         print( '-'*100 )
         print( response_gt )'''
 
-    resp_elastic = atualizar_elastic( id,f'{complexity_score:.2f}',f'{nli_val:.2f}', f'{sim_val:.2f}', f'{response_saf:.2f}',resposta )
-    print( f'-> Elastic: {resp_elastic['result']}' )
+    if resposta !='':
+        resp_elastic = atualizar_elastic( id,f'{complexity_score:.2f}',f'{nli_val:.2f}', f'{sim_val:.2f}', f'{response_saf:.2f}',resposta )
+        print( f'-> Elastic: {resp_elastic['result']}' )
+    else:
+        print('ERRO: resposta vazia')
 
     diff_time('-> Tempo total: ', inicio_global)     
 
@@ -168,7 +171,7 @@ async def run_batch():
     inicio = time.time()
 
     query = {
-        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks"],
+        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_vetor_v2"],
         "query"     : {"match_all":{}}, 
         "size"      : 1500
     }
@@ -176,6 +179,8 @@ async def run_batch():
     resp = elastic_client.search(index="perguntas", body=query)
 
     total = len(resp["hits"]["hits"])
+
+    processar = 0
 
     for index, item in enumerate(resp["hits"]["hits"],start=1): 
 
@@ -186,9 +191,11 @@ async def run_batch():
             resposta = item['_source']['saf_vetor_v2']    
             print('-> next...')   
         except Exception as erro:
+            print('-> processar...')  
+            processar +=1 
             await main(id,'5511993891773',pergunta,'vetor',10,5,False,[],False)      
 
-        print ( f'{index} de {total}')
+        print ( f'{index} de {total},  {processar}')
         print( f'[red] --- fim ---' )
 
     diff_time('\n-> fim benchmark: ', inicio)

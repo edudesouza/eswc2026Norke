@@ -8,7 +8,7 @@ from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
 from src.config     import settings
 
-async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=[],output=False):  
+async def main(user_id,pergunta,retrieval='grafo',retrieval_size=1,size_gt=5,debug_all=False,debug_one=[],output=False):  
 
     print( f'[red] \n--- inicio ---' )
 
@@ -31,25 +31,24 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
 
-    #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'
+    #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'        
 
     # quanto maior a similaridade mais próximo a um tema único
-    if complexity_score<0.75 :
+    if complexity_score<0.75:
         print( f'-> complexidade alta: {complexity_score:.2f}' )
-        retrieval_size = 20
-        size_gt = 10
+        retrieval_size = 10
+        size_gt = 5
     else:
         print( f'-> complexidade baixa: {complexity_score:.2f}' )
 
     diff_time('\n-> #1 expandir query OK: ', inicio)
 
-    if debug_all or 'query' in debug_one: 
+    if debug_all or 'query' in debug_one:
         print( f'[yellow]// Debug keywords:' )
         
         for kw_key,kw_value in expantion['query_expansion'].items():        
             if kw_key and kw_value not in ['NULL','null']: 
-                print( f'[yellow]- {kw_key}: {kw_value}' )
-        
+                print( f'[yellow]- {kw_value}' )
         print('\n')
     
     # retriever
@@ -57,23 +56,37 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     
     inicio = time.time() 
 
-    if retrieval=='grafo':
+    contexto    = ''
+    colecao_llm = ''
+    knowledge   = {}
 
-        recuperacao = graph_search(palavras_chave,pergunta,user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']  
-    
-    else:  
+    for kw_key,kw_value in expantion['query_expansion'].items():
+        
+        if kw_value and str(kw_value).lower() != "null":  
 
-        recuperacao = vector_search(palavras_chave,pergunta,'documentos',user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']    
+            if retrieval=='grafo':
 
-    diff_time('\n-> #2 buscar dados, OK: ', inicio)
-    
-    if debug_all or 'retriever' in debug_one:
-        print( f'[yellow]// Debug contexto  {retrieval}:\n{recuperacao['response']}' )
-        print( f'[yellow]// Debug knowledge {retrieval}:\n{recuperacao['dataset']}' )
+                recuperacao  = graph_search(kw_value,pergunta,user_id,retrieval_size)
+                llm          = response_create(kw_value,pergunta,recuperacao,'gpt')
+                colecao_llm += f'<pergunta>{kw_value}</pergunta>\n<resposta>{llm['resposta']}</resposta>\n'                
+                contexto    += f'{kw_value}\n{recuperacao["response"]}'
+                knowledge.update(recuperacao['dataset'])
+                print( f'->LLM: {colecao_llm}')
+            
+            else:  
+
+                recuperacao  = vector_search(kw_value,pergunta,'documentos',user_id,retrieval_size)
+                llm          = response_create(kw_value,pergunta,recuperacao,'gpt')
+                colecao_llm += f'<pergunta>{kw_value}</pergunta>\n<resposta>{llm['resposta']}</resposta>' 
+                contexto    += f'{kw_value}\n{recuperacao["response"]}'
+                knowledge.update(recuperacao['dataset']) 
+                print( f'->LLM: {colecao_llm}') 
+
+            diff_time('\n-> #2 buscar dados, OK: ', inicio)
+            
+            if debug_all or 'retriever' in debug_one:
+                print( f'[yellow]// Debug contexto  {retrieval}:\n{recuperacao['response']}' )
+                print( f'[yellow]// Debug knowledge {retrieval}:\n{recuperacao['dataset']}' )
 
     # ground truth and response
     #--------------------------------------------------------------------------
@@ -81,7 +94,7 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     inicio = time.time() 
 
     task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,'ollama',size_gt)
-    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'ollama')
+    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,colecao_llm,'ollama')
     response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
     resposta                    = response_llm['resposta']
 
@@ -132,12 +145,12 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
         print( '[red]*** Resposta com alto grau de ambiguidade: retriver, llm ou gt problemático ***\n' )
 
-        '''print( palavras_chave )
-        print( '-'*100 )
-        print( contexto )
-        print( '-'*100 )
-        print( response_gt )'''
-
+        #print( palavras_chave )
+        #print( '-'*100 )
+        #print( contexto )
+        #print( '-'*100 )
+        #print( response_gt )   
+    
     diff_time('-> Tempo total: ', inicio_global) 
     print( f'[red] --- fim ---\n' )
 
@@ -178,7 +191,7 @@ if __name__ == "__main__":
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
         #sys.exit(1)
         pergunta = pergunta_debugger
-        banco    = 'vetor'        
+        banco    = 'grafo'        
     else:
         banco    = sys.argv[1].strip()
         pergunta = globals().get( sys.argv[2].strip() )
