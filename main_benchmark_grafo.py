@@ -8,6 +8,7 @@ from elasticsearch  import Elasticsearch
 from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
+from src.output     import elastic_update_field, csv_create
 from src.config     import settings
 
 elastic_client = Elasticsearch( 
@@ -18,13 +19,13 @@ def atualizar_elastic(id,complexity,nli,sim,saf,response):
 
     body = {
         "doc": {            
-            "saf_grafo_v2":{
-                "model":"gpt-oss:120b-cloud",
+            "saf_grafo_v3":{
+                "model":"kimi-k2:1t-cloud",
                 "response":response,
                 "complexity":complexity,
                 "nli":nli,
                 "sim":sim,
-                "saf": saf
+                "saf":saf
             }            
         },
         "doc_as_upsert": True
@@ -34,9 +35,12 @@ def atualizar_elastic(id,complexity,nli,sim,saf,response):
  
     return res
 
-async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=[],output=False):  
+async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):  
 
     print( f'[red] \n--- inicio ---' )
+
+    if debug_one is None:
+        debug_one = []
 
     if not pergunta:
         print('Nenhuma pergunta econtrada!')
@@ -53,9 +57,12 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
 
     # gpt-4.1, settings.OPENAI_API_KEY
     # gemini-2.5-flash, settings.GEMINI_API_KEY
-    expantion = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY)
+    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY)
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
+    query_canonical  = expantion['query_expansion']['canonical']
+
+    print( f'\n-> cononical fact: {query_canonical}' )
 
     # quanto maior a similaridade mais próximo a um tema único
     if complexity_score<0.75 :
@@ -70,6 +77,10 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
     if debug_all or 'query' in debug_one:
         print( f'[yellow]// Debug keywords:\n{palavras_chave}\n' )
 
+        for kw_key,kw_value in expantion['query_expansion'].items():        
+            if kw_key and kw_value not in ['NULL','null']: 
+                print( f'[yellow]- {kw_key}: {kw_value}' )
+
     # retriever
     #--------------------------------------------------------------------------
     
@@ -78,14 +89,14 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
     if retrieval=='grafo':
 
         recuperacao = graph_search(palavras_chave,pergunta,user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']  
+        contexto    = recuperacao['response']
+        knowledge   = recuperacao['dataset']  
     
     else:  
 
         recuperacao = vector_search(palavras_chave,pergunta,'documentos',user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']    
+        contexto    = recuperacao['response']
+        knowledge   = recuperacao['dataset']    
 
     diff_time('\n-> #2 buscar dados, OK: ', inicio)
     
@@ -98,12 +109,12 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
 
     inicio = time.time() 
 
-    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,'ollama',size_gt)
+    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'ollama',size_gt)
     task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'ollama')
     response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
     resposta                    = response_llm['resposta']
 
-    print( f'\nLLM: {resposta}\n' )
+    print( f'\nLLM: {resposta}' )
 
     diff_time('\n-> #3 ground truth e resposta OK: ', inicio)
 
@@ -130,31 +141,43 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
     
     diff_time('\n-> #4 factualidade e comparação: ', inicio)  
 
-    if output==True:
+    if output:
 
-        csv_file = "bench_grafo_0812.csv"
-        output_row = [ retrieval, pergunta, f'{saf_score:.2f}', f'{nli_val:.2f}', f'{sim_val:.2f}', resposta ]
+        output_list = [output] if isinstance(output, str) else output
 
-        file_exists = os.path.isfile(csv_file)
+        for out_type in output_list:
 
-        with open(csv_file, mode='a', newline='', encoding='utf-8-sig') as f:
-    
-            writer = csv.writer(f, quoting=csv.QUOTE_ALL, delimiter=';')
-            
-            if not file_exists:
-                writer.writerow(['tipo', 'chave', 'saf_score', 'nli_score', 'sim_score', 'resposta_llm'])
-            
-            writer.writerow(output_row)
+            match out_type:
 
-    if( nli_val==0 and sim_val==0 and response_saf>0.5 ):
+                case 'elastic':
+                    elastic_id      = ''
+                    elastic_index   = ''
+                    elastic_update_field(elastic_index,elastic_id,complexity_score,response_saf,nli_val,sim_val,response_llm,'','')
 
-        print( '[red]*** Resposta com alto grau de ambiguidade: retriver, llm ou gt problemático ***\n' )
+                case 'csv': 
+                    csv_create('teste_1.csv',retrieval,pergunta,complexity_score,response_saf,nli_val,sim_val,response_llm,'ollama') 
 
-        '''print( palavras_chave )
-        print( '-'*100 )
-        print( contexto )
-        print( '-'*100 )
-        print( response_gt )'''
+    # 1. CASO OURO: IA fiel ao documento e alinhada ao gabarito
+    if response_saf > threshold and (nli_val > threshold or sim_val > threshold):
+        print('[green]*** Resposta APROVADA: Fiel ao documento e ao GT ***\n')
+
+    # 2. CASO DIVERGÊNCIA: IA fiel ao documento, mas longe do GT
+    elif response_saf > threshold and (nli_val <= threshold and sim_val <= threshold):
+        print('[yellow]*** REVISÃO NECESSÁRIA: IA fiel ao documento, mas diverge do GT (GT Neutro ou IA Técnica?) ***\n')
+
+    # 3. CASO ALUCINAÇÃO: IA não encontrou base no documento
+    elif response_saf <= threshold:
+        print('[red]*** Resposta NEGADA: alto grau de ambiguidade: retriver, llm ou gt problemático ***\n')
+
+    # 4. CASO INCONSISTÊNCIA: Bate com o GT por sorte, mas não tem no documento
+    else:
+        print('[magenta]*** Resposta NEGADA: Inconsistência (Bate com GT, mas SAF baixo) ***\n')
+
+    '''print( palavras_chave )
+    print( '-'*100 )
+    print( contexto )
+    print( '-'*100 )
+    print( response_gt )'''
 
     if resposta !='':
         resp_elastic = atualizar_elastic( id,f'{complexity_score:.2f}',f'{nli_val:.2f}', f'{sim_val:.2f}', f'{response_saf:.2f}',resposta )
@@ -172,7 +195,10 @@ async def run_batch():
 
     query = {
         "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_grafo_v2"],
-        "query"     : {"match_all":{}}, 
+        #"query"     : {"match_all":{}}, 
+        "query": {
+            "bool": {"must_not":{"exists": {"field": "saf_grafo_v3"}}}
+        },
         "size"      : 1500
     }
    
@@ -188,12 +214,12 @@ async def run_batch():
         pergunta = item['_source']['pergunta']
 
         try:           
-            resposta = item['_source']['saf_grafo_v2']    
+            resposta = item['_source']['saf_grafo_v3']    
             print('-> next...')   
         except Exception as erro:
             print('-> processar...')  
             processar +=1 
-            await main(id,'5511993891773',pergunta,'vetor',10,5,False,[],False)  
+            await main(id,'5511993891773',pergunta,'grafo',10,5,False,[],False)  
 
         print ( f'{index} de {total}, {processar}')
         print( f'[red] --- fim ---' )

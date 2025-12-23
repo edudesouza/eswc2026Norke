@@ -57,20 +57,21 @@ query = {
 
 resp = elastic_client.search(index="perguntas", body=query)
 
+'''
 for index, item in enumerate(resp["hits"]["hits"],start=1):
 
     id = item['_id']
 
     body_limpar = {
         "doc": {            
-            "saf_grafo":{}
+            "saf_vetor_v2":{}
         },
         "doc_as_upsert": True
     }
 
     body_remover = {
         "doc": {            
-            "source": "ctx._source.remove('saf_vetor')",
+            "source": "ctx._source.remove('saf_vetor_v2')",
             "lang": "painless"
         },
         "upsert": {}
@@ -78,7 +79,24 @@ for index, item in enumerate(resp["hits"]["hits"],start=1):
 
     resp_elastic = elastic_client.update(index="perguntas", id=id, body=body_remover)
 
-    print( f'-> Elastic: {resp_elastic["result"]} {index}' )
-    
+    print( f'-> Elastic: {resp_elastic["result"]} {id} {index}' )
+'''   
+
+body = {
+  "query": {"exists": {"field": "saf_vetor_v3"}},
+  "script": {
+    "source": "ctx._source.remove('saf_vetor_v3')",
+    "lang": "painless"
+  }
+}
+
+resp = elastic_client.update_by_query(
+    index="perguntas",
+    body=body,
+    conflicts="proceed",
+    refresh=True,
+    slices="auto"
+)
+print(resp)
 
     

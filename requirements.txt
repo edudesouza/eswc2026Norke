@@ -10,6 +10,7 @@ langchain-together
 langchain-anthropic
 langchain-google-genai
 langchain_experimental
+langchain-ollama
 torch
 transformers
 sentence-transformers

@@ -1,16 +1,20 @@
 
-import csv,os,sys,time,asyncio
+import sys,time,asyncio
 
 from rich import print
 
 from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
+from src.output     import elastic_update_field, csv_create
 from src.config     import settings
 
-async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=[],output=False):  
+async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):  
 
     print( f'[red] \n--- inicio ---' )
+
+    if debug_one is None:
+        debug_one = []
 
     if not pergunta:
         print('Nenhuma pergunta econtrada!')
@@ -26,10 +30,13 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     #--------------------------------------------------------------------------
 
     # gpt-4.1, settings.OPENAI_API_KEY
-    # gemini-2.5-flash, settings.GEMINI_API_KEY
+    # gemini-2.5-flash, gemini-3-flash-preview, settings.GEMINI_API_KEY
     expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY)
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
+    query_canonical  = expantion['query_expansion']['canonical']
+
+    print( f'\n-> cononical fact: {query_canonical}' )
 
     #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'
 
@@ -48,10 +55,8 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
         
         for kw_key,kw_value in expantion['query_expansion'].items():        
             if kw_key and kw_value not in ['NULL','null']: 
-                print( f'[yellow]- {kw_key}: {kw_value}' )
-        
-        print('\n')
-    
+                print( f'[yellow]- {kw_key}: {kw_value}' )      
+
     # retriever
     #--------------------------------------------------------------------------
     
@@ -65,27 +70,27 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     
     else:  
 
-        recuperacao = vector_search(palavras_chave,pergunta,'documentos',user_id,retrieval_size)
+        recuperacao = vector_search(palavras_chave,query_canonical,'documentos',user_id,retrieval_size)
         contexto  = recuperacao['response']
         knowledge = recuperacao['dataset']    
 
     diff_time('\n-> #2 buscar dados, OK: ', inicio)
     
     if debug_all or 'retriever' in debug_one:
-        print( f'[yellow]// Debug contexto  {retrieval}:\n{recuperacao['response']}' )
-        print( f'[yellow]// Debug knowledge {retrieval}:\n{recuperacao['dataset']}' )
+        print( f'[yellow]// Debug contexto  {retrieval}:\n{recuperacao["response"]}' )
+        print( f'[yellow]// Debug knowledge {retrieval}:\n{recuperacao["dataset"]}' )
 
     # ground truth and response
     #--------------------------------------------------------------------------
 
     inicio = time.time() 
 
-    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,'ollama',size_gt)
+    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'ollama',size_gt)
     task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'ollama')
     response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
     resposta                    = response_llm['resposta']
 
-    print( f'\nLLM: {resposta}\n' )
+    print( f'\nLLM: {resposta}' )
 
     diff_time('\n-> #3 ground truth e resposta OK: ', inicio)
 
@@ -105,38 +110,50 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     sim_val   = response_dyn.get('score_sim', {}).get('score', 0)
     match_txt = response_dyn['matched']    
     
-    print( f'\n {match_txt}' )
+    print( f'\nGT: {match_txt}' )
     print( f"-> nli: {nli_val:.2f}" )
     print( f"-> sim: {sim_val:.2f}" )
     print( f'-> saf: {response_saf:.2f}' )
     
     diff_time('\n-> #4 factualidade e comparação: ', inicio)  
 
-    if output==True:
+    if output:
 
-        csv_file = "bench_grafo_0812.csv"
-        output_row = [ retrieval, pergunta, f'{saf_score:.2f}', f'{nli_val:.2f}', f'{sim_val:.2f}', resposta ]
+        output_list = [output] if isinstance(output, str) else output
 
-        file_exists = os.path.isfile(csv_file)
+        for out_type in output_list:
 
-        with open(csv_file, mode='a', newline='', encoding='utf-8-sig') as f:
-    
-            writer = csv.writer(f, quoting=csv.QUOTE_ALL, delimiter=';')
-            
-            if not file_exists:
-                writer.writerow(['tipo', 'chave', 'saf_score', 'nli_score', 'sim_score', 'resposta_llm'])
-            
-            writer.writerow(output_row)
+            match out_type:
 
-    if( nli_val==0 and sim_val==0 and response_saf>0.5 ):
+                case 'elastic':
+                    elastic_id      = ''
+                    elastic_index   = ''
+                    elastic_update_field(elastic_index,elastic_id,complexity_score,response_saf,nli_val,sim_val,response_llm,'','')
 
-        print( '[red]*** Resposta com alto grau de ambiguidade: retriver, llm ou gt problemático ***\n' )
+                case 'csv': 
+                    csv_create('teste_1.csv',retrieval,pergunta,complexity_score,response_saf,nli_val,sim_val,response_llm,'ollama')       
+   
+    # 1. CASO OURO: IA fiel ao documento e alinhada ao gabarito
+    if response_saf > threshold and (nli_val > threshold or sim_val > threshold):
+        print('[green]*** Resposta APROVADA: Fiel ao documento e ao GT ***\n')
 
-        '''print( palavras_chave )
-        print( '-'*100 )
-        print( contexto )
-        print( '-'*100 )
-        print( response_gt )'''
+    # 2. CASO DIVERGÊNCIA: IA fiel ao documento, mas longe do GT
+    elif response_saf > threshold and (nli_val <= threshold and sim_val <= threshold):
+        print('[yellow]*** REVISÃO NECESSÁRIA: IA fiel ao documento, mas diverge do GT (GT Neutro ou IA Técnica?) ***\n')
+
+    # 3. CASO ALUCINAÇÃO: IA não encontrou base no documento
+    elif response_saf <= threshold:
+        print('[red]*** Resposta NEGADA: alto grau de ambiguidade: retriver, llm ou gt problemático ***\n')
+
+    # 4. CASO INCONSISTÊNCIA: Bate com o GT por sorte, mas não tem no documento
+    else:
+        print('[magenta]*** Resposta NEGADA: Inconsistência (Bate com GT, mas SAF baixo) ***\n')
+
+    '''print( palavras_chave )
+    print( '-'*100 )
+    print( contexto )
+    print( '-'*100 )
+    print( response_gt )'''
 
     diff_time('-> Tempo total: ', inicio_global) 
     print( f'[red] --- fim ---\n' )
@@ -164,6 +181,11 @@ if __name__ == "__main__":
     pergunta19 = 'Falei hoje de manã com o síndico e ele me falou que está OK eu deixar o meu sofá antigo na garagem, por que vocês continuam me incomodando?'
     pergunta20 = 'Eu me recuso a me registrar na biometria facial, não existe nada legalmente que me obrigue a isso, certo?'
     pergunta21 = 'posso andar de skate na quadra?'
+    pergunta22 = 'cite com detalhes as regras de uso da brinquedoteca'
+    pergunta23 = 'Tem limite de crianças por vez na brinquedoteca?'
+    pergunta24 = 'Posso levar meu cachorro na piscina?'
+    pergunta25 = 'O síndico pode vistoriar meu apartamento para checar reformas?'
+    pergunta26 = 'Se eu quiser organizar um torneio de futebol com o pessoal da escola, falei com o síndico ontem no elevador e ele disse que está OK, posso fazer sim'
 
     '''
     Exemplo de pergunta com alto grau de ambiguidade: 
@@ -178,9 +200,11 @@ if __name__ == "__main__":
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
         #sys.exit(1)
         pergunta = pergunta_debugger
-        banco    = 'vetor'        
+        banco    = 'grafo'        
     else:
         banco    = sys.argv[1].strip()
         pergunta = globals().get( sys.argv[2].strip() )
 
-    asyncio.run( main('5511993891773',pergunta,banco,10,5,False,['query'],False) )
+    # debug_one [query,retriever,ground_truth]
+    # user_id,pergunta,retrieval=grafo|vetor,retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):
+    asyncio.run( main('5511993891773',pergunta,banco,10,5,False,None,None,0.60) )

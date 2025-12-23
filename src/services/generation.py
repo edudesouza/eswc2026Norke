@@ -11,13 +11,11 @@ from src.config import settings
 
 def response_create(keyword,question,context,model_provider): 
 
-    print('--> create llm response')
-
     if model_provider=='gpt':
         llm = ChatOpenAI(
             model='gpt-4.1', 
             api_key=settings.OPENAI_API_KEY,
-            temperature=0.1,
+            temperature=0.3,
             model_kwargs={"response_format": {"type": "json_object"}}
         )    
 
@@ -32,25 +30,31 @@ def response_create(keyword,question,context,model_provider):
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            #model="kimi-k2:1t-cloud",
+            model="kimi-k2:1t-cloud",
+            #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
             #model="deepseek-v3.2:cloud",
-            model="gpt-oss:120b-cloud",
+            #model="deepseek-v3.1:671b-cloud",
+            #model="gpt-oss:120b-cloud",
             #model="gemini-3-pro-preview:latest",
+            #model="mistral-large-3:675b-cloud",
+            #model="gemma3:27b-cloud",
             temperature=0.2,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
 
-    system = (
-        "Você é um assistente jurídico de condomínios no Brasil. "
-        "Responda APENAS com base nas evidências fornecidas. "
-        "Se houver uma regra explícita, cite."
-        "Se não houver base suficiente, diga isso."
-        "Relacionamentos, mostre atributos que trazem o relacionamento entre os itens usados na resposta"
-        "Saída OBRIGATÓRIA: JSON válido com EXATAMENTE três campos: "
-        "Nunca começar a resposta com: sim, não, claro, com certeza, negativo, positivo"
-        "A resposta deve ter de 180 a 220 caracteres, nunca mais de 220 caracteres."
-        '{"resposta": string, "resposta_completa": string, "chunks": array de strings}. Sem texto extra.'
+    print(f'--> create lm response, {getattr(llm, "model", None)}, temp.: {getattr(llm, "temperature", None)}')
+
+    system = ('''Você é um assistente jurídico de condomínios no Brasil.
+        Responda APENAS com base nas evidências fornecidas. 
+        Se houver uma regra explícita, cite.
+        Se não houver base suficiente, diga isso.
+        Relacionamentos, mostre atributos que trazem o relacionamento entre os itens usados na resposta
+        Saída OBRIGATÓRIA: JSON válido com EXATAMENTE três campos: 
+        Nunca começar a resposta com: sim, não, claro, com certeza, negativo, positivo
+        A resposta deve ter de 180 a 220 caracteres, nunca mais de 220 caracteres.
+        A saida deve ser um json puro e válido, sem ``` aspas triplas ou ```json
+        {"resposta": string, "resposta_completa": string, "chunks": array de strings}. Sem texto extra.'''
     )   
 
     user = f'''
@@ -148,10 +152,8 @@ def response_create(keyword,question,context,model_provider):
             "resposta": f"Erro ao processar resposta do modelo: {e}"
          }
 
-def ground_truth(dataset,question,keywords,model_provider,size):
-
-    print(f'--> create ground truth {size} candidates')
-
+def ground_truth(dataset,question,keywords,query_canonical,model_provider,size):
+    
     if model_provider=='gpt':
         llm = ChatOpenAI(
             model='gpt-4.1', 
@@ -171,14 +173,20 @@ def ground_truth(dataset,question,keywords,model_provider,size):
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            #model="kimi-k2:1t-cloud",
+            model="kimi-k2:1t-cloud",
+            #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
             #model="deepseek-v3.2:cloud",
-            model="gpt-oss:120b-cloud",
+            #model="deepseek-v3.1:671b-cloud",
+            #model="gpt-oss:120b-cloud",
             #model="gemini-3-pro-preview:latest",
+            #model="mistral-large-3:675b-cloud",
+            #model="gemma3:27b-cloud",
             temperature=0.2,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
+
+    print(f'--> create ground truth {size} candidates, {getattr(llm, "model", None)}, temp.:{getattr(llm, "temperature", None)}')
 
     reference = ''
 
@@ -190,22 +198,38 @@ def ground_truth(dataset,question,keywords,model_provider,size):
         Seu objetivo é gerar perguntas realistas e úteis para um chatbot de dúvidas condominiais.
         Nunca começar a resposta com: sim, não,claro,com certeza, negativo, positivo
         Siga rigorosamente o formato e a contagem solicitada.
+        A resposta deve ter de 180 a 220 caracteres, nunca mais de 220 caracteres.
         A saida deve ser um json puro e válido, sem ``` aspas triplas ou ```json
         
         DIRETRIZES DE SEGURANÇA JURÍDICA:
         1. Prioridade de Proibição: Se uma regra diz "É proibido X" e outra regra diz "É permitido reuniões em geral", a PROIBIÇÃO ESPECÍFICA prevalece.
         2. Não crie exceções: Se o texto diz "Proibido eventos religiosos", não responda "Pode se for só entre moradores", a menos que o texto diga explicitamente "exceto se for entre moradores".
         3. Cuidado com listas: Se o texto proíbe "eventos comerciais, religiosos E políticos", isso significa que eventos religiosos são proibidos MESMO QUE não sejam comerciais.
-        4. Em caso de conflito aparente entre duas regras, gere uma pergunta que aborde esse conflito e responda apontando a restrição mais severa.'''
+        4. Em caso de conflito aparente entre duas regras, gere uma pergunta que aborde esse conflito e responda apontando a restrição mais severa.
+        
+        SCHEMA JSON OBRIGATÓRIO:
+        {
+            "perguntas_respostas": [
+                {
+                    "pergunta": "Texto da pergunta (max 200 chars), não colocar o id do chunk aqui",
+                    "resposta": "Texto da resposta fundamentada na regra (150-220 chars), não colocar o id do chunk aqui",
+                    "contexto": "Explicação jurídica citando o conflito ou a regra usada (max 500 chars)",
+                }
+            ]
+        }
+        '''
      
     user = f'''Documento (texto de referência):
         {reference}
 
-        Pergunta do usuário:
+        Questionamento ou dúvida:
         {question}
 
-        Pergunta do usuário, expandida usando 5W3H:
-        {keywords}
+        Fatos que devem ser respondidos:
+        {keywords}   
+
+        Principal fato para ser abordado:
+        {query_canonical} 
 
         Tarefa:
         1. Analise o documento em busca de REGRAS ESPECÍFICAS (proibições, taxas, horários).
@@ -220,24 +244,19 @@ def ground_truth(dataset,question,keywords,model_provider,size):
         - Cada resposta deve ter de **180 a 220 caracteres**.
 
         Execução:
-        - Gere {size} perguntas e respostas para a pergunta: {question}
+        - Gere {size} perguntas e respostas para a pergunta ou dúvida: {question}, lembando que o principal fato para ser abordado: {query_canonical}
 
         Contexto usado na pergunta e resposta:
         - Gere um resumo do contexto que foi usado para gerar a pergunta e resposta.
         - Este texto deve trazer os argumentos que justificam a resposta, pois será usado para avaliar a acuracidade e precisão da resposta.
-          
-        Retorne um objeto json chamado "perguntas_respostas" como no exemplo abaixo:
-        {{
-            "pergunta": "<texto curto com a pergunta, máximo de 200 caracteres, não colocar o id do chunk aqui>",            
-            "resposta": "<texto curto com a resposta, extamente 200 caracteres, não colocar o id do chunk aqui>",
-            "contexto": "<texto contento o contexto usado para criar a pergunta, entre 800 e 1000 caracteres>",
-        }} 
 
+        IMPORTANTE:
+        Retorne APENAS o JSON válido seguindo estritamente o SCHEMA definido nas instruções do sistema.
+        Certifique-se de que "perguntas_respostas" seja uma LISTA.    
     '''  
 
     msg = llm.invoke([("system", system ), ("user", user )])
 
-    #print( msg.content )
     print('--> ground truth OK')
 
     return msg.content
