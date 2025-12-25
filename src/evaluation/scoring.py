@@ -9,6 +9,9 @@ def score_dynamic_gt(dynamic_gt:str, response_llm:str, threshold: float = 0.60):
 
     try:
         gt_dict = json.loads(dynamic_gt)
+        lista_perguntas = gt_dict.get("perguntas_respostas", [])
+        print( f'--> nr questions: {len(lista_perguntas)}')
+
     except Exception as erro:
         print( dynamic_gt )
         print( erro )

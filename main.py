@@ -1,11 +1,12 @@
 
-import sys,time,asyncio
+import sys,time,asyncio,json
 
 from rich import print
 
 from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
+from src.loaders    import elastic_load_one,elastic_load_batch
 from src.output     import elastic_update_field, csv_create
 from src.config     import settings
 
@@ -195,6 +196,9 @@ if __name__ == "__main__":
     '''
 
     pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
+
+    load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
+    pergunta_debugger   = load_pergunta['_source']['pergunta']
 
     if len(sys.argv) < 2:
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")

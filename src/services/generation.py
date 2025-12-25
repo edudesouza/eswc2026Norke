@@ -30,7 +30,7 @@ def response_create(keyword,question,context,model_provider):
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            model="kimi-k2:1t-cloud",
+            #model="kimi-k2:1t-cloud",
             #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
             #model="deepseek-v3.2:cloud",
@@ -38,6 +38,7 @@ def response_create(keyword,question,context,model_provider):
             #model="gpt-oss:120b-cloud",
             #model="gemini-3-pro-preview:latest",
             #model="mistral-large-3:675b-cloud",
+            model="qwen3-next:80b-cloud",
             #model="gemma3:27b-cloud",
             temperature=0.2,
             model_kwargs={"response_format": {"type": "json_object"}}
@@ -173,14 +174,15 @@ def ground_truth(dataset,question,keywords,query_canonical,model_provider,size):
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            model="kimi-k2:1t-cloud",
+            #model="kimi-k2:1t-cloud",
             #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
-            #model="deepseek-v3.2:cloud",
-            #model="deepseek-v3.1:671b-cloud",
+            #model="deepseek-v3.2:cloud",           #bom
+            #model="deepseek-v3.1:671b-cloud",      #bom
             #model="gpt-oss:120b-cloud",
             #model="gemini-3-pro-preview:latest",
-            #model="mistral-large-3:675b-cloud",
+            #model="mistral-large-3:675b-cloud",    #bom
+            model="qwen3-next:80b-cloud",
             #model="gemma3:27b-cloud",
             temperature=0.2,
             model_kwargs={"response_format": {"type": "json_object"}}

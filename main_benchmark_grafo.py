@@ -19,8 +19,8 @@ def atualizar_elastic(id,complexity,nli,sim,saf,response):
 
     body = {
         "doc": {            
-            "saf_grafo_v3":{
-                "model":"kimi-k2:1t-cloud",
+            "saf_grafo_v4":{
+                "model":"qwen3-next:80b-cloud",
                 "response":response,
                 "complexity":complexity,
                 "nli":nli,
@@ -197,7 +197,7 @@ async def run_batch():
         "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_grafo_v2"],
         #"query"     : {"match_all":{}}, 
         "query": {
-            "bool": {"must_not":{"exists": {"field": "saf_grafo_v3"}}}
+            "bool": {"must_not":{"exists": {"field": "saf_grafo_v4"}}}
         },
         "size"      : 1500
     }
@@ -214,7 +214,7 @@ async def run_batch():
         pergunta = item['_source']['pergunta']
 
         try:           
-            resposta = item['_source']['saf_grafo_v3']    
+            resposta = item['_source']['saf_grafo_v4']    
             print('-> next...')   
         except Exception as erro:
             print('-> processar...')  

@@ -19,8 +19,8 @@ def atualizar_elastic(id,complexity,nli,sim,saf,response):
 
     body = {
         "doc": {            
-            "saf_vetor_v3":{
-                "model":"kimi-k2:1t-cloud",
+            "saf_vetor_v4":{
+                "model":"qwen3-next:80b-cloud",
                 "response":response,
                 "complexity":complexity,
                 "nli":nli,
