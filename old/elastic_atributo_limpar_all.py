@@ -83,9 +83,9 @@ for index, item in enumerate(resp["hits"]["hits"],start=1):
 '''   
 
 body = {
-  "query": {"exists": {"field": "saf_vetor_v3"}},
+  "query": {"exists": {"field": "saf_grafo_v4"}},
   "script": {
-    "source": "ctx._source.remove('saf_vetor_v3')",
+    "source": "ctx._source.remove('saf_grafo_v4')",
     "lang": "painless"
   }
 }

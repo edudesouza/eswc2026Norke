@@ -8,7 +8,7 @@ from src.config import settings
 
 from src.models import embedding_model
 
-def keywords_create(question,model,api):
+def keywords_create(question,model,api,url):
     
     prompt = '''
         Analise com atenção para obter o principal item questionado.
@@ -63,7 +63,8 @@ def keywords_create(question,model,api):
             prompt_description=prompt,
             examples=examples,
             model_id=model, 
-            api_key=api,  
+            api_key=api,
+            model_url=url,  
             fence_output=False,
             use_schema_constraints=True,
         )

@@ -1,0 +1,507 @@
+@prefix :     <https://omc.co/vocabulary/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# ONTOLOGIA (opcional)
+#################################################################
+
+<https://omc.co/vocabulary/>
+  a owl:Ontology ;
+  rdfs:label "Ontologia OMC"@pt ;
+  rdfs:comment "Vocabulário para gestão condominial (OMC)."@pt .
+
+#################################################################
+# CLASSES DE TOPO
+#################################################################
+
+:Usuario a owl:Class ;
+  rdfs:label "Usuario"@pt ;
+  rdfs:comment "Proprietário, responsável pelo documento."@pt .
+
+:Chunk a owl:Class ;
+  rdfs:label "Chunk"@pt ;
+  rdfs:comment "Trecho de um documento."@pt. 
+
+:EntidadeFisica a owl:Class ;
+  rdfs:label "Entidade Física"@pt ;
+  rdfs:comment "Coisas físicas ou áreas do condomínio."@pt .
+
+:CultoReligioso a owl:Class ;
+  rdfs:label "Culto Religioso"@pt ;
+  rdfs:comment "Ritos, cerimônias para orar, cantar, louvar, ouvir pregações com fins religiosos."@pt .
+
+:Pessoa a owl:Class ;
+  rdfs:label "Pessoa"@pt ;
+  rdfs:comment "Pessoa física relacionada ao condomínio."@pt .
+
+:Papel a owl:Class ;
+  rdfs:label "Papel"@pt ;
+  rdfs:comment "Função ou cargo desempenhado por uma pessoa."@pt .
+
+:Documento a owl:Class ;
+  rdfs:label "Documento"@pt ;
+  rdfs:comment "Registro formal do condomínio (ex.: atas, contratos, balancetes)."@pt .
+
+:Regra a owl:Class ;
+  rdfs:label "Regra"@pt ;
+  rdfs:comment "Norma ou determinação aplicável no condomínio."@pt .
+
+:Ocorrencia a owl:Class ;
+  rdfs:label "Ocorrência"@pt ;
+  rdfs:comment "Evento ou fato registrado (ex.: manutenção, obra, reserva)."@pt .
+
+:Veiculo a owl:Class ;
+  rdfs:label "Veículo"@pt ;
+  rdfs:comment "Meio de transporte (ex.: carro, motocicleta)."@pt .
+
+:InstituicaoExterna a owl:Class ;
+  rdfs:label "Instituição Externa"@pt ;
+  rdfs:comment "Organizações parceiras/fornecedores do condomínio."@pt .
+
+#################################################################
+# ENTIDADES PRINCIPAIS (subclasses de EntidadeFisica)
+#################################################################
+
+:Condominio a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Condomínio"@pt ;
+  rdfs:comment "Empreendimento condominial que agrega edificações, unidades e áreas comuns."@pt .
+
+:Edificacao a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Edificação"@pt ;
+  rdfs:comment "Prédio, torre ou bloco que contém unidades."@pt .
+
+:Unidade a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Unidade"@pt ;
+  rdfs:comment "Apartamento, sala ou loja pertencente a um condomínio."@pt .
+
+:AreaComum a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Área Comum"@pt ;
+  rdfs:comment "Espaços compartilhados do condomínio."@pt .
+
+:Garagem a owl:Class ;
+  rdfs:subClassOf :AreaComum ;
+  rdfs:label "Garagem"@pt ;
+  rdfs:comment "Área comum destinada ao estacionamento de veículos."@pt .
+
+:VagaDeEstacionamento a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Vaga de Estacionamento"@pt ;
+  rdfs:comment "Espaço específico para estacionar um veículo."@pt .
+
+:Piscina a owl:Class ;
+  rdfs:subClassOf :AreaComum ;
+  rdfs:label "Piscina"@pt ;
+  rdfs:comment "Área comum destinada a banho e lazer aquático."@pt .
+
+:SalaoDeFestas a owl:Class ;
+  rdfs:subClassOf :AreaComum ;
+  rdfs:label "Salão de Festas"@pt ;
+  rdfs:comment "Espaço comum para eventos e confraternizações."@pt .
+
+:Playground a owl:Class ;
+  rdfs:subClassOf :AreaComum ;
+  rdfs:label "Playground"@pt ;
+  rdfs:comment "Área comum para recreação infantil."@pt .
+
+:Academia a owl:Class ;
+  rdfs:subClassOf :AreaComum ;
+  rdfs:label "Academia"@pt ;
+  rdfs:comment "Área comum com equipamentos para exercícios físicos."@pt .
+
+:SistemaControleAcesso a owl:Class ;
+  rdfs:subClassOf :EntidadeFisica ;
+  rdfs:label "Sistema de Controle de Acesso"@pt ;
+  rdfs:comment "Infraestrutura de controle de entrada/saída (portaria, biometria, tags)."@pt .
+
+#################################################################
+# PESSOAS E PAPÉIS
+#################################################################
+
+:Sindico a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Síndico"@pt ;
+  rdfs:comment "Representante legal do condomínio."@pt .
+
+:SubSindico a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Subsíndico"@pt ;
+  rdfs:comment "Substitui o síndico em suas ausências."@pt .
+
+:Conselheiro a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Conselheiro"@pt ;
+  rdfs:comment "Membro de conselho fiscal/deliberativo."@pt .
+
+:Morador a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Morador"@pt ;
+  rdfs:comment "Residente (proprietário ou inquilino)."@pt .
+
+:Inquilino a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Inquilino"@pt ;
+  rdfs:comment "Ocupante locatário da unidade."@pt .
+
+:Visitante a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Visitante"@pt ;
+  rdfs:comment "Pessoa não residente em visita."@pt .
+
+:Funcionario a owl:Class ;
+  rdfs:subClassOf :Papel ;
+  rdfs:label "Funcionário"@pt ;
+  rdfs:comment "Trabalhador que presta serviços ao condomínio."@pt .
+
+:Zelador a owl:Class ;
+  rdfs:subClassOf :Funcionario ;
+  rdfs:label "Zelador"@pt ;
+  rdfs:comment "Responsável por rotinas operacionais e apoio à manutenção."@pt .
+
+:Porteiro a owl:Class ;
+  rdfs:subClassOf :Funcionario ;
+  rdfs:label "Porteiro"@pt ;
+  rdfs:comment "Controle de acesso e atendimento na portaria."@pt .
+
+:Faxineiro a owl:Class ;
+  rdfs:subClassOf :Funcionario ;
+  rdfs:label "Faxineiro"@pt ;
+  rdfs:comment "Limpeza e conservação das áreas."@pt .
+
+:Vigia a owl:Class ;
+  rdfs:subClassOf :Funcionario ;
+  rdfs:label "Vigia / Segurança"@pt ;
+  rdfs:comment "Ronda e ações de segurança patrimonial."@pt .
+
+:Jardineiro a owl:Class ;
+  rdfs:subClassOf :Funcionario ;
+  rdfs:label "Jardineiro"@pt ;
+  rdfs:comment "Cuidados com jardins e áreas verdes."@pt .
+
+:PrestadorDeServico a owl:Class ;
+  rdfs:subClassOf :Funcionario ;
+  rdfs:label "Prestador de Serviço (terceirizado)"@pt ;
+  rdfs:comment "Terceiro contratado para serviços específicos."@pt .
+
+#################################################################
+# INSTITUIÇÕES EXTERNAS (subclasses)
+#################################################################
+
+:Administradora a owl:Class ;
+  rdfs:subClassOf :InstituicaoExterna ;
+  rdfs:label "Administradora"@pt ;
+  rdfs:comment "Empresa que presta serviços de administração condominial."@pt .
+
+:Contador a owl:Class ;
+  rdfs:subClassOf :InstituicaoExterna ;
+  rdfs:label "Contador"@pt ;
+  rdfs:comment "Profissional ou empresa de contabilidade."@pt .
+
+:Advogado a owl:Class ;
+  rdfs:subClassOf :InstituicaoExterna ;
+  rdfs:label "Advogado"@pt ;
+  rdfs:comment "Profissional ou escritório jurídico."@pt .
+
+:Seguradora a owl:Class ;
+  rdfs:subClassOf :InstituicaoExterna ;
+  rdfs:label "Seguradora"@pt ;
+  rdfs:comment "Empresa que fornece seguros ao condomínio."@pt .
+
+:Banco a owl:Class ;
+  rdfs:subClassOf :InstituicaoExterna ;
+  rdfs:label "Banco"@pt ;
+  rdfs:comment "Instituição financeira onde o condomínio mantém contas."@pt .
+
+:Fornecedor a owl:Class ;
+  rdfs:subClassOf :InstituicaoExterna ;
+  rdfs:label "Fornecedor"@pt ;
+  rdfs:comment "Empresa que fornece bens/serviços ao condomínio."@pt .
+
+#################################################################
+# DOCUMENTOS E REGRAS (subclasses)
+#################################################################
+
+:Convencao a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Convenção"@pt ;
+  rdfs:comment "Documento base com normas estruturais do condomínio."@pt .
+
+:RegimentoInterno a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Regimento Interno"@pt ;
+  rdfs:comment "Regras de convivência e uso das áreas."@pt .
+
+:AtaDeAssembleia a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Ata de Assembleia"@pt ;
+  rdfs:comment "Registro das decisões tomadas em assembleias."@pt .
+
+:Orcamento a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Orçamento"@pt ;
+  rdfs:comment "Planejamento de receitas e despesas futuras."@pt .
+
+:Balancete a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Balancete"@pt ;
+  rdfs:comment "Demonstrativo financeiro periódico."@pt .
+
+:ContratoPrestacaoServicos a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Contrato de Prestação de Serviços"@pt ;
+  rdfs:comment "Contrato com terceiros para execução de serviços."@pt .
+
+:Notificacao a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Notificação"@pt ;
+  rdfs:comment "Comunicação formal a um destinatário."@pt .
+
+:Multa a owl:Class ;
+  rdfs:subClassOf :Documento ;
+  rdfs:label "Multa"@pt ;
+  rdfs:comment "Documento que aplica penalidade por infração às regras."@pt .
+
+#################################################################
+# OUTROS ELEMENTOS ÚTEIS
+#################################################################
+
+:Assembleia a owl:Class ;
+  rdfs:subClassOf :Ocorrencia ;
+  rdfs:label "Assembleia"@pt ;
+  rdfs:comment "Reunião de condôminos para deliberações."@pt .
+
+:Manutencao a owl:Class ;
+  rdfs:subClassOf :Ocorrencia ;
+  rdfs:label "Manutenção"@pt ;
+  rdfs:comment "Ação de conservação preventiva ou corretiva."@pt .
+
+:Obra a owl:Class ;
+  rdfs:subClassOf :Ocorrencia ;
+  rdfs:label "Obra"@pt ;
+  rdfs:comment "Intervenção estrutural ou reforma."@pt .
+
+:ReservaAreaComum a owl:Class ;
+  rdfs:subClassOf :Ocorrencia ;
+  rdfs:label "Reserva de Área Comum"@pt ;
+  rdfs:comment "Agendamento de uso de área comum."@pt .
+
+:Seguranca a owl:Class ;
+  rdfs:subClassOf :Ocorrencia ;
+  rdfs:label "Segurança"@pt ;
+  rdfs:comment "Ações/ocorrências ligadas à segurança patrimonial e pessoal."@pt .
+
+:Correspondencia a owl:Class ;
+  rdfs:subClassOf :Ocorrencia ;
+  rdfs:label "Correspondência / Encomenda"@pt ;
+  rdfs:comment "Registro de recebimento/entrega de itens."@pt .
+
+#################################################################
+# PROPRIEDADES (ObjectProperty)
+#################################################################
+
+:estaContidoEm a owl:ObjectProperty ;
+  rdfs:label "está contido em"@pt ;
+  rdfs:comment "Relaciona um chunk à um documento do qual faz parte."@pt ;
+  rdfs:domain :Chunk ;
+  rdfs:range  :Documento .
+
+:parteDe a owl:ObjectProperty ;
+  rdfs:label "parte de"@pt ;
+  rdfs:comment "Relaciona uma entidade física a uma unidade maior (ex.: vaga faz parte da garagem)."@pt ;
+  rdfs:domain :EntidadeFisica ;
+  rdfs:range  :EntidadeFisica .
+
+:localizadaEm a owl:ObjectProperty ;
+  rdfs:label "localizada em"@pt ;
+  rdfs:comment "Localização de uma entidade física dentro de outra."@pt ;
+  rdfs:domain :EntidadeFisica ;
+  rdfs:range  :EntidadeFisica .
+
+:possuiUnidade a owl:ObjectProperty ;
+  rdfs:label "possui unidade"@pt ;
+  rdfs:comment "Condomínio/Edificação que possui unidades."@pt ;
+  rdfs:domain :EntidadeFisica ;
+  rdfs:range  :Unidade .
+
+:possuiAreaComum a owl:ObjectProperty ;
+  rdfs:label "possui área comum"@pt ;
+  rdfs:comment "Condomínio/Edificação que possui áreas comuns."@pt ;
+  rdfs:domain :EntidadeFisica ;
+  rdfs:range  :AreaComum .
+
+:desempenhaPapel a owl:ObjectProperty ;
+  rdfs:label "desempenha papel"@pt ;
+  rdfs:comment "Pessoa que desempenha um papel."@pt ;
+  rdfs:domain :Pessoa ;
+  rdfs:range  :Papel .
+
+:papelEm a owl:ObjectProperty ;
+  rdfs:label "papel em"@pt ;
+  rdfs:comment "Âmbito (ex.: condomínio) em que o papel é exercido."@pt ;
+  rdfs:domain :Papel ;
+  rdfs:range  :EntidadeFisica .
+
+:aplicaA a owl:ObjectProperty ;
+  rdfs:label "aplica a"@pt ;
+  rdfs:comment "Regra aplicável a uma entidade, pessoa, papel, veículo ou área."@pt ;
+  rdfs:domain :Regra ;
+  rdfs:range  rdfs:Resource .
+
+:permitidoEm a owl:ObjectProperty ;
+  rdfs:label "permitido em"@pt ;
+  rdfs:comment "Indica em que contexto/área algo é permitido."@pt ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range  rdfs:Resource .
+
+:proibidoEm a owl:ObjectProperty ;
+  rdfs:label "proibido em"@pt ;
+  rdfs:comment "Indica em que contexto/área algo é proibido."@pt ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range  rdfs:Resource .
+
+:registradoEm a owl:ObjectProperty ;
+  rdfs:label "registrado em"@pt ;
+  rdfs:comment "Ocorrência documentada por um documento."@pt ;
+  rdfs:domain :Ocorrencia ;
+  rdfs:range  :Documento .
+
+:ocorreuEm a owl:ObjectProperty ;
+  rdfs:label "ocorreu em"@pt ;
+  rdfs:comment "Local (entidade física) onde a ocorrência aconteceu."@pt ;
+  rdfs:domain :Ocorrencia ;
+  rdfs:range  :EntidadeFisica .
+
+:executadoPor a owl:ObjectProperty ;
+  rdfs:label "executado por"@pt ;
+  rdfs:comment "Quem executou uma manutenção/obra/serviço."@pt ;
+  rdfs:domain :Ocorrencia ;
+  rdfs:range  [ a owl:Class ; owl:unionOf ( :Pessoa :InstituicaoExterna ) ] .
+
+:temResponsavel a owl:ObjectProperty ;
+  rdfs:label "tem responsável"@pt ;
+  rdfs:comment "Responsável por uma entidade física (ex.: zelador, empresa)."@pt ;
+  rdfs:domain :EntidadeFisica ;
+  rdfs:range  [ a owl:Class ; owl:unionOf ( :Pessoa :InstituicaoExterna :Papel ) ] .
+
+:contrata a owl:ObjectProperty ;
+  rdfs:label "contrata"@pt ;
+  rdfs:comment "Condomínio que contrata instituição externa."@pt ;
+  rdfs:domain :Condominio ;
+  rdfs:range  :InstituicaoExterna .
+
+:temContaEm a owl:ObjectProperty ;
+  rdfs:label "tem conta em"@pt ;
+  rdfs:comment "Banco em que o condomínio mantém conta."@pt ;
+  rdfs:domain :Condominio ;
+  rdfs:range  :Banco .
+
+:envolveVeiculo a owl:ObjectProperty ;
+  rdfs:label "envolve veículo"@pt ;
+  rdfs:comment "Ocorrência relacionada a um veículo."@pt ;
+  rdfs:domain :Ocorrencia ;
+  rdfs:range  :Veiculo .
+
+:reservadoPor a owl:ObjectProperty ;
+  rdfs:label "reservado por"@pt ;
+  rdfs:comment "Pessoa que realiza a reserva de área comum."@pt ;
+  rdfs:domain :ReservaAreaComum ;
+  rdfs:range  :Pessoa .
+
+:refereSeA a owl:ObjectProperty ;
+  rdfs:label "refere-se a"@pt ;
+  rdfs:comment "Documento que se refere a uma entidade/regra/ocorrência."@pt ;
+  rdfs:domain :Documento ;
+  rdfs:range  rdfs:Resource .
+
+#################################################################
+# PROPRIEDADES (DatatypeProperty)
+#################################################################
+
+:relacionamento a owl:ObjectProperty ;
+    rdfs:label "possui relacionamento"@pt ;
+    rdfs:comment "Relaciona uma entidade a uma classe, subclasse ou outra entidade."@pt ;
+    rdfs:domain :Usuario ;
+    rdfs:range  :Documento .
+
+:possuiDocumento a owl:ObjectProperty ;
+    rdfs:label "possui documento"@pt ;
+    rdfs:comment "Relaciona um usuário aos documentos que lhe pertencem ou pelos quais é responsável."@pt ;
+    rdfs:domain :Usuario ;
+    rdfs:range  :Documento .
+
+:responsavelPor a owl:ObjectProperty ;
+  rdfs:label "responsável por"@pt ;
+  rdfs:comment "Relaciona um usuário ao documento pelo qual é responsável."@pt ;
+  rdfs:domain :Usuario ;
+  rdfs:range  :Documento .
+
+:nome a owl:DatatypeProperty ;
+  rdfs:label "nome"@pt ;
+  rdfs:comment "Nome da entidade/pessoa/instituição."@pt ;
+  rdfs:range xsd:string .
+
+:identificador a owl:DatatypeProperty ;
+  rdfs:label "identificador"@pt ;
+  rdfs:comment "Identificador interno/código."@pt ;
+  rdfs:range xsd:string .
+
+:cpf a owl:DatatypeProperty ;
+  rdfs:label "CPF"@pt ;
+  rdfs:comment "Cadastro de Pessoa Física."@pt ;
+  rdfs:range xsd:string .
+
+:cnpj a owl:DatatypeProperty ;
+  rdfs:label "CNPJ"@pt ;
+  rdfs:comment "Cadastro Nacional de Pessoa Jurídica."@pt ;
+  rdfs:range xsd:string .
+
+:data a owl:DatatypeProperty ;
+  rdfs:label "data"@pt ;
+  rdfs:comment "Data associada ao registro (ex.: ocorrência, documento)."@pt ;
+  rdfs:range xsd:dateTime .
+
+:valor a owl:DatatypeProperty ;
+  rdfs:label "valor"@pt ;
+  rdfs:comment "Valor monetário (ex.: contrato, multa)."@pt ;
+  rdfs:range xsd:decimal .
+
+:texto a owl:DatatypeProperty ;
+  rdfs:label "texto"@pt ;
+  rdfs:comment "Texto integral do documento (extraído do PDF/OCR)."@pt ;
+  rdfs:range xsd:string .
+
+:descricao a owl:DatatypeProperty ;
+  rdfs:label "descrição"@pt ;
+  rdfs:comment "Resumo curto do documento."@pt ;
+  rdfs:range xsd:string .
+
+:conteudo a owl:DatatypeProperty ;
+  rdfs:label "conteúdo"@pt ;
+  rdfs:comment "Conteúdo principal do documento (normalizado/markdown)."@pt ;
+  rdfs:range xsd:string .
+
+:arquivo a owl:DatatypeProperty ;
+  rdfs:label "arquivo "@pt ;
+  rdfs:comment "Link do arquivo que gerou o chunk."@pt ;
+  rdfs:range xsd:string .
+
+:idChunk a owl:DatatypeProperty ;
+  rdfs:label "id chunk"@pt ;
+  rdfs:comment "Identificador do chunk no Elastic."@pt ;
+  rdfs:range xsd:string .
+
+:idUsuario a owl:DatatypeProperty ;
+  rdfs:label "id usuario "@pt ;
+  rdfs:comment "ID do usuário que enviouo arquivo."@pt ;
+  rdfs:range xsd:string .
+
+:idExterno a owl:DatatypeProperty ;
+  rdfs:label "id externo "@pt ;
+  rdfs:comment "ID do documento no MySQL."@pt ;
+  rdfs:range xsd:string .

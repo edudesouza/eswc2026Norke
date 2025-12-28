@@ -57,7 +57,7 @@ async def main(id,user_id,pergunta,retrieval='vetor',retrieval_size=5,size_gt=5,
 
     # gpt-4.1, settings.OPENAI_API_KEY
     # gemini-2.5-flash, settings.GEMINI_API_KEY
-    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY)
+    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY,'')
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
     query_canonical  = expantion['query_expansion']['canonical']
@@ -194,10 +194,10 @@ async def run_batch():
     inicio = time.time()
 
     query = {
-        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_vetor_v2"],
+        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_vetor_v4"],
         #"query"     : {"match_all":{}}, 
         "query": {
-            "bool": {"must_not":{"exists": {"field": "saf_vetor_v3"}}}
+            "bool": {"must_not":{"exists": {"field": "saf_vetor_v4"}}}
         },
         "size"      : 1500
     }
@@ -214,7 +214,7 @@ async def run_batch():
         pergunta = item['_source']['pergunta']
 
         try:           
-            resposta = item['_source']['saf_vetor_v3']    
+            resposta = item['_source']['saf_vetor_v4']    
             print('-> next...')   
         except Exception as erro:
             print( f'-> processar ({id})...' )  

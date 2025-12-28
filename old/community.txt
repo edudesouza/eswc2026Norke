@@ -1,0 +1,89 @@
+Community 1 — Uso da garagem
+
+Pode conter:
+
+Garagem
+
+Vaga de Estacionamento
+
+Unidade
+
+Morador
+
+Visitante
+
+Regimento Interno
+
+Convenção
+
+Multa
+
+Chunk (trechos que falam disso)
+
+Relações densas:
+
+Vaga PARTE_DE Garagem
+
+Morador USA Vaga
+
+Regimento APLICA_A Garagem
+
+Multa REFERE_SE_A Uso indevido
+
+➡️ Note:
+
+Mistura entidades, pessoas, documentos
+
+Todas conectadas por uso recorrente
+
+Isso é uma community funcional, não ontológica
+
+🔹 Community 2 — Governança e assembleia
+
+Pode conter:
+
+Assembleia
+
+Ata de Assembleia
+
+Síndico
+
+Subsíndico
+
+Conselheiro
+
+Convenção
+
+Quórum (como conceito emergente)
+
+Chunk
+
+Relações densas:
+
+Ata REFERE_SE_A Assembleia
+
+Síndico RESPONSABILIZADO_POR Assembleia
+
+Convenção REGIDA_POR Assembleia
+
+➡️ Outra community, outro “tema”.
+
+🔹 Community 3 — Segurança e controle de acesso
+
+Pode conter:
+
+Portaria
+
+Porteiro
+
+Visitante
+
+Sistema de controle de acesso
+
+Correspondência
+
+Segurança
+
+Regimento Interno
+
+Notificação

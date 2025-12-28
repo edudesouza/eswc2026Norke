@@ -32,7 +32,7 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     # gpt-4.1, settings.OPENAI_API_KEY
     # gemini-2.5-flash, gemini-3-flash-preview, settings.GEMINI_API_KEY
-    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY)
+    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY,'')
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
     query_canonical  = expantion['query_expansion']['canonical']
@@ -197,8 +197,8 @@ if __name__ == "__main__":
 
     pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
 
-    load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
-    pergunta_debugger   = load_pergunta['_source']['pergunta']
+    #load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
+    #pergunta_debugger   = load_pergunta['_source']['pergunta']
 
     if len(sys.argv) < 2:
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")

@@ -9,9 +9,9 @@ load_dotenv()
 GEMINI_API_KEY   = os.getenv('GEMINI_API_KEY')
 TOGETHER_API_KEY = os.getenv('TOGETHER_API_KEY')
 OPENAI_API_KEY   = os.getenv('OPENAI_API_KEY')
-OLLAMA           = 'http://localhost:11434/api/generate'
+OLLAMA           = 'http://localhost:11434'
 
-# Database
+# Databases
 GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
 GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
 GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')

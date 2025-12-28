@@ -57,7 +57,7 @@ async def main(id,user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,
 
     # gpt-4.1, settings.OPENAI_API_KEY
     # gemini-2.5-flash, settings.GEMINI_API_KEY
-    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY)
+    expantion        = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY,'')
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
     query_canonical  = expantion['query_expansion']['canonical']
@@ -194,7 +194,7 @@ async def run_batch():
     inicio = time.time()
 
     query = {
-        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_grafo_v2"],
+        "_source"   : ["file_url", "id_usuario", "id_externo","capitulo","tema_capitulo","pergunta","resposta","contexto","model","chunks","saf_grafo_v4"],
         #"query"     : {"match_all":{}}, 
         "query": {
             "bool": {"must_not":{"exists": {"field": "saf_grafo_v4"}}}
@@ -218,7 +218,7 @@ async def run_batch():
             print('-> next...')   
         except Exception as erro:
             print('-> processar...')  
-            processar +=1 
+            processar = total-index
             await main(id,'5511993891773',pergunta,'grafo',10,5,False,[],False)  
 
         print ( f'{index} de {total}, {processar}')
