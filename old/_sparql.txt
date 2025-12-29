@@ -348,8 +348,62 @@ ORDER BY ?regra
       }
   }
 
+**********************************************************************************************
+
+PREFIX v:          <https://omc.co/vocabulary/>
+PREFIX :           <https://omc.co/vocabulary/>
+PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao ?idComunidade
+FROM <https://omc.co/graph/5511993891773>
+WHERE {
+    {
+        # 1. SUBQUERY: Busca a REGRA e identifica a COMUNIDADE dela
+        SELECT ?regra ?comm (MAX(?s) AS ?score)
+        WHERE {
+            ?q a luc-index:omc_full ;
+               luc:query 'salão festas uso culto natal moradores taxa' ;
+               luc:entities ?regra .
+            ?regra luc:score ?s .
+
+            # Vincula a Regra ao seu Chunk para achar a Comunidade
+            { ?regra ?p ?cNode . } UNION { ?cNode ?p ?regra . }
+            ?cNode a :Chunk .
+            ?cNode v:inCommunity ?comm .
+            ?comm v:communityResolution "1.0" .
+        }
+        GROUP BY ?regra ?comm
+        ORDER BY DESC(?score)
+        LIMIT 10
+    }
+
+    # 2. FILTRO DE TIPO (Reasoning para subclasses de Regra)
+    ?regra a/rdfs:subClassOf* :Regra .
+    OPTIONAL { ?regra a ?tipo }
+    ?regra :descricao ?descricao .
+    FILTER(LANG(?descricao) = "" || LANGMATCHES(LANG(?descricao), "pt"))
+
+    # 3. EXPANSÃO POR COMUNIDADE: 
+    # Em vez de pegar só o chunk da regra, pegamos os "vizinhos" da comunidade
+    ?vizinho v:inCommunity ?comm .
+    ?vizinho a :Chunk ;
+             :texto ?texto ;
+             :idChunk ?idChunk .
+    
+    FILTER(LANG(?texto) = "" || LANGMATCHES(LANG(?texto), "pt"))
+    
+    BIND(?regra AS ?regraURI)
+    BIND(STRAFTER(STR(?comm), "leiden/r1/") AS ?idComunidade)
+}
+ORDER BY DESC(?score) ?idChunk
+LIMIT 20
+
 pipeline, para criação: named graph -> criar o usuário -> criar o documento
 - loop nos chunks, criar o graph doc -> rdflib -> ttl e fazer o uplaod do chunk em ttl
 ou 
 - loop nos chunks, criar o graph doc -> rdflib -> ttl , salvar pickle e depois fazer um uplaod único com todos os chunks
+
+
 

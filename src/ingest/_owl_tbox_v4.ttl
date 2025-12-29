@@ -505,3 +505,44 @@
   rdfs:label "id externo "@pt ;
   rdfs:comment "ID do documento no MySQL."@pt ;
   rdfs:range xsd:string .
+
+#################################################################
+# COMUNIDADES
+#################################################################
+
+:Community a owl:Class ;
+  rdfs:label "Comunidade"@pt ;
+  rdfs:comment "Agrupamento de chunks por similaridade semântica."@pt .
+
+:inCommunity a owl:ObjectProperty ;
+  rdfs:label "pertence à comunidade"@pt ;
+  rdfs:comment "Chunk que faz parte de uma comunidade."@pt ;
+  rdfs:domain :Chunk ;
+  rdfs:range :Community .
+
+# Propriedades de metadados
+:communityMethod a owl:DatatypeProperty ;
+  rdfs:label "método de detecção"@pt ;
+  rdfs:domain :Community ;
+  rdfs:range xsd:string .
+
+:communityResolution a owl:DatatypeProperty ;
+  rdfs:label "resolução"@pt ;
+  rdfs:domain :Community ;
+  rdfs:range xsd:string .
+
+:communityDoc a owl:DatatypeProperty ;
+  rdfs:label "documento fonte"@pt ;
+  rdfs:domain :Community ;
+  rdfs:range xsd:string .
+
+:communityRun a owl:DatatypeProperty ;
+  rdfs:label "timestamp execução"@pt ;
+  rdfs:domain :Community ;
+  rdfs:range xsd:string .
+
+:modularityScore a owl:DatatypeProperty ;
+  rdfs:label "score de modularidade"@pt ;
+  rdfs:comment "Qualidade da divisão em comunidades."@pt ;
+  rdfs:domain :Community ;
+  rdfs:range xsd:decimal .
