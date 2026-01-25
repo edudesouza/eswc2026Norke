@@ -6,7 +6,7 @@ from elasticsearch  import Elasticsearch
 
 from src.utils      import diff_time, normalize
 from src.config     import settings
-from src.ingest     import graph_ingest
+from src.ingest     import graphdb_insert_by_chapter
 
 async def run_batch():
     
@@ -29,38 +29,47 @@ async def run_batch():
                 ]
             }
         }, 
-        "size" : 1
+        "size" : 1500
     }
 
     resp      = elastic_client.search(index="documentos", body=query)
     total     = len(resp["hits"]["hits"])
     processar = 0
+    full_text = ''
+    file      = ''
 
-    for index, item in enumerate(resp["hits"]["hits"],start=1): 
+    for index, item in enumerate(resp["hits"]["hits"],start=1):    
 
         id   = item['_id']
         text = item['_source']['texto']
-        file = item['_source']['file_url'],   
+        file = item['_source']['file_url'], 
+
+        full_text += f'Chunk:{id}\n{normalize(text)}\n'         
+            
+        processar = total-index
+        print ( f'{index} de {total}, {processar}')
+    
+    print( f'[red] --- fim ---' )    
+
+    for i in range(1, 23):
+        capitulo_nome = f"Capítulo {i}"
+        print(f"Processando {capitulo_nome}...")
 
         data = {
-            "id":id,
+            "id":capitulo_nome,
             "arquivo":file,
             "id_usuario":"5511993891773",
             "id_externo":749,
-            #"texto":normalize(text)
-            "texto":"Realizar apresentação para clientes ou reunião de negócios"
-        }  
+            "texto":full_text
+        }
 
-        result = await graph_ingest(data,debug=True) 
+        result = await graphdb_insert_by_chapter(data, capitulo_nome) 
+                
         try:                
             print( f'-> res: {result}' ) 
         except Exception as erro:
-            print( f'-> ERRO processar ({id})' )  
-            
-        processar = total-index
-        print ( f'{index} de {total}, {processar}\n')
-
-    print( f'[red] --- fim ---' )
+            print( f'-> ERRO processar ({capitulo_nome})' )
+    
     diff_time('\n-> fim ingest: ', inicio)
 
 if __name__ == "__main__":   

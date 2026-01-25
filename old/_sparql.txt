@@ -139,6 +139,21 @@ ORDER BY ?regra
     FILTER ( ?s = :doc_5511993891773_749_1 )
   }
 
+- criar index de similaridade
+
+PREFIX v: <https://omc.co/vocabulary/>
+
+SELECT ?documentID ?documentText {
+    # Seleciona apenas os nós que são do tipo 'Chunk'
+    ?documentID a v:Regra .
+
+    # Pega o texto da propriedade v:texto
+    ?documentID v:descricao ?documentText .
+
+    # Garante que é um texto válido
+    FILTER(isLiteral(?documentText))
+}
+
 - registrar classe
 
   PREFIX :    <https://omc.co/vocabulary/>
@@ -146,9 +161,9 @@ ORDER BY ?regra
   PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 
   INSERT DATA {
-    :Usuario a owl:Class ;
-      rdfs:label "Usuario"@pt ;
-      rdfs:comment "Proprietário, responsável pelo documento."@pt .
+    :FinalidadeUso a owl:Class ;
+      rdfs:label "FinalidadeUso"@pt ;
+      rdfs:comment "Cada local ou espaço de uso comum tem uma finalidade de uso: apenas para moradores, social, comercial, religiosa"@pt .
   }
 
 - registrar propriedades
@@ -158,11 +173,11 @@ ORDER BY ?regra
   PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 
   INSERT DATA {
-    :estaContidoEm a owl:ObjectProperty ;
-      rdfs:label "está contido em"@pt ;
-      rdfs:comment "Relaciona um chunk à um documento do qual faz parte."@pt ;
-      rdfs:domain :Chunk ;
-      rdfs:range  :Documento .
+    :temFinalidade a owl:ObjectProperty ;
+      rdfs:label "tem finalidade em"@pt ;
+      rdfs:comment "Determina a finalidade de uso de um local ou equipamento."@pt ;
+      rdfs:domain :EntidadeFisica ;
+      rdfs:range  :AreaComum .
   }
 
 - listar todas as classes

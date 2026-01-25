@@ -16,14 +16,14 @@ def vector_search(palavras_chave, pergunta, index_name, user_id, retrieval_size)
             model="text-embedding-3-small",
             api_key=settings.OPENAI_API_KEY
         )
-            
+
         query_embedding = embeddings.embed_query(palavras_chave) 
 
         script_query = {
             "size": retrieval_size,
-            "_source": ["file_url", "id_usuario", "id_externo", "texto_rico"],
+            "_source": ["file_url", "id_usuario", "id_externo", "texto"],
             "knn": {
-                "field": "embedding_rico",
+                "field": "embedding",
                 "query_vector": query_embedding,
                 "k": 50,
                 "num_candidates": 500,         
@@ -31,17 +31,18 @@ def vector_search(palavras_chave, pergunta, index_name, user_id, retrieval_size)
             },
             "query": {
                 "bool": {
-                    "must": {
-                        "multi_match": {
-                            "query": pergunta,
-                            "fields": ["texto_rico"],                        
+                    "should": [
+                        {
+                            "multi_match": {
+                                "query": pergunta,
+                                "fields": ["texto"],
+                                 "boost": 0.3
+                            }
                         }
-                    },
-                    "filter": [
-                        { "term": { "id_usuario": user_id } }
-                    ]
+                    ],
+                    "filter": [{ "term": { "id_usuario": user_id } }]
                 }
-            }
+            }                 
         }
 
         resp = settings.elastic_client.search(
@@ -61,7 +62,7 @@ def vector_search(palavras_chave, pergunta, index_name, user_id, retrieval_size)
             _score  = item.get('_score')
             source  = item.get('_source', {})
             
-            texto_rico  = normalize(source.get('texto_rico', ''))            
+            texto_rico  = normalize(source.get('texto', ''))            
             texto_limpo = texto_rico.replace(';', ',')
 
             linhas_csv.append(f"{_id};{_score};{texto_limpo}")

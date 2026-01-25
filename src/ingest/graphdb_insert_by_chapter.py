@@ -128,8 +128,8 @@ def iri_instance(ns: Namespace, name: str) -> URIRef:
 #fim
 
 CANON_TYPES = {
-    "FinalidadeUso","FinalidadeSocial","FinalidadeComercial","FinalidadeReligiosa","FinalidadeRestritaMoradores","FinalidadeRestritaFuncionarios",
-    "UsoAreaComum","EntidadeFisica","Pessoa","Papel","Documento","Regra","Ocorrencia","Veiculo","InstituicaoExterna","CultoReligioso",
+    "FinalidadeUso","FinalidadeSocial","inalidadeComercial","FinalidadeReligiosa","FinalidadeRestritaMoradores","UsoAreaComum",
+    "EntidadeFisica","Pessoa","Papel","Documento","Regra","Ocorrencia","Veiculo","InstituicaoExterna","CultoReligioso",
     "Condominio","Edificacao","Unidade","AreaComum","Garagem","VagaDeEstacionamento","Piscina",
     "SalaoDeFestas","Playground","Academia","SistemaControleAcesso",
     "Sindico","SubSindico","Conselheiro","Morador","Inquilino","Visitante","Funcionario",
@@ -137,8 +137,7 @@ CANON_TYPES = {
     "Administradora","Contador","Advogado","Seguradora","Banco","Fornecedor",
     "Convencao","RegimentoInterno","AtaDeAssembleia","Orcamento","Balancete",
     "ContratoPrestacaoServicos","Notificacao","Multa",
-    "Assembleia","Manutencao","Obra","ReservaAreaComum","Seguranca","Correspondencia","Usuario","Chunk",
-    "Capitulo","Artigo","Paragrafo","ParagrafoUnico"
+    "Assembleia","Manutencao","Obra","ReservaAreaComum","Seguranca","Correspondencia","Usuario","Chunk","Capitulo","Artigo","Paragrafo","ParagrafoUnico"
 }
 
 CANON_RELATIONSHIPS = {
@@ -147,7 +146,7 @@ CANON_RELATIONSHIPS = {
     "contrata","temContaEm","envolveVeiculo","reservadoPor","refereSeA",
     "proibidoSe","responsabilizadoPor","podeUsar","tipoDe","inclui","citadoEm","usa","ocupa","regidaPor",
     "estaContidoEm","possuiDocumento","responsavelPor","nome","identificador","cpf","cnpj","data","valor","texto",
-    "descricao","conteudo","arquivo","idChunk","idUsuario","idExterno"
+    "descricao","conteudo","arquivo","idChunk","idUsuario","idExterno","idArtigo"
 }
 
 ALLOWED_NODE_PROPS = {"descricao"}  # mantenha enxuto
@@ -197,27 +196,69 @@ REL_MAP = {
     "ARQUIVO": "arquivo",
     "IDCHUNK": "idChunk",
     "IDUSUARIO": "idUsuario",
-    "IDEXTERNO": "idExterno"
+    "IDEXTERNO": "idExterno",
+    "IDCAPITULO": "idCapitulo",
 }
 
-def build_graph_transformer() -> LLMGraphTransformer:
+def build_graph_transformer(capitulo) -> LLMGraphTransformer:
     
     allowed_rels = sorted(list(CANON_RELATIONSHIPS))
 
     with open("src/ingest/_owl_tbox_v4.ttl", encoding="utf-8") as f:
         ontology_txt = f.read()
 
-    system_txt = (
-        "Você é um extrator de grafos jurídicos em pt-BR. "
-        "Siga esta ontologia:\n"
-        f"{ontology_txt}\n"
-        "Exemplo de Regras:\n"
-        "1) Cardinalidade de vagas/veículos: crie Regra e ligue com :aplicaA → (VagaDeEstacionamento|Garagem|Condominio).\n"
-        "2) Proibições: (Veiculo)-[:proibidoEm|:proibidoSe]->(EntidadeFisica ou Limite textual).\n"
-        "3) Permissões: (Veiculo)-[:permitidoEm]->(VagaDeEstacionamento|Garagem).\n"
-        "4) Penalidades: (Morador)-[:responsabilizadoPor]->(Regra|Multa|Notificacao).\n"
-        "5) Todas as regras possuem relacionamento com outras classes conforme a ontologia Regra_Piscina -> Morador, Regra_Piscina -> Visitante.\n"
-        "Saída fiel e sucinta, compatível para MERGE entre chunks."
+    system_txt = (f'''
+        Você é um extrator de grafos jurídicos em pt-BR.
+        
+        CONTEXTO:
+        Você receberá um capítulo de documento condominial (Convenção, Regimento Interno, etc.) e deve extrair:
+        1. Estrutura hierárquica (Artigos, Parágrafos, Incisos)
+        2. Entidades mencionadas (Morador, Veículo, AreaComum, etc.)
+        3. Regras e suas aplicações
+        4. Relacionamentos entre entidades
+                  
+        ONTOLOGIA:        
+        {ontology_txt}
+
+        PROCESSO DE EXTRAÇÃO:
+
+        TAREFA:
+        1. Leia o documento.
+        2. Identifique e liste todos os capítulos (ex.: "CAPÍTULO I — DISPOSIÇÕES GERAIS").
+        3. Vamos criar triplas RDF para o capítulo: {capitulo}
+        4. Faça um resumo de até 1000 caracteres sobre o capítulo: {capitulo}
+
+        ESTRUTURA DO CAPÍTULO
+        - Identifique: Capítulo > Seção > Artigo > Parágrafo > Inciso
+        - Crie instância :Capitulo para cada elemento estrutural
+        - Use :estaContidoEm para hierarquia        
+
+        EXECUÇÃO:
+        - Armazene o resumo do capítulo na classe :Capitulo, usando o atributo (Property chain) :texto para armazenar o resumo e o atributo (Property chain) idCapitulo para armazenar: {capitulo}
+        - Extraia entidades presentes neste capítulo, conforme a ontologia, exemplo:
+            - :Morador
+            - :Veiculo 
+            - :VagaDeEstacionamento,
+            - :Piscina
+        - Gere as triplas RDF tendo como nó princiapl classe :Capitulo.
+        - Use os nomes das classes e propriedades conforme a ontologia.
+        - Crie as regras a partir do texto do capítulo, use a classe :Regra.
+        - Para cada capítulo extraia: artigos, seções, parágrafos, e armazene na devidas classes, exemplos: 
+            - Artigo 4º, use a classe :Artigo, e insira o texto do artigo no atributo (Property chain) :texto.
+            - §1º use a classe :Paragrafo, e insira o texto do parágrafo no atributo (Property chain) :texto.
+            - Parágrafo Único use a classe :ParagrafoUnico, e insira o texto do parágrafo no atributo (Property chain) :texto.        
+
+        REGRAS:
+        1) Cardinalidade de vagas/veículos: crie Regra e ligue com :aplicaA → (VagaDeEstacionamento|Garagem|Condominio).
+        2) Proibições: (Veiculo)-[:proibidoEm|:proibidoSe]->(EntidadeFisica ou Limite textual).
+        3) Permissões: (Veiculo)-[:permitidoEm]->(VagaDeEstacionamento|Garagem).
+        4) Penalidades: (Morador)-[:responsabilizadoPor]->(Multa|Notificacao).
+        5) Todas as regras possuem relacionamento com outras classes conforme a ontologia Regra_Piscina -> Morador, Regra_Piscina -> Visitante.
+
+        IMPORTANTE:
+        - A classe Chunk não deve ser usada para armazenar o texto completo do capítulo, apenas o resumo.
+        - Cada Capítulo não deve artigos, seções, parágrafos de outros artigos
+        '''
     )
 
     pt_template = ChatPromptTemplate.from_messages([
@@ -233,9 +274,9 @@ def build_graph_transformer() -> LLMGraphTransformer:
         node_properties=list(ALLOWED_NODE_PROPS),
     )
 
-async def extract_graph_docs(text, meta):
+async def extract_graph_docs(text, meta, capitulo):
 
-    transformer = build_graph_transformer()
+    transformer = build_graph_transformer(capitulo)
     docs = [Document(page_content=text, metadata=meta)]
     return transformer.convert_to_graph_documents(docs)
 
@@ -413,7 +454,7 @@ def upload_turtle(ttl: bytes | str, USUARIO: str) -> bool:
     
     return True
 
-async def graph_ingest(data,debug=False):
+async def graphdb_insert_by_chapter(data,capitulo):
     
     print("--- ingest ---")  
     inicio = time.time()      
@@ -447,7 +488,7 @@ async def graph_ingest(data,debug=False):
     USUARIO = str(data["id_usuario"])
 
     # 1) Extração (LLMGraphTransformer)
-    graph_docs = await extract_graph_docs(data["texto"], meta)
+    graph_docs = await extract_graph_docs(data["texto"], meta, capitulo)
     print('--> triplas extraidas')
     #print(graph_docs)
     #print(f"Nodes:{graph_docs[0].nodes}")
@@ -483,21 +524,15 @@ async def graph_ingest(data,debug=False):
     ttl = g.serialize(format="turtle")
     
     print('--> ttl pronto')
+    #print(ttl)
 
-    if debug==False:
-        # 3) Upload bulk Turtle para GraphDB
-        upload_turtle(ttl,USUARIO)
-    else:
-        print( f'\n{ttl}' )
+    # 3) Upload bulk Turtle para GraphDB
+    upload_turtle(ttl,USUARIO)
 
     proc_db = time.time()
     tpo_fim = proc_db - inicio
 
-    if debug==False:
-        print(f"--> Upload Turtle no GraphDB, {tpo_fim:.2f}s")
-    else:
-        print(f"--> Debug mode, {tpo_fim:.2f}s")
-
+    print(f"--> Upload Turtle no GraphDB, {tpo_fim:.2f}s")
     print("-- fim --")
 
     return 'OK'

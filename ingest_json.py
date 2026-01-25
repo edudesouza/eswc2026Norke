@@ -1,5 +1,5 @@
 
-import time,asyncio
+import time,asyncio,json
 
 from rich           import print
 from elasticsearch  import Elasticsearch
@@ -15,40 +15,25 @@ async def run_batch():
 
     inicio = time.time()
 
-    elastic_client = Elasticsearch( 
-        settings.ELASTICSEARCH_HOST,basic_auth=(settings.ELASTICSEARCH_USER,settings.ELASTICSEARCH_PASS),verify_certs=False
-    )
-
-    query = {
-        "_source"   : ["file_url", "id_usuario", "id_externo","texto"],
-        "query"     : {
-            "bool":{
-                "filter": [
-                    {"term": { "id_usuario":"5511993891773" }},
-                    {"term": { "id_externo":"749" }}
-                ]
-            }
-        }, 
-        "size" : 1
-    }
-
-    resp      = elastic_client.search(index="documentos", body=query)
-    total     = len(resp["hits"]["hits"])
+    with open("output/chunks_normativos.json", encoding="utf-8") as f:
+        json_chunks = json.loads(f.read())
+        
+    total     = len(json_chunks)
     processar = 0
 
-    for index, item in enumerate(resp["hits"]["hits"],start=1): 
+    for index, item in enumerate(json_chunks,start=1): 
 
-        id   = item['_id']
-        text = item['_source']['texto']
-        file = item['_source']['file_url'],   
+        id   = item['id']
+        text = item['text']
+        file = '',   
 
         data = {
             "id":id,
             "arquivo":file,
             "id_usuario":"5511993891773",
             "id_externo":749,
-            #"texto":normalize(text)
-            "texto":"Realizar apresentação para clientes ou reunião de negócios"
+            "texto":normalize(text)
+            #"texto":"Realizar apresentação para clientes ou reunião de negócios"
         }  
 
         result = await graph_ingest(data,debug=True) 

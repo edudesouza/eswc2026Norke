@@ -17,12 +17,24 @@
 # CLASSES DE TOPO
 #################################################################
 
+:FinalidadeUso a owl:Class ;
+  rdfs:label "Finalidade de uso"@pt ;
+  rdfs:comment "Define como uma área comum será usada (ex.: comercial, social, religiosa)"@pt .
+
+:UsoAreaComum a owl:Class ;
+  rdfs:label "Uso de área comum"@pt ;
+  rdfs:comment "Representa o uso envolvendo uma área comum, permitindo atribuir finalidade ao uso (não ao local)."@pt .
+
 :Usuario a owl:Class ;
   rdfs:label "Usuario"@pt ;
   rdfs:comment "Proprietário, responsável pelo documento."@pt .
 
 :Chunk a owl:Class ;
   rdfs:label "Chunk"@pt ;
+  rdfs:comment "Trecho de um documento."@pt. 
+
+:Capitulo a owl:Class ;
+  rdfs:label "Capitulo"@pt ;
   rdfs:comment "Trecho de um documento."@pt. 
 
 :EntidadeFisica a owl:Class ;
@@ -64,6 +76,46 @@
 #################################################################
 # ENTIDADES PRINCIPAIS (subclasses de EntidadeFisica)
 #################################################################
+
+:Artigo a owl:Class ;
+  rdfs:subClassOf :Capitulo ;
+  rdfs:label "Artigo de um documento"@pt ;
+  rdfs:comment "Parte de um documento normativo"@pt .
+
+:Paragrafo a owl:Class ;
+  rdfs:subClassOf :Capitulo ;
+  rdfs:label "Paragrafo de um documento"@pt ;
+  rdfs:comment "Subdivisão de um artigo que serve para detalhar, explicar, restringir ou estabelecer exceções ao conteúdo do respectivo artigo"@pt .
+
+:ParagrafoUnico a owl:Class ;
+  rdfs:subClassOf :Capitulo ;
+  rdfs:label "Paragrafo unico de um documento"@pt ;
+  rdfs:comment "Subdivisão de um artigo em um documento normativo (como leis, decretos ou contratos) utilizada quando há apenas uma disposição secundária a ser detalhada em relação ao texto principal do artigo"@pt .
+
+:FinalidadeSocial a owl:Class ;
+  rdfs:subClassOf :FinalidadeUso ;
+  rdfs:label "Finalidade social"@pt ;
+  rdfs:comment: "Finalidade de uso de uma área para seu uso social (ex.: festas, eventos e confraternizações)"@pt.
+
+:FinalidadeComercial a owl:Class ;
+  rdfs:subClassOf :FinalidadeUso ;
+  rdfs:label "Finalidade comercial"@pt ;
+  rdfs:comment: "Finalidade de uso de uma área para seu uso comercial (ex.: mercado, foodtruck e lojas)"@pt.
+
+:FinalidadeReligiosa a owl:Class ;
+  rdfs:subClassOf :FinalidadeUso ;
+  rdfs:label "Finalidade religiosa"@pt ;
+  rdfs:comment: "Finalidade de uso de uma área para eventos religiosos (ex.: cultos, pregações)"@pt.
+
+:FinalidadeRestritaMoradores a owl:Class ;
+  rdfs:subClassOf :FinalidadeUso ;
+  rdfs:label "Finalidade restrita a moradores"@pt ;
+  rdfs:comment: "Finalidade de uso de uma área apenas para moradores do condomínio"@pt.
+
+:FinalidadeRestritaFuncionarios a owl:Class ;
+  rdfs:subClassOf :FinalidadeUso ;
+  rdfs:label "Finalidade restrita a funcionários"@pt ;
+  rdfs:comment: "Finalidade de uso de uma área apenas para funcionários do condomínio (ex.: casa de máquinas, casa de bombas, quadro elétrico)"@pt.
 
 :Condominio a owl:Class ;
   rdfs:subClassOf :EntidadeFisica ;
@@ -305,6 +357,30 @@
 # PROPRIEDADES (ObjectProperty)
 #################################################################
 
+:aplicaSeFinalidade a owl:ObjectProperty ;
+  rdfs:label "aplica-se à finalidade"@pt ;
+  rdfs:comment "Vincula uma regra à finalidade do uso à qual ela se aplica."@pt ;
+  rdfs:domain :Regra ;
+  rdfs:range  :FinalidadeUso .
+
+:usoPor a owl:ObjectProperty ;
+  rdfs:label "uso por"@pt ;
+  rdfs:comment "Indica quem realizou o uso/reserva."@pt ;
+  rdfs:domain :UsoAreaComum ;
+  rdfs:range  [ a owl:Class ; owl:unionOf ( :Pessoa :InstituicaoExterna ) ] .
+
+:usaAreaComum a owl:ObjectProperty ;
+    rdfs:label "usa área comum"@pt ;
+    rdfs:comment "Associa um uso/reserva à área comum utilizada (ex.: salão de festas)."@pt ;
+    rdfs:domain :UsoAreaComum ;
+    rdfs:range  :AreaComum .
+
+:temFinalidade a owl:ObjectProperty ;
+  rdfs:label "tem finalidade"@pt ;
+  rdfs:comment "Evento ou renião que tem alguma finalidade específica (ex.: religioso,social,comercial,workshop,treinamento,palestra,reunião)"@pt ;
+  rdfs:domain :UsoAreaComum ;
+  rdfs:range  :AreaComum .
+
 :estaContidoEm a owl:ObjectProperty ;
   rdfs:label "está contido em"@pt ;
   rdfs:comment "Relaciona um chunk à um documento do qual faz parte."@pt ;
@@ -420,7 +496,7 @@
   rdfs:range  rdfs:Resource .
 
 #################################################################
-# PROPRIEDADES (DatatypeProperty)
+# PROPRIEDADES (ObjectProperty)
 #################################################################
 
 :relacionamento a owl:ObjectProperty ;

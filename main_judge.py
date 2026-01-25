@@ -1,9 +1,9 @@
 
-import sys,time,asyncio,json
+import sys,time,asyncio,json, uuid
 
 from rich import print
 
-from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
+from src.services   import keywords_create, graph_search, vector_search, response_judge, response_create, ground_truth
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
 from src.output     import elastic_update_field, csv_create
@@ -21,16 +21,14 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
         exit()
     
     inicio = time.time()  
-    inicio_global = time.time()    
-
-    print( f'\nUSER: {pergunta}' )
-    print( '-'*100,'\n' )
-
+    inicio_global = time.time()   
+    
     # query expantion
     #--------------------------------------------------------------------------
 
     # gpt-4.1, settings.OPENAI_API_KEY
     # gemini-2.5-flash, gemini-3-flash-preview, settings.GEMINI_API_KEY
+
     #model="kimi-k2:1t-cloud",
     #model="kimi-k2-thinking:cloud",
     #model="minimax-m2:cloud",
@@ -44,15 +42,13 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     expantion        = keywords_create(pergunta,'gpt-4.1',settings.OPENAI_API_KEY,None)
     #expantion       = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY,'')
-    #expantion       = keywords_create(pergunta,'qwen3-next:80b-cloud',settings.OLLAMA_API_KEY,'http://localhost:11434')
-
+    #expantion       = keywords_create(pergunta,'mistral-large-3:675b-cloud',settings.OLLAMA_API_KEY,'http://localhost:11434')
+    
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
     query_canonical  = expantion['query_expansion']['canonical']
 
     print( f'\n-> cononical fact: {query_canonical}' )
-
-    #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'
 
     # quanto maior a similaridade mais próximo a um tema único
     if complexity_score<0.55 :
@@ -76,23 +72,24 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     
     inicio = time.time() 
 
-    if retrieval=='grafo':
+    recuperacao_g = graph_search(palavras_chave,pergunta,user_id,retrieval_size)
+    contexto_g    = recuperacao_g['response']
+    knowledge_g   = recuperacao_g['dataset']   
 
-        recuperacao = graph_search(palavras_chave,pergunta,user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']  
-    
-    else:  
+    recuperacao_v = vector_search(palavras_chave,query_canonical,'documentos',user_id,retrieval_size)
+    contexto_v    = recuperacao_v['response']
+    knowledge_v   = recuperacao_v['dataset'] 
 
-        recuperacao = vector_search(palavras_chave,query_canonical,'documentos',user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']    
+    contexto      = contexto_g + '\n' + contexto_v  
+    # Merge knowledge_g and knowledge_v, ensuring all keys are strings
+    knowledge     = {str(k): v for k, v in {**knowledge_g, **knowledge_v}.items()}
+
 
     diff_time('\n-> #2 buscar dados, OK: ', inicio)
     
     if debug_all or 'retriever' in debug_one:
-        print( f'[yellow]// Debug contexto  {retrieval}:\n{recuperacao["response"]}' )
-        print( f'[yellow]// Debug knowledge {retrieval}:\n{recuperacao["dataset"]}' )
+        print( f'[yellow]// Debug contexto  {retrieval}:\n{recuperacao_g["dataset"]}' )
+        print( f'[yellow]// Debug knowledge {retrieval}:\n{recuperacao_v["dataset"]}' )
 
     # ground truth and response
     #--------------------------------------------------------------------------
@@ -100,12 +97,14 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     inicio = time.time() 
 
     task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'maritaca',size_gt)
-    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'maritaca')
-    response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
-    resposta                    = response_llm['resposta']
-
-    print( f'\nLLM: {resposta}' )
-
+    task_response_llm_g         = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto_g,'maritaca')
+    task_response_llm_v         = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto_v,'maritaca')
+    
+    response_gt, response_llm_g, response_llm_v = await asyncio.gather(task_ground_truth, task_response_llm_g,task_response_llm_v)
+    
+    response_llm = response_judge(palavras_chave,pergunta,contexto_g,contexto_v,response_llm_g['resposta'],response_llm_v['resposta'],'maritaca')
+    resposta     = response_llm['resposta']
+   
     diff_time('\n-> #3 ground truth e resposta OK: ', inicio)
 
     if debug_all or 'ground_truth' in debug_one:
@@ -122,9 +121,18 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     nli_val   = response_dyn.get('score_nli', {}).get('score', 0)
     sim_val   = response_dyn.get('score_sim', {}).get('score', 0)
-    match_txt = response_dyn['matched']    
-    
-    print( f'\nGT: {match_txt}' )
+    match_txt = response_dyn['matched'] 
+
+    print( f'\nUSER: {pergunta}' )
+
+    print( '\n#----------------- LLMs')     
+    print( f'\nLLM vetor: {response_llm_v['resposta']} ({len(response_llm_v['resposta'])})chars' )
+    print( f'\nLLM grafo: {response_llm_g['resposta']} ({len(response_llm_g['resposta'])})chars' )
+
+    print( '\n#----------------- Juiz')
+    print( f'\nLLM Juiz: {resposta} ({len(resposta)})chars' )
+    print( f'\nGT: {match_txt} ({len(match_txt)})chars\n' )
+
     print( f"-> nli: {nli_val:.2f}" )
     print( f"-> sim: {sim_val:.2f}" )
     print( f'-> saf: {response_saf:.2f}' )
@@ -146,9 +154,9 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
                 case 'csv': 
                     csv_create('teste_1.csv',retrieval,pergunta,complexity_score,response_saf,nli_val,sim_val,response_llm,'ollama')       
-   
+
     # 1. CASO OURO: IA fiel ao documento e alinhada ao gabarito
-    if response_saf > threshold and (nli_val > threshold or sim_val > threshold):
+    if response_saf > threshold and (nli_val > threshold and sim_val > threshold):
         print('[green]*** Resposta APROVADA: Fiel ao documento e ao GT ***\n')
 
     # 2. CASO DIVERGÊNCIA: IA fiel ao documento, mas longe do GT
@@ -216,11 +224,10 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
         #sys.exit(1)
-        pergunta = pergunta_debugger
-        banco    = 'grafo'        
+        pergunta = pergunta_debugger      
     else:
         banco    = sys.argv[1].strip()
-        pergunta = globals().get( sys.argv[2].strip() )
+        pergunta = globals().get( sys.argv[1].strip() )
 
     # debug_one [query,retriever,ground_truth]
     # user_id,pergunta,retrieval=grafo|vetor,retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):

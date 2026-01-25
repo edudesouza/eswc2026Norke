@@ -8,7 +8,7 @@ from src.utils.text import normalize
 
 def graph_search(keyword,question,named_graph,retrieval_size):
 
-    print('--> search graph')
+    print( f'--> search graph ({settings.repositorio})')
 
     status         = ''
     knowledge_base = {}
@@ -23,7 +23,7 @@ def graph_search(keyword,question,named_graph,retrieval_size):
             PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
             PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
 
-            SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao
+            SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao ?predicado ?direcao
             FROM <https://omc.co/graph/{named_graph}>
             WHERE {{
             {{
@@ -56,11 +56,28 @@ def graph_search(keyword,question,named_graph,retrieval_size):
             OPTIONAL {{
                 
                 # Procura vizinhos em qualquer direção (Regra->Chunk OU Chunk->Regra)
-                {{ ?regra ?p ?chunkNode . }} UNION {{ ?chunkNode ?p ?regra . }}
+                #{{ ?regra ?p ?chunkNode . }} UNION {{ ?chunkNode ?p ?regra . }}
 
                 # O filtro é: esse vizinho é um Chunk e tem texto?
-                ?chunkNode a :Chunk ;
-                    :texto ?textoBruto .
+                #?chunkNode a :Chunk ;
+                #    :texto ?textoBruto .
+
+                {{
+                    # Direção 1: Regra -> Chunk
+                    ?regra ?p ?chunkNode .
+                    ?chunkNode a :Chunk .
+                    BIND(?p AS ?predicado)
+                    BIND("regra→chunk" AS ?direcao)
+                }} UNION {{
+                    # Direção 2: Chunk -> Regra  
+                    ?chunkNode ?p ?regra .
+                    ?chunkNode a :Chunk .
+                    BIND(?p AS ?predicado)
+                    BIND("chunk→regra" AS ?direcao)
+                }}
+
+                # Texto do chunk (fora do UNION para não duplicar)
+                ?chunkNode :texto ?textoBruto .
                 
                 # Valida idioma e atribui à variável de saída
                 FILTER(LANG(?textoBruto) = "" || LANGMATCHES(LANG(?textoBruto), "pt"))

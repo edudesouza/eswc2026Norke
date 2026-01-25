@@ -3,13 +3,14 @@ import sys,time,asyncio,json
 
 from rich import print
 
-from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
+from src.services   import keywords_create, graph_search,vector_search, graph_search_ensemble, vector_graph_ensemble, vector_graph_ensemble_manual, response_create, ground_truth
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
+from src.loaders    import elastic_load_one,elastic_load_batch
 from src.output     import elastic_update_field, csv_create
 from src.config     import settings
 
-async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):  
+async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=True,debug_one=None,output=None,threshold=0.60):  
 
     print( f'[red] \n--- inicio ---' )
 
@@ -29,8 +30,6 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     # query expantion
     #--------------------------------------------------------------------------
 
-    # gpt-4.1, settings.OPENAI_API_KEY
-    # gemini-2.5-flash, gemini-3-flash-preview, settings.GEMINI_API_KEY
     #model="kimi-k2:1t-cloud",
     #model="kimi-k2-thinking:cloud",
     #model="minimax-m2:cloud",
@@ -44,8 +43,8 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     expantion        = keywords_create(pergunta,'gpt-4.1',settings.OPENAI_API_KEY,None)
     #expantion       = keywords_create(pergunta,'gemini-2.5-flash',settings.GEMINI_API_KEY,'')
-    #expantion       = keywords_create(pergunta,'qwen3-next:80b-cloud',settings.OLLAMA_API_KEY,'http://localhost:11434')
-
+    #expantion       = keywords_create(pergunta,'mistral-large-3:675b-cloud',settings.OLLAMA_API_KEY,'http://localhost:11434')
+    
     palavras_chave   = expantion['keywords']
     complexity_score = expantion['complexity_score']
     query_canonical  = expantion['query_expansion']['canonical']
@@ -55,7 +54,7 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'
 
     # quanto maior a similaridade mais próximo a um tema único
-    if complexity_score<0.55 :
+    if complexity_score<0.50:
         print( f'-> complexidade alta: {complexity_score:.2f}' )
         retrieval_size = 20
         size_gt = 10
@@ -76,17 +75,18 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     
     inicio = time.time() 
 
-    if retrieval=='grafo':
+    match retrieval:
 
-        recuperacao = graph_search(palavras_chave,pergunta,user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']  
+        case 'grafo':
+            recuperacao = graph_search_ensemble(palavras_chave,pergunta,user_id,retrieval_size)
+            contexto    = recuperacao['response']
+            knowledge   = recuperacao['dataset']  
     
-    else:  
+        case 'vetor':  
 
-        recuperacao = vector_search(palavras_chave,query_canonical,'documentos',user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']    
+            recuperacao = vector_graph_ensemble(palavras_chave,query_canonical,'documentos',user_id,user_id,retrieval_size)
+            contexto    = recuperacao['response']
+            knowledge   = recuperacao['dataset']          
 
     diff_time('\n-> #2 buscar dados, OK: ', inicio)
     
@@ -99,8 +99,8 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     inicio = time.time() 
 
-    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'maritaca',size_gt)
-    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'maritaca')
+    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'ollama',size_gt)
+    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'ollama')
     response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
     resposta                    = response_llm['resposta']
 
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     pergunta11 = 'vou passar 3 meses fora trabalhando em um outro estado e nesse período vou fazer um AirBnB aqui, vi o regulamento e a convenção e nenhum probe então entendo que está OK, blz?'
     pergunta12 = 'roubaram minha bike dentro do condomínio, isso é um absurso, o condomínio deve me reembolsar?'
     pergunta13 = 'roubaram o carro do meu filho em frente ao condomínio, quero as imagens agora e o síndico não quer me fornecer, pode isso?'
-    pergunta14 = 'oi, bom dia, eu preciso fazer uma demonstração para meus clientes e pensei em alugar o salão de festas, serão umas 20 pessoas, OK?'
+    pergunta14 = 'oi, bom dia, eu preciso fazer uma demonstração de produtos para meus clientes e pensei em alugar o salão de festas, serão umas 20 pessoas, OK?'
     pergunta15 = 'oi, bom dia, quero fazer um culto com os irmãos da igreja no próximo dia 10 e quero alugar o salão, OK?' 
     pergunta16 = 'porque meus convidados que estão no meu aniversário não podem fumar aqui na area de fora, perto da churrasqueira'
     pergunta17 = 'o síndico não quer me passar as imagens da camera de segurança, o carro do meu irmão foi roubado em frente ao condomínio, ele pode negar isso? ele falou que a lgpd não deixa!'
@@ -217,11 +217,11 @@ if __name__ == "__main__":
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
         #sys.exit(1)
         pergunta = pergunta_debugger
-        banco    = 'grafo'        
+        banco    = 'vetor'        
     else:
         banco    = sys.argv[1].strip()
         pergunta = globals().get( sys.argv[2].strip() )
 
     # debug_one [query,retriever,ground_truth]
     # user_id,pergunta,retrieval=grafo|vetor,retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):
-    asyncio.run( main('5511993891773',pergunta,banco,20,5,False,None,None,0.75) )
+    asyncio.run( main('5511993891773',pergunta,banco,10,5,False,None,None,0.60) )

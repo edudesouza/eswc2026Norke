@@ -9,8 +9,21 @@ from src.config import settings
 from src.models import embedding_model
 
 def keywords_create(question,model,api,url):
+
+    ontology_txt:''
+
+    with open("src/ingest/_owl_tbox_v4.ttl", encoding="utf-8") as f:
+        ontology_txt = f.read()
     
-    prompt = '''
+    prompt = f'''
+        ## 1. CONCEITOS FUNDAMENTAIS
+        Você é um especialista em Ontologias e Extração de Intenção para sistemas de gestão condominial.
+        Sua tarefa é analisar a pergunta do usuário e extrair metadados estruturados baseados na Ontologia fornecida.        
+        
+        ## 2. ONTOLOGIA DE REFERÊNCIA
+        {ontology_txt}
+        
+        ## 3. INSTRUÇÕES DE EXTRAÇÃO (METODOLOGIA 5W3H)
         Analise com atenção para obter o principal item questionado.
         Para os principais temas sempre busque pelo menos 2 sinomimos.  
         Vamos usar o 5W3H que é uma metodologia estruturada de questionamento, voltada para organizar o pensamento e o planejamento de ações.
@@ -29,7 +42,7 @@ def keywords_create(question,model,api,url):
         Não use aspas duplas, nem aspas simples
         Não use barras, pipes ou barra invertida: '/','\','|', ao invés seja textual, use: 'ou','e'
         Gere também uma query canonica (canonical) com no máximo 12 termos, apenas substantivos e verbos principais, sem termos genéricos como morador, condomínio, solicitante. 
-        Evite duplicatas
+        Evite duplicatas    
     '''
 
     examples = [

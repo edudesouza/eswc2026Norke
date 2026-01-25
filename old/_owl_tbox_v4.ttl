@@ -27,7 +27,7 @@
 
 :EntidadeFisica a owl:Class ;
   rdfs:label "Entidade Física"@pt ;
-  rdfs:comment "Coisas físicas ou áreas do condomínio."@pt .
+  rdfs:comment "Local físico ou área do condomínio."@pt .
 
 :CultoReligioso a owl:Class ;
   rdfs:label "Culto Religioso"@pt ;
