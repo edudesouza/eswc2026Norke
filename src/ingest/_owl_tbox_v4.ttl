@@ -74,7 +74,7 @@
   rdfs:comment "Organizações parceiras/fornecedores do condomínio."@pt .
 
 #################################################################
-# ENTIDADES PRINCIPAIS (subclasses de EntidadeFisica)
+# ENTIDADES NORMATIVAS 
 #################################################################
 
 :Artigo a owl:Class ;
@@ -91,6 +91,10 @@
   rdfs:subClassOf :Capitulo ;
   rdfs:label "Paragrafo unico de um documento"@pt ;
   rdfs:comment "Subdivisão de um artigo em um documento normativo (como leis, decretos ou contratos) utilizada quando há apenas uma disposição secundária a ser detalhada em relação ao texto principal do artigo"@pt .
+
+#################################################################
+# ENTIDADES PRINCIPAIS (subclasses de EntidadeFisica)
+#################################################################
 
 :FinalidadeSocial a owl:Class ;
   rdfs:subClassOf :FinalidadeUso ;
@@ -498,6 +502,12 @@
 #################################################################
 # PROPRIEDADES (ObjectProperty)
 #################################################################
+
+:temEvidenciaEm a owl:ObjectProperty ;
+  rdfs:label "tem evidência em"@pt ;
+  rdfs:comment "Relaciona um trecho normativo (Artigo/Parágrafo/Regra) ao Chunk que contém o texto fonte (evidência)."@pt ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range  :Chunk .
 
 :relacionamento a owl:ObjectProperty ;
     rdfs:label "possui relacionamento"@pt ;

@@ -15,17 +15,18 @@ async def run_batch():
 
     inicio = time.time()
 
-    with open("output/chunks_normativos.json", encoding="utf-8") as f:
+    with open("./src/ingest/output/chunks_normativos.json", encoding="utf-8") as f:
         json_chunks = json.loads(f.read())
         
-    total     = len(json_chunks)
+    chunks    = [item for item in json_chunks if item.get("paragrafo") == "caput"]
+    total     = len(chunks)
     processar = 0
 
-    for index, item in enumerate(json_chunks,start=1): 
+    for index, item in enumerate(chunks,start=1): 
 
         id   = item['id']
         text = item['text']
-        file = '',   
+        file = 'https://storage.googleapis.com/comtodos-607d6.appspot.com/5511969033344/5511993891773/Nouveaux_Regulamento_2023.pdf',   
 
         data = {
             "id":id,
@@ -36,7 +37,7 @@ async def run_batch():
             #"texto":"Realizar apresentação para clientes ou reunião de negócios"
         }  
 
-        result = await graph_ingest(data,debug=True) 
+        result = await graph_ingest(data,debug=False) 
         try:                
             print( f'-> res: {result}' ) 
         except Exception as erro:

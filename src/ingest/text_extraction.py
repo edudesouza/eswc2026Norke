@@ -49,15 +49,32 @@ def split_normativo(md_text: str) -> List[Dict]:
         if paragrafo_id and buffer:
 
             text = "\n".join(buffer).strip()            
+            
             if text:
-                chunks.append({
-                    "text": text,
-                    "capitulo": capitulo_nome,
-                    "artigo": artigo_nr,
-                    "paragrafo": paragrafo_id,
-                    "tipo":"full_text",
-                    "parent_id":parent_id
-                })
+
+                if paragrafo_id=="caput":
+
+                    parent_id = uuid.uuid4().hex[:8]
+                    
+                    chunks.append({
+                        "text": text,
+                        "capitulo": capitulo_nome,
+                        "artigo": artigo_nr,
+                        "paragrafo": paragrafo_id,
+                        "tipo":"full_text",
+                        "id":parent_id
+                    })
+
+                else:
+                
+                    chunks.append({
+                        "text": text,
+                        "capitulo": capitulo_nome,
+                        "artigo": artigo_nr,
+                        "paragrafo": paragrafo_id,
+                        "tipo":"full_text",
+                        "parent_id":parent_id
+                    })
 
             if len(chunk)<1000:
                 chunk = f'{overlap}{chunk}{text}'
@@ -69,7 +86,7 @@ def split_normativo(md_text: str) -> List[Dict]:
                     "artigo": "",
                     "paragrafo": "",
                     "tipo":"chunk",
-                    "id":parent_id
+                    "parent_id":parent_id
                 })
 
                 parent_id = uuid.uuid4().hex[:8]

@@ -1,58 +1,56 @@
 
-1 - Importar TBox no painel, via import para The Default Graph
+- Importar TBox no painel, via import para The Default Graph
 
-PREFIX v:    <https://omc.co/vocabulary/>
-PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX v:    <https://omc.co/vocabulary/>
+  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-SELECT DISTINCT ?regra ?descricao
+  SELECT DISTINCT ?regra ?descricao
 
-WHERE {
-    GRAPH <https://omc.co/graph/5511993891773> {
+  WHERE {
+      GRAPH <https://omc.co/graph/5511993891773> {
+      ?regra rdf:type v:Regra ;
+              v:descricao ?descricao .
+      }
+  }
+  ORDER BY ?regra
+
+- Regra com lucene
+
+  PREFIX v:           <https://omc.co/vocabulary/>
+  PREFIX rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX luc:         <http://www.ontotext.com/connectors/lucene#>
+  PREFIX luc-index:   <http://www.ontotext.com/connectors/lucene/instance#>
+
+  SELECT DISTINCT ?regra ?descricao ?score
+  FROM <https://omc.co/graph/5511993891773>
+  WHERE {
+    # Busca full-text em v:descricao
+    ?search a luc-index:omc_full ;
+            luc:query 'oi, boa tarde, quero fazer um culto religioso com os irmãos da igreja no salão, pode?';
+            luc:entities ?regra .
+
+    # Score do Lucene
+    ?regra luc:score ?score .
+
+    # Garante que é uma Regra e pega a descrição
     ?regra rdf:type v:Regra ;
-            v:descricao ?descricao .
-    }
-}
-ORDER BY ?regra
+          v:descricao ?descricao .
+  }
+  ORDER BY DESC(?score)
+  LIMIT 10
 
-****************************************************************
+- busca regras
 
-Regra com lucene
+  PREFIX v:    <https://omc.co/vocabulary/>
+  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-PREFIX v:           <https://omc.co/vocabulary/>
-PREFIX rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX luc:         <http://www.ontotext.com/connectors/lucene#>
-PREFIX luc-index:   <http://www.ontotext.com/connectors/lucene/instance#>
-
-SELECT DISTINCT ?regra ?descricao ?score
-FROM <https://omc.co/graph/5511993891773>
-WHERE {
-  # Busca full-text em v:descricao
-  ?search a luc-index:omc_full ;
-          luc:query 'oi, boa tarde, quero fazer um culto religioso com os irmãos da igreja no salão, pode?';
-          luc:entities ?regra .
-
-  # Score do Lucene
-  ?regra luc:score ?score .
-
-  # Garante que é uma Regra e pega a descrição
-  ?regra rdf:type v:Regra ;
-         v:descricao ?descricao .
-}
-ORDER BY DESC(?score)
-LIMIT 10
-
-****************************************************************
-
-PREFIX v:    <https://omc.co/vocabulary/>
-PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
-SELECT DISTINCT ?regra ?descricao
-FROM <https://omc.co/graph/5511993891773>
-WHERE {
-  ?regra rdf:type v:Regra ;
-  v:descricao ?descricao .
-}
-ORDER BY ?regra
+  SELECT DISTINCT ?regra ?descricao
+  FROM <https://omc.co/graph/5511993891773>
+  WHERE {
+    ?regra rdf:type v:Regra ;
+    v:descricao ?descricao .
+  }
+  ORDER BY ?regra
 
 - busca classe e nós de: Vaga
 
@@ -128,31 +126,31 @@ ORDER BY ?regra
 
 - apagar documento
 
-  PREFIX :     <https://omc.co/vocabulary/>
-  PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX :     <https://omc.co/vocabulary/>
+    PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-  DELETE {
-    ?s ?p ?o .
-  }
-  WHERE {
-    ?s ?p ?o .
-    FILTER ( ?s = :doc_5511993891773_749_1 )
-  }
+    DELETE {
+      ?s ?p ?o .
+    }
+    WHERE {
+      ?s ?p ?o .
+      FILTER ( ?s = :doc_5511993891773_749_1 )
+    }
 
 - criar index de similaridade
 
-PREFIX v: <https://omc.co/vocabulary/>
+  PREFIX v: <https://omc.co/vocabulary/>
 
-SELECT ?documentID ?documentText {
-    # Seleciona apenas os nós que são do tipo 'Chunk'
-    ?documentID a v:Regra .
+  SELECT ?documentID ?documentText {
+      # Seleciona apenas os nós que são do tipo 'Chunk'
+      ?documentID a v:Regra .
 
-    # Pega o texto da propriedade v:texto
-    ?documentID v:descricao ?documentText .
+      # Pega o texto da propriedade v:texto
+      ?documentID v:descricao ?documentText .
 
-    # Garante que é um texto válido
-    FILTER(isLiteral(?documentText))
-}
+      # Garante que é um texto válido
+      FILTER(isLiteral(?documentText))
+  }
 
 - registrar classe
 
@@ -304,22 +302,23 @@ SELECT ?documentID ?documentText {
   PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 
   DELETE {
-    :parteDe ?p ?o .
-  }
-  INSERT {
-    :parteDe a owl:ObjectProperty ;
-      rdfs:label "parte de"@pt ;
-      rdfs:comment "Relaciona uma entidade física a uma unidade maior (ex.: vaga faz parte da garagem)."@pt ;
-      rdfs:domain :EntidadeFisica ;
-      rdfs:range  :EntidadeFisica .
-  }
-  WHERE {
-    OPTIONAL { :parteDe ?p ?o }
+    :temEvidenciaEm ?p ?o .
   }
 
-  - apaga o conteúdo
+  INSERT {
+    :temEvidenciaEm a owl:ObjectProperty ;
+      rdfs:label "tem evidência em"@pt ;
+      rdfs:comment "Relaciona um trecho normativo (Artigo/Parágrafo/Regra) ao Chunk que contém o texto fonte (evidência)."@pt ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range  :Chunk .
+  }
+  WHERE {
+    OPTIONAL { :temEvidenciaEm ?p ?o }
+  }
+
+- apaga o conteúdo
   
-    DELETE WHERE { ?s ?p <https://omc.co/5511993891773/749/5511993891773_749_2> }
+  DELETE WHERE { ?s ?p <https://omc.co/5511993891773/749/5511993891773_749_2> }
 
 - limpar
 
@@ -365,55 +364,57 @@ SELECT ?documentID ?documentText {
 
 **********************************************************************************************
 
-PREFIX v:          <https://omc.co/vocabulary/>
-PREFIX :           <https://omc.co/vocabulary/>
-PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
-PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
-PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+- community
 
-SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao ?idComunidade
-FROM <https://omc.co/graph/5511993891773>
-WHERE {
-    {
-        # 1. SUBQUERY: Busca a REGRA e identifica a COMUNIDADE dela
-        SELECT ?regra ?comm (MAX(?s) AS ?score)
-        WHERE {
-            ?q a luc-index:omc_full ;
-               luc:query 'salão festas uso culto natal moradores taxa' ;
-               luc:entities ?regra .
-            ?regra luc:score ?s .
+  PREFIX v:          <https://omc.co/vocabulary/>
+  PREFIX :           <https://omc.co/vocabulary/>
+  PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+  PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+  PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
 
-            # Vincula a Regra ao seu Chunk para achar a Comunidade
-            { ?regra ?p ?cNode . } UNION { ?cNode ?p ?regra . }
-            ?cNode a :Chunk .
-            ?cNode v:inCommunity ?comm .
-            ?comm v:communityResolution "1.0" .
-        }
-        GROUP BY ?regra ?comm
-        ORDER BY DESC(?score)
-        LIMIT 10
-    }
+  SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao ?idComunidade
+  FROM <https://omc.co/graph/5511993891773>
+  WHERE {
+      {
+          # 1. SUBQUERY: Busca a REGRA e identifica a COMUNIDADE dela
+          SELECT ?regra ?comm (MAX(?s) AS ?score)
+          WHERE {
+              ?q a luc-index:omc_full ;
+                luc:query 'salão festas uso culto natal moradores taxa' ;
+                luc:entities ?regra .
+              ?regra luc:score ?s .
 
-    # 2. FILTRO DE TIPO (Reasoning para subclasses de Regra)
-    ?regra a/rdfs:subClassOf* :Regra .
-    OPTIONAL { ?regra a ?tipo }
-    ?regra :descricao ?descricao .
-    FILTER(LANG(?descricao) = "" || LANGMATCHES(LANG(?descricao), "pt"))
+              # Vincula a Regra ao seu Chunk para achar a Comunidade
+              { ?regra ?p ?cNode . } UNION { ?cNode ?p ?regra . }
+              ?cNode a :Chunk .
+              ?cNode v:inCommunity ?comm .
+              ?comm v:communityResolution "1.0" .
+          }
+          GROUP BY ?regra ?comm
+          ORDER BY DESC(?score)
+          LIMIT 10
+      }
 
-    # 3. EXPANSÃO POR COMUNIDADE: 
-    # Em vez de pegar só o chunk da regra, pegamos os "vizinhos" da comunidade
-    ?vizinho v:inCommunity ?comm .
-    ?vizinho a :Chunk ;
-             :texto ?texto ;
-             :idChunk ?idChunk .
-    
-    FILTER(LANG(?texto) = "" || LANGMATCHES(LANG(?texto), "pt"))
-    
-    BIND(?regra AS ?regraURI)
-    BIND(STRAFTER(STR(?comm), "leiden/r1/") AS ?idComunidade)
-}
-ORDER BY DESC(?score) ?idChunk
-LIMIT 20
+      # 2. FILTRO DE TIPO (Reasoning para subclasses de Regra)
+      ?regra a/rdfs:subClassOf* :Regra .
+      OPTIONAL { ?regra a ?tipo }
+      ?regra :descricao ?descricao .
+      FILTER(LANG(?descricao) = "" || LANGMATCHES(LANG(?descricao), "pt"))
+
+      # 3. EXPANSÃO POR COMUNIDADE: 
+      # Em vez de pegar só o chunk da regra, pegamos os "vizinhos" da comunidade
+      ?vizinho v:inCommunity ?comm .
+      ?vizinho a :Chunk ;
+              :texto ?texto ;
+              :idChunk ?idChunk .
+      
+      FILTER(LANG(?texto) = "" || LANGMATCHES(LANG(?texto), "pt"))
+      
+      BIND(?regra AS ?regraURI)
+      BIND(STRAFTER(STR(?comm), "leiden/r1/") AS ?idComunidade)
+  }
+  ORDER BY DESC(?score) ?idChunk
+  LIMIT 20
 
 pipeline, para criação: named graph -> criar o usuário -> criar o documento
 - loop nos chunks, criar o graph doc -> rdflib -> ttl e fazer o uplaod do chunk em ttl
