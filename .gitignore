@@ -3,3 +3,7 @@
 .deepeval
 .venv/
 logs/
+__pycache__/
+*.pyc
+.claude/
+old/
