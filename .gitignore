@@ -1,9 +1,12 @@
 .env
 .cache
 .deepeval
+venv/
 .venv/
 logs/
 __pycache__/
 *.pyc
 .claude/
 old/
+data/
+*.log
