@@ -1,12 +1,12 @@
 
-import requests, re, textwrap
+import requests, re, textwrap, ast
 
 from requests.auth  import HTTPBasicAuth
 
 from src.config     import settings
 from src.utils.text import normalize
 
-def graph_search(keyword,question,named_graph,retrieval_size):
+def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
 
     print( f'--> search graph ({settings.repositorio})')
 
@@ -16,6 +16,53 @@ def graph_search(keyword,question,named_graph,retrieval_size):
     keyword        = re.sub(r'[\\/]+', ' ', keyword) 
 
     try:
+
+        query_class_rules = f'''
+            PREFIX :     <https://omc.co/vocabulary/>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+            SELECT DISTINCT ?regraURI ?descricao ?texto ?idChunk ?tipo
+            FROM <https://omc.co/graph/5511993891773>
+            WHERE {{
+
+            VALUES ?classe {{
+                {class_rules}
+            }}
+
+            # 1. Instância da classe extraída pelo LLM
+            ?instancia rdf:type ?classe .
+
+            # 2. Chunk hub conectado à instância (em qualquer direção)
+            {{
+                ?instancia :relacionamento ?chunk .
+            }} UNION {{
+                ?chunk :relacionamento ?instancia .
+            }}
+            ?chunk rdf:type :Chunk .
+
+            # 3. Regras conectadas ao mesmo chunk hub
+            {{
+                ?regraURI :relacionamento ?chunk .
+            }} UNION {{
+                ?chunk :relacionamento ?regraURI .
+            }}
+            ?regraURI rdf:type/rdfs:subClassOf* :Regra .
+
+            OPTIONAL {{
+                ?regraURI :descricao ?descricao .
+                FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+            }}
+            OPTIONAL {{ ?regraURI rdf:type ?tipo }}
+            OPTIONAL {{ ?chunk :texto ?textoBruto .
+                FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+            }}
+            OPTIONAL {{ ?chunk :idChunk ?idChunk }}
+
+            BIND(COALESCE(?textoBruto, ?descricao) AS ?texto)
+            }}
+            ORDER BY ?regraURI
+        '''
 
         query_rules = f'''
             PREFIX :           <https://omc.co/vocabulary/>
@@ -94,6 +141,102 @@ def graph_search(keyword,question,named_graph,retrieval_size):
             LIMIT {retrieval_size}
         '''   
 
+        query_rules_expandida = f'''
+            PREFIX :           <https://omc.co/vocabulary/>
+            PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+            PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+            PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT DISTINCT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao
+            FROM <https://omc.co/graph/5511993891773>
+            WHERE {{
+
+            # ── BRANCH A: pivot é uma :Regra ──────────────────────────────────────
+            {{
+                {{
+                SELECT ?regra (MAX(?s) AS ?score)
+                WHERE {{
+                    ?q a luc-index:omc_full ;
+                    luc:query '{keyword}' ;
+                    luc:entities ?regra .
+                    ?regra luc:score ?s .
+                    ?regra a/rdfs:subClassOf* :Regra .
+                }}
+                GROUP BY ?regra
+                ORDER BY DESC(?score)
+                LIMIT 100
+                }}
+
+                OPTIONAL {{ ?regra a ?tipo }}
+                OPTIONAL {{
+                ?regra :descricao ?descricao .
+                FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+                }}
+
+                OPTIONAL {{
+                {{
+                    ?regra ?p ?chunkNode .
+                    ?chunkNode a :Chunk .
+                }} UNION {{
+                    ?chunkNode ?p ?regra .
+                    ?chunkNode a :Chunk .
+                }}
+                ?chunkNode :texto ?textoBruto .
+                FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+                OPTIONAL {{ ?chunkNode :idChunk ?idChunk }}
+                }}
+
+                BIND(COALESCE(?textoBruto, ?descricao) AS ?texto)
+                BIND(?regra AS ?regraURI)
+            }}
+
+            UNION
+
+            # ── BRANCH B: pivot é um :Chunk direto ────────────────────────────────
+            {{
+                {{
+                SELECT ?chunkNode (MAX(?s) AS ?score)
+                WHERE {{
+                    ?q a luc-index:omc_full ;
+                    luc:query  '{keyword}' ;
+                    luc:entities ?chunkNode .
+                    ?chunkNode luc:score ?s .
+                    ?chunkNode a :Chunk .
+                }}
+                GROUP BY ?chunkNode
+                ORDER BY DESC(?score)
+                LIMIT 100
+                }}
+
+                ?chunkNode :texto ?textoBruto .
+                FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+
+                OPTIONAL {{
+                {{
+                    ?chunkNode ?p ?regra .
+                    ?regra a/rdfs:subClassOf* :Regra .
+                }} UNION {{
+                    ?regra ?p ?chunkNode .
+                    ?regra a/rdfs:subClassOf* :Regra .
+                }}
+                OPTIONAL {{
+                    ?regra :descricao ?descricao .
+                    FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+                }}
+                }}
+
+                OPTIONAL {{ ?chunkNode a ?tipo }}
+                OPTIONAL {{ ?chunkNode :idChunk ?idChunk }}
+
+                BIND(?textoBruto AS ?texto)
+                BIND(COALESCE(?regra, ?chunkNode) AS ?regraURI)
+            }}
+
+            }}
+            ORDER BY DESC(?score)
+            LIMIT 20
+        '''
+
         query_chunks = f'''
             PREFIX :           <https://omc.co/vocabulary/>
             PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
@@ -146,17 +289,41 @@ def graph_search(keyword,question,named_graph,retrieval_size):
         LIMIT {retrieval_size}
         '''
 
+        query_similaridade = f'''
+            PREFIX : <http://www.ontotext.com/graphdb/similarity/>
+            PREFIX inst: <http://www.ontotext.com/graphdb/similarity/instance/>
+            PREFIX v: <https://omc.co/vocabulary/>
+
+            SELECT ?score ?idChunk ?texto
+            FROM <https://omc.co/graph/{named_graph}>
+            WHERE {{
+                ?search a inst:similarity_v1 ;
+                        :searchTerm '{keyword}';
+                        :documentResult ?result .
+
+                ?result :value ?documentID ;   		
+                        :score ?score .    		
+
+                OPTIONAL {{ ?chunk v:idChunk ?idChunk }}
+                OPTIONAL {{ ?chunk v:texto  ?texto }}
+                
+            }}
+            ORDER BY DESC(?score)
+            LIMIT {retrieval_size} 
+        '''
+
         url     = f"{settings.GRAPHDB_BASE_URL}/repositories/{settings.repositorio}"
         headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
 
-        #print( query_rules )
-        #print( query_chunks )
+        '''print( query_class_rules )
+        print( '-'*100 )
+        print( query_chunks )'''
 
         # Buscar apenas Regras
 
         resp_rules = requests.post(
             url,
-            data=query_rules,
+            data=query_class_rules,
             headers=headers,
             auth=HTTPBasicAuth(settings.GRAPHDB_USERNAME,settings.GRAPHDB_PASSWORD)  # ajuste usuário/senha
         )

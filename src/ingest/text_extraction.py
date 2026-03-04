@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore')
 RE_CAPITULO  = re.compile(r"^\s*##\s*\*\*(.+?)\*\*\s*$")
 RE_ARTIGO    = re.compile(r"^\s*\*\*(Artigo\s+\d+º?)\s*[-–—]?\*\*\s*(.*)\s*$", re.IGNORECASE)
 RE_PAR_UNICO = re.compile(r"^\s*\*\*(Parágrafo\s+Único\.)\*\*\s*(.*)\s*$", re.IGNORECASE)
-RE_PARAG     = re.compile(r"^\s*\*\*(§\s*\d+º?)\*\*\s*[-–—]?\s*(.*)\s*$", re.IGNORECASE)
+RE_PARAG     = re.compile(r"^\s*\*\*(§\s*\d+º?\s*[-–—]?)\*\*\s*[-–—]?\s*(.*)\s*$", re.IGNORECASE)
 
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 file_name  = os.path.join(BASE_DIR, 'pdf', 'Nouveaux_Regulamento_2023.pdf')
@@ -89,8 +89,7 @@ def split_normativo(md_text: str) -> List[Dict]:
                     "parent_id":parent_id
                 })
 
-                parent_id = uuid.uuid4().hex[:8]
-                overlap   = text  
+                overlap   = text
                 chunk     = ''                     
    
         buffer = []
@@ -103,9 +102,11 @@ def split_normativo(md_text: str) -> List[Dict]:
         
         l = line.strip()
         if not l:
-            # mantém quebra dentro do parágrafo como espaço (evita fragmentar)
-            if buffer and buffer[-1] != "":
-                buffer.append("")
+            # Linha vazia: ignora quando está no meio de um parágrafo (ex: quebra de página)
+            # Só adiciona ao buffer se não estiver processando um parágrafo específico
+            if not paragrafo_id:
+                if buffer and buffer[-1] != "":
+                    buffer.append("")
             continue
 
         # 1) Capítulo / Seção
@@ -140,7 +141,7 @@ def split_normativo(md_text: str) -> List[Dict]:
         m = RE_PARAG.match(l)
         if m:
             flush()
-            paragrafo_id = m.group(1).replace(" ", "")  # "§1º"
+            paragrafo_id = re.sub(r"[\s\-–—]+$", "", m.group(1)).replace(" ", "")  # "§1º"
             rest = m.group(2).strip()
             buffer = [f"**{paragrafo_id}** - {rest}".strip()]
             continue
@@ -166,9 +167,18 @@ chunks = split_normativo( full_text )
 
 print( '-> fim' )
 
+# Salva JSON
 out_path = "output/chunks_normativos.json"
 
 with open(out_path, "w", encoding="utf-8") as f:
     json.dump(chunks, f, ensure_ascii=False, indent=2)
 
 print(f"-> OK: {len(chunks)} chunks salvos em {out_path}")
+
+# Salva texto extraído em TXT para análise e auditoria
+txt_path = "output/normativos.txt"
+
+with open(txt_path, "w", encoding="utf-8") as f:
+    f.write(full_text)
+
+print(f"-> OK: texto extraído salvo em {txt_path}")

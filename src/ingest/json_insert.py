@@ -1,4 +1,4 @@
-import json,re,unicodedata
+import json,re,unicodedata, uuid
 from rich import print
 
 import requests
@@ -6,7 +6,7 @@ from requests.auth import HTTPBasicAuth
 
 from src.config import settings
 
-# py -m src.ingest.json_insert
+# py -m src.ingest.json_insert_v1
 
 GRAPHDB_BASE_URL   = settings.GRAPHDB_BASE_URL
 GRAPHDB_USERNAME   = settings.GRAPHDB_USERNAME
@@ -41,7 +41,7 @@ def upload(ttl,path,USUARIO):
         resp = requests.post(GRAPHDB_REPO_URL, params=params, data=ttl, headers=headers, auth=auth, timeout=1200)
         resp.raise_for_status()
 
-        print( resp )
+        print( resp, path )
 
     except Exception as erro:
         print( f'ERRO upload: {path} - {erro}' )
@@ -63,25 +63,25 @@ for index, item in enumerate(full_text,start=1):
     paragrafo = normalize(item['paragrafo'])
     text      = no_spaces(item['text'])
     
-    if paragrafo == 'caput':
+    if paragrafo == 'caput':        
         tipo = 'Artigo'
-        parent_id = item['id']
+    
     else:
-        tipo = 'Paragrafo'  
-        parent_id = item['parent_id']    
 
-    if capitulo and artigo and paragrafo:
-        
-        path = f"{capitulo}/{artigo}/{paragrafo}"     
+        if item['tipo']=='full_text':
+             
+            tipo      =  'Paragrafo' 
+            parent_id = item['parent_id']   
+            path      = f"{parent_id}_{uuid.uuid4().hex[:8]}"
 
-        rdf = f'''<https://omc.co/5511993891773/749/{path}>
-        a v:{tipo} ;
-        v:descricao "{text}"@pt ;
-        v:temEvidenciaEm <https://omc.co/5511993891773/749/{parent_id}> .'''
+            rdf = f'''<https://omc.co/5511993891773/749/{path}>
+            a v:{tipo} ;
+            v:descricao "{text}"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/{parent_id}> .'''
 
-        upload(rdf,path,'5511993891773')        
+            upload(rdf,path,'5511993891773')        
 
-        ttl_lines.append(rdf)
+            ttl_lines.append(rdf)
 
 with open(ttl_path, "w", encoding="utf-8") as f:
     f.write("".join(ttl_lines))

@@ -3,6 +3,8 @@ from typing import List, Dict, Any
 from pprint import pprint
 from urllib.parse import quote
 
+from rich import print
+
 # RDF / SPARQL
 from rdflib             import Graph, URIRef, Literal, Namespace, ConjunctiveGraph
 from rdflib.namespace   import RDF, RDFS, XSD, OWL
@@ -448,30 +450,32 @@ async def graph_ingest(data,debug=False):
 
     # 1) Extração (LLMGraphTransformer)
     graph_docs = await extract_graph_docs(data["texto"], meta)
-    print('--> triplas extraidas')
-    #print(graph_docs)
-    #print(f"Nodes:{graph_docs[0].nodes}")
-    #print(f"Relationships:{graph_docs[0].relationships}")    
 
-    '''
-    nodes = graph_docs[0].nodes
-    rels  = graph_docs[0].relationships
+    if debug==True:
+    
+        print('--> triplas extraidas')
+        print(graph_docs)
+        print(f"Nodes:{graph_docs[0].nodes}")
+        print(f"Relationships:{graph_docs[0].relationships}")  
+        
+        nodes = graph_docs[0].nodes
+        rels  = graph_docs[0].relationships
 
-    for node in nodes:
-        print(f" id='{node.id}',")
-        print(f" type='{node.type}',")
-        print(f" properties={node.properties}")
-        print('-'*50)
+        for node in nodes:
+            print(f" id='{node.id}',")
+            print(f" type='{node.type}',")
+            print(f" properties={node.properties}")
+            print('-'*50)
 
-    for rel in rels:
-        print("Relationship(")
-        print(f"  source=Node(id='{rel.source.id}', type='{rel.source.type}'),")
-        print(f"  target=Node(id='{rel.target.id}', type='{rel.target.type}'),")
-        print(f"  type='{rel.type}',")
-        print(f"  properties={rel.properties}")
-        print(")")
-        print('-'*50)
-    '''
+        for rel in rels:
+            print("Relationship(")
+            print(f"  source=Node(id='{rel.source.id}', type='{rel.source.type}'),")
+            print(f"  target=Node(id='{rel.target.id}', type='{rel.target.type}'),")
+            print(f"  type='{rel.type}',")
+            print(f"  properties={rel.properties}")
+            print(")")
+            print('-'*50)
+    
 
     proc_triplas = time.time()
     tpo_triplas  = proc_triplas - inicio

@@ -29,7 +29,7 @@ async def run_batch():
                 ]
             }
         }, 
-        "size" : 1
+        "size" : 1500
     }
 
     resp      = elastic_client.search(index="documentos", body=query)
@@ -47,8 +47,8 @@ async def run_batch():
             "arquivo":file,
             "id_usuario":"5511993891773",
             "id_externo":749,
-            #"texto":normalize(text)
-            "texto":"Realizar apresentação para clientes ou reunião de negócios"
+            "texto":normalize(text)
+            #"texto":"**Artigo 9º -** É proibida a utilização de qualquer espaço das áreas comuns do **CONDOMÍNIO** para eventos ou entrevistas comerciais, religiosos, profissionais, políticos ou de divulgação de produtos ou serviços e, constatado tal uso o Síndico poderá negar ou cassar, a qualquer momento, a licença concedida para utilização\n\ndo espaço, sem prejuízo de multa, conforme descrito no Capítulo de Penalidades deste Regulamento Interno. Ao **CONDÔMINO** ou visitante da unidade que não respeitar esta obrigatoriedade, terá a unidade punida com multa equivalente a 100% (cem por cento) da cota condominial ordinária das unidades tipo de finais 3 e 4.",
         }  
 
         result = await graph_ingest(data,debug=True) 

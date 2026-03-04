@@ -50,10 +50,12 @@ def nli(reference,candidate):
         neutral         = score_por_label.get('neutral', 0)
         contradiction   = score_por_label.get('contradiction', 0)     
 
-        score_final = entailment - (contradiction * 2.5) - (neutral * 0.6)
-        
+        score_final      = entailment - (contradiction * 2.5) - (neutral * 0.6)
+        score_normalizado = max(0.0, min(1.0, (score_final + 2.5) / 3.5))
+
         return {
-            "score":float(score_final),
+            "score":float(score_normalizado),
+            "score_raw":float(score_final),
             "entailment":float(entailment), 
             "contradiction":float(contradiction), 
             "neutral":float(neutral)

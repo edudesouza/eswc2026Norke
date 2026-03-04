@@ -1,5 +1,5 @@
 
-import sys,time,asyncio,json
+import os,sys,time,asyncio,json,re
 
 from rich import print
 
@@ -8,6 +8,109 @@ from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
 from src.output     import elastic_update_field, csv_create
 from src.config     import settings
+
+from deepeval           import evaluate as ev_deep
+from deepeval.test_case import LLMTestCase
+from deepeval.metrics   import AnswerRelevancyMetric, FaithfulnessMetric
+from deepeval.models    import OllamaModel
+from langchain_together import ChatTogether
+
+from deepeval.metrics import (
+    ContextualPrecisionMetric,
+    ContextualRecallMetric,
+    ContextualRelevancyMetric
+)
+
+from dotenv         import load_dotenv
+load_dotenv()
+
+os.environ['CONFIDENT_METRIC_LOGGING_VERBOSE'] = '0'
+os.environ["DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE"] = "200"
+
+def normalize_ws(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "")).strip()
+
+def _build_retrieval_context(items, top_k=100, max_chars=1500, prefix_ids=True):
+    
+    # ordena por score desc (se houver)
+    items_sorted = sorted(items, key=lambda x: x.get("score", 0), reverse=True)
+
+    seen = set()
+    out = []
+
+    for it in items_sorted:
+        # escolha do texto: Chunk -> texto_chunk; Regra -> descricao_regra
+        raw = it.get("texto_chunk") or it.get("descricao_regra") or ""
+        txt = normalize_ws(raw)
+        if not txt:
+            continue
+
+        # opcional: prefixar id_chunk p/ rastreabilidade
+        if prefix_ids:
+            ident = it.get("id_chunk") or it.get("entidade") or ""
+            if ident:
+                txt = f"[{ident}] {txt}"
+
+        # corta muito longo (evita estourar prompt)
+        if len(txt) > max_chars:
+            txt = txt[:max_chars] + "..."
+
+        # dedup
+        key = txt.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+
+        out.append(txt)
+        if len(out) >= top_k:
+            break
+
+    return out
+
+def build_retrieval_context(items, top_k=100, max_chars=1500, prefix_ids=True):
+    # aceita: str, dict, list[dict]
+    if items is None:
+        return []
+
+    # se já for string: devolve como 1 contexto (ou quebra em blocos se quiser)
+    if isinstance(items, str):
+        txt = normalize_ws(items)
+        return [txt[:max_chars] + ("..." if len(txt) > max_chars else "")] if txt else []
+
+    # se for dict: converte para list[dict] usando key como id e value como texto
+    if isinstance(items, dict):
+        items = [{"id_chunk": k, "texto_chunk": v, "score": 0} for k, v in items.items()]
+
+    # agora assume list/iterável de dicts
+    items_sorted = sorted(items, key=lambda x: x.get("score", 0), reverse=True)
+
+    seen = set()
+    out = []
+
+    for it in items_sorted:
+        raw = it.get("texto_chunk") or it.get("descricao_regra") or it.get("texto_regra") or ""
+        txt = normalize_ws(raw)
+        if not txt:
+            continue
+
+        if prefix_ids:
+            ident = it.get("id_chunk") or it.get("entidade") or ""
+            if ident:
+                txt = f"[{ident}] {txt}"
+
+        if len(txt) > max_chars:
+            txt = txt[:max_chars] + "..."
+
+        key = txt.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+
+        out.append(txt)
+        if len(out) >= top_k:
+            break
+
+    return out
 
 async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):  
 
@@ -51,6 +154,8 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     query_canonical  = expantion['query_expansion']['canonical']
 
     print( f'\n-> cononical fact: {query_canonical}' )
+    print( f'\n-> rewriting: {palavras_chave}' )
+    print( '-'*100,'\n' )
 
     #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'
 
@@ -99,8 +204,8 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     inicio = time.time() 
 
-    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'maritaca',size_gt)
-    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'maritaca')
+    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'ollama',size_gt)
+    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'gpt')
     response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
     resposta                    = response_llm['resposta']
 
@@ -169,6 +274,48 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     print( '-'*100 )
     print( response_gt )'''
 
+    resolvedor = "gpt-oss:120b-cloud"
+    avaliador  = "gpt-oss:120b-cloud"
+
+    print( f'\n-> resolvedor: {resolvedor}' )
+    print( f'-> avaliador: {avaliador}' )
+
+    model = OllamaModel(
+        model = avaliador,
+        base_url = "http://localhost:11434",
+        temperature=0
+    )
+
+    #deepeval
+    answer_relevancy = AnswerRelevancyMetric(model=model,include_reason=True)
+    faithfulness     = FaithfulnessMetric(model=model,include_reason=True)
+
+    retrieval_ctx = build_retrieval_context(recuperacao["dataset"], top_k=20)          
+
+    test_case = LLMTestCase(
+        input             = pergunta,
+        actual_output     = resposta,
+        #expected_output   = response_gt,
+        retrieval_context = retrieval_ctx,      
+        #context           = [recuperacao["response"]]
+    )
+
+    try:
+        answer_relevancy.measure(test_case)
+        print("- Relevancia: ", answer_relevancy.score)
+        print("- Reason: ", answer_relevancy.reason)
+        print('-'*100)
+    except Exception as erro:
+        print( f'ERRO relevancia: {erro}' )
+
+    try:
+        faithfulness.measure(test_case)
+        print("- Confiabilidade: ", faithfulness.score)
+        print("- Reason: ", faithfulness.reason)
+        print('-'*100)
+    except Exception as erro:
+        print( f'ERRO confiabilidade: {erro}' )
+
     diff_time('-> Tempo total: ', inicio_global) 
     print( f'[red] --- fim ---\n' )
 
@@ -192,7 +339,7 @@ if __name__ == "__main__":
     pergunta16 = 'porque meus convidados que estão no meu aniversário não podem fumar aqui na area de fora, perto da churrasqueira'
     pergunta17 = 'o síndico não quer me passar as imagens da camera de segurança, o carro do meu irmão foi roubado em frente ao condomínio, ele pode negar isso? ele falou que a lgpd não deixa!'
     pergunta18 = 'Alguém sabe qual é a diretriz do condomínio quando o carro tem o comprimento maior que a vaga (entrando na área de circulação)? O carro ao lado do meu está assim e estou com receio de encostar nele durante a manobra. Queria entender qual é o procedimento/orientação nesses casos. Não quero gerar multa pra ninguém mas fica bem pior pra manobrar.'
-    pergunta19 = 'Falei hoje de manã com o síndico e ele me falou que está OK eu deixar o meu sofá antigo na garagem, por que vocês continuam me incomodando?'
+    pergunta19 = 'Falei hoje de manhã com o síndico e ele me falou que está OK eu deixar o meu sofá antigo na garagem, por que vocês continuam me incomodando?'
     pergunta20 = 'Eu me recuso a me registrar na biometria facial, não existe nada legalmente que me obrigue a isso, certo?'
     pergunta21 = 'posso andar de skate na quadra?'
     pergunta22 = 'cite com detalhes as regras de uso da brinquedoteca'
@@ -212,7 +359,8 @@ if __name__ == "__main__":
 
     #load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
     #pergunta_debugger   = load_pergunta['_source']['pergunta']
-
+    
+    # exemplo: py main.py grafo pergunta26
     if len(sys.argv) < 2:
         #print("Uso: digite a perguta, exemplo pergunta1 \"nr da pergunta aqui\"")
         #sys.exit(1)
