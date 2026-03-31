@@ -19,7 +19,7 @@ def atualizar_elastic(id,status,complexity,nli,sim,saf,response):
 
     body = {
         "doc": {            
-            "saf_grafo_v12":{
+            "saf_vetor_v12":{
                 "model":"sabia-4",
                 "response":response,
                 "complexity":complexity,
@@ -90,17 +90,16 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
     
     inicio = time.time() 
 
-    class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
-
-    if retrieval=='grafo':
+    if retrieval=='grafo':        
+        class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
         recuperacao = graph_search(class_rules,palavras_chave,pergunta,user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']  
+        contexto    = recuperacao['response']
+        knowledge   = recuperacao['dataset']  
     
     else: 
         recuperacao = vector_search(palavras_chave,query_canonical,'documentos',user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']    
+        contexto    = recuperacao['response']
+        knowledge   = recuperacao['dataset']    
 
     diff_time('\n-> #2 buscar dados, OK: ', inicio)
     
@@ -194,11 +193,11 @@ async def run_batch():
     inicio = time.time()
 
     query = {
-        "_source"   : ["pergunta","resposta","saf_grafo_v12"],
+        "_source": ["pergunta","resposta","saf_vetor_v12"],
         "query": {
-            "bool": {"must_not":{"exists": {"field": "saf_grafo_v12"}}}
+            "bool": {"must_not":{"exists": {"field": "saf_vetor_v12"}}}
         },
-        "size": 300
+        "size": 400
     }
    
     resp = elastic_client.search(index="perguntas", body=query)
@@ -211,7 +210,7 @@ async def run_batch():
         pergunta    = item['_source']['pergunta']
         resposta_gt = item['_source']['resposta']
 
-        await main(id,resposta_gt,'5511993891773',pergunta,'grafo',10,False,[],None)
+        await main(id,resposta_gt,'5511993891773',pergunta,'vetor',10,False,[],None)
 
         print( f'{index} de {total}')
         print( f'[red] --- fim ---' )

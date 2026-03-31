@@ -81,12 +81,10 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     # retriever
     #--------------------------------------------------------------------------
     
-    inicio = time.time() 
-
-    class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'ollama')
+    inicio = time.time()     
 
     if retrieval=='grafo':
-
+        class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
         recuperacao = graph_search(class_rules,palavras_chave,pergunta,user_id,retrieval_size)
         contexto  = recuperacao['response']
         knowledge = recuperacao['dataset']  
@@ -218,7 +216,15 @@ if __name__ == "__main__":
     como é só pessoal daqui mesmo, acho que não precisa pagar   - regra sobre reserva e chunk sobre valores de localção
     '''
 
-    pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
+    _pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
+    pergunta_debugger = "Under what circumstances can a judgment of a court or tribunal and any decision of an administrative authority of a third country requiring a controller or processor to transfer or disclose personal data be recognised or enforceable?"
+
+    '''
+    Prédio comercial pode exigir foto e documento de visitante na portaria?
+    Fui demitido. A empresa tem que apagar minha foto e digital do relógio de ponto e da catraca?
+    Sou obrigado a dar minha biometria/foto para entrar em um hospital ou clínica?
+
+    '''
 
     #load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
     #pergunta_debugger   = load_pergunta['_source']['pergunta']

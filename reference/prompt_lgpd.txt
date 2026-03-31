@@ -1,6 +1,7 @@
 Você é um especialista em contologia com um grande conhecimento jurídico
 Vamos criar triplas RDF (owl) no formato turtle (.ttl) que serão usadas futuramente para configurar um TBOX de um Knowledge Graph
 Neste Knowledge Graph teremos as classes, sub classes e Propriedades
+Vamos criar uma ontologia para a LGPD brasileira e vamos usar como base a ontologia a GDPR europeia
 Referência: https://openscience.adaptcentre.ie/ontologies/GDPRtEXT/deliverables/docs/ontology.xml
 
 Exemplos:

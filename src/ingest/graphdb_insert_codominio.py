@@ -1,6 +1,7 @@
 import os, re, unicodedata, warnings, time
 from typing import List, Dict, Any
 from pprint import pprint
+from urllib.parse import quote
 
 from rich import print
 
@@ -129,28 +130,26 @@ def iri_instance(ns: Namespace, name: str) -> URIRef:
 #fim
 
 CANON_TYPES = {
-    "Chunk","Documento","Norma","Regra","Diretriz",
-    "Entidade","Instituicao","OrgaoEntidadePublica","EntidadePrivada","ServidorPublico","AutoridadePublica","ANPD",
-    "AgenteTratamento","Controlador","Operador","EncarregadoDados","DPO","Titular",
-    "Dado","DadoPessoal","DadoPessoalSensivel","DadoAnonimizado","DadoFisico","DadoDigital","Biometria","BancoDados",
-    "AtividadeTratamento","TratamentoDados","AcessoDados","AcessoAutorizado","AcessoNaoAutorizado",
-    "DescarteInformacao","CompartilhamentoDados","TransferenciaInternacionalDados","Anonimizacao",
-    "BaseLegal","Consentimento","ObrigacaoLegalRegulatoria","ExecucaoContrato","LegitimoInteresse",
-    "ProtecaoCredito","PoliticaPublica",
-    "Principio","Finalidade","Adequacao","Necessidade","LivreAcesso","QualidadeDados","Transparencia",
-    "SegurancaInformacao","Prevencao","ResponsabilizacaoPrestacaoContas",
-    "DireitoTitular","AcessoDireito","Portabilidade","RevogacaoConsentimento","CorrecaoDados","EliminacaoDados",
-    "Vulnerabilidade","IncidenteSeguranca","RelatorioImpacto",
-    "Sancao","Advertencia","MultaSimples","MultaDiaria","BloqueioDados","EliminacaoDadosSancao",
-    "SuspendaAtividadeTratamento","ProibicaoAtividadeTratamento",
-    "Usuario","CompartilhamentoDadosNaoAutorizado","DadoBiometrico"
+    "FinalidadeUso","FinalidadeSocial","FinalidadeComercial","FinalidadeReligiosa","FinalidadeRestritaMoradores","FinalidadeRestritaFuncionarios",
+    "UsoAreaComum","EntidadeFisica","Pessoa","Papel","Documento","Regra","Ocorrencia","Veiculo","InstituicaoExterna","CultoReligioso",
+    "Condominio","Edificacao","Unidade","AreaComum","Garagem","VagaDeEstacionamento","Piscina",
+    "SalaoDeFestas","Playground","Academia","SistemaControleAcesso",
+    "Sindico","SubSindico","Conselheiro","Morador","Inquilino","Visitante","Funcionario",
+    "Zelador","Porteiro","Faxineiro","Vigia","Jardineiro","PrestadorDeServico",
+    "Administradora","Contador","Advogado","Seguradora","Banco","Fornecedor",
+    "Convencao","RegimentoInterno","AtaDeAssembleia","Orcamento","Balancete",
+    "ContratoPrestacaoServicos","Notificacao","Multa",
+    "Assembleia","Manutencao","Obra","ReservaAreaComum","Seguranca","Correspondencia","Usuario","Chunk",
+    "Capitulo","Artigo","Paragrafo","ParagrafoUnico"
 }
 
 CANON_RELATIONSHIPS = {
-    "estaContidoEm","parteDe","localizadoEm","possuiNorma","possuiDiretriz","desempenhaPapel","papelEm",
-    "aplicaA","permitidoEm","proibidoEm","registradoEm","ocorreuEm","executadoPor","temResponsavel",
-    "contratada","refereSeA","relacionamento","responsavelPor","possuiDocumento",
-    "trataDado","possuiBaseLegal","observaPrincipio","geraIncidente","sofreSancao","comunicaA","indicaEncarregado"    
+    "aplicaSeFinalidade","usoPor","usaAreaComum","temFinalidade","parteDe","localizadaEm","possuiUnidade","possuiAreaComum",
+    "desempenhaPapel","papelEm","aplicaA","permitidoEm","proibidoEm","registradoEm","ocorreuEm","executadoPor","temResponsavel",
+    "contrata","temContaEm","envolveVeiculo","reservadoPor","refereSeA",
+    "proibidoSe","responsabilizadoPor","podeUsar","tipoDe","inclui","citadoEm","usa","ocupa","regidaPor",
+    "estaContidoEm","possuiDocumento","responsavelPor","nome","identificador","cpf","cnpj","data","valor","texto",
+    "descricao","conteudo","arquivo","idChunk","idUsuario","idExterno"
 }
 
 ALLOWED_NODE_PROPS = {"descricao"}  # mantenha enxuto
@@ -159,7 +158,9 @@ ALLOWED_NODE_PROPS = {"descricao"}  # mantenha enxuto
 
 REL_MAP = {
     "PARTEDE": "parteDe",
-    "LOCALIZADOEM": "localizadoEm",
+    "LOCALIZADAEM": "localizadaEm",
+    "POSSUIUNIDADE": "possuiUnidade",
+    "POSSUIAREACOMUM": "possuiAreaComum",
     "DESEMPENHAPAPEL": "desempenhaPapel",
     "PAPELEM": "papelEm",
     "APLICAA": "aplicaA",
@@ -169,62 +170,57 @@ REL_MAP = {
     "OCORREUEM": "ocorreuEm",
     "EXECUTADOPOR": "executadoPor",
     "TEMRESPONSAVEL": "temResponsavel",
-    "REFERESEA": "refereSeA",
+    "CONTRATA": "contrata",
+    "TEMCONTAEM": "temContaEm",
+    "ENVOLVEVEICULO": "envolveVeiculo",
+    "RESERVADOPOR": "reservadoPor",
+    "REFERESEAA": "refereSeA",
+    "PROIBIDOSE": "proibidoSe",
+    "RESPONSABILIZADOPOR": "responsabilizadoPor",
+    "PODEUSAR": "podeUsar",
+    "TIPODE": "tipoDe",
+    "INCLUI": "inclui",
+    "CITADOEM": "citadoEm",
+    "USA": "usa",
+    "OCUPA": "ocupa",
+    "REGIDAPOR": "regidaPor",
     "ESTACONTIDOEM": "estaContidoEm",
     "POSSUIDOCUMENTO": "possuiDocumento",
-    "RESPONSAVELPOR": "responsavelPor",  
-    "POSSUINORMA": "possuiNorma",
-    "POSSUIDIRETRIZ": "possuiDiretriz",
-    "CONTRATADA": "contratada",
-    "TRATADADO": "trataDado",
-    "POSSUIBASELEGAL": "possuiBaseLegal",
-    "OBSERVAPRINCIPIO": "observaPrincipio",
-    "GERAINCIDENTE": "geraIncidente",
-    "SOFRESANCAO": "sofreSancao",
-    "COMUNICAA": "comunicaA",
-    "INDICAENCARREGADO": "indicaEncarregado"
+    "RESPONSAVELPOR": "responsavelPor",
+    "NOME": "nome",
+    "IDENTIFICADOR": "identificador",
+    "CPF": "cpf",
+    "CNPJ": "cnpj",
+    "DATA": "data",
+    "VALOR": "valor",
+    "TEXTO": "texto",
+    "DESCRICAO": "descricao",
+    "CONTEUDO": "conteudo",
+    "ARQUIVO": "arquivo",
+    "IDCHUNK": "idChunk",
+    "IDUSUARIO": "idUsuario",
+    "IDEXTERNO": "idExterno"
 }
 
 def build_graph_transformer() -> LLMGraphTransformer:
     
     allowed_rels = sorted(list(CANON_RELATIONSHIPS))
 
-    with open("src/ingest/_owl_lgpd_gpt.ttl", encoding="utf-8") as f:
+    with open("src/ingest/_owl_tbox_v4.ttl", encoding="utf-8") as f:
         ontology_txt = f.read()
 
-    system_txt = (f'''Você é um extrator de grafos jurídicos em pt-BR.
-    Siga esta ontologia:
-    {ontology_txt}
-    Seu principal papel é extrair regras normativas expressas ou implicitamente deriváveis apenas quando houver suporte textual claro, 
-    representando-as como instâncias de :Regra conectadas ao restante do grafo
-    usando apenas as properties necessárias e semanticamente adequadas da ontologia.
-    
-    ##Exemplo de Regras:##
-    1) Cardinalidade de biometria/foto:
-    crie uma instância de :Regra e ligue com:
-    :aplicaA → (DadoPessoalSensivel ou DadoBiometrico)
-    :refereSeA → TratamentoDados
-
-    2) Proibições:
-    crie uma instância de :Regra e ligue com:
-    :aplicaA → (DadoPessoalSensivel ou DadoBiometrico)
-    :refereSeA → (CompartilhamentoDados ou CompartilhamentoDadosNaoAutorizado)
-
-    3) Permissões / Condições:
-    crie uma instância de :Regra e ligue com:
-    :aplicaA → (DadoPessoal ou DadoPessoalSensivel)
-    :refereSeA → TratamentoDados
-
-    4) Base legal:
-    quando houver base legal explícita:
-    (TratamentoDados) -[:possuiBaseLegal]-> (Consentimento ou ExecucaoContrato ou ObrigacaoLegalRegulatoria ou LegitimoInteresse)
-
-    5) Relações com titular:
-    quando houver vínculo entre pessoa e dado:
-    (Titular) -[:refereSeA]-> (DadoPessoal ou DadoBiometrico)
-    
-    Saída fiel e sucinta, compatível para MERGE entre chunks.
-    ''')       
+    system_txt = (
+        "Você é um extrator de grafos jurídicos em pt-BR. "
+        "Siga esta ontologia:\n"
+        f"{ontology_txt}\n"
+        "Exemplo de Regras:\n"
+        "1) Cardinalidade de vagas/veículos: crie Regra e ligue com :aplicaA → (VagaDeEstacionamento|Garagem|Condominio).\n"
+        "2) Proibições: (Veiculo)-[:proibidoEm|:proibidoSe]->(EntidadeFisica ou Limite textual).\n"
+        "3) Permissões: (Veiculo)-[:permitidoEm]->(VagaDeEstacionamento|Garagem).\n"
+        "4) Penalidades: (Morador)-[:responsabilizadoPor]->(Regra|Multa|Notificacao).\n"
+        "5) Todas as regras possuem relacionamento com outras classes conforme a ontologia Regra_Piscina -> Morador, Regra_Piscina -> Visitante.\n"
+        "Saída fiel e sucinta, compatível para MERGE entre chunks."
+    )
 
     pt_template = ChatPromptTemplate.from_messages([
         ("system", system_txt),
@@ -245,6 +241,13 @@ async def extract_graph_docs(text, meta):
     docs = [Document(page_content=text, metadata=meta)]
     return transformer.convert_to_graph_documents(docs)
 
+def to_literal(v):
+    
+    if isinstance(v, bool):   return Literal(v)
+    if isinstance(v, int):    return Literal(v, datatype=XSD.integer)
+    if isinstance(v, float):  return Literal(v, datatype=XSD.decimal)
+    return Literal(str(v))  # string
+
 def _to_literal(v):
     if isinstance(v, bool):
         return Literal(v)
@@ -258,13 +261,31 @@ def _canon_rel(t: str) -> str | None:
     t = (t or "").strip().upper()
     return REL_MAP.get(t)
 
-def _safe(s: str) -> str:
+def _safe_id(s: str) -> str:
+    """
+    Gera um sufixo seguro para IRIs (sem espaços/acentos/especiais).
+    Mantém legibilidade usando URL-encode quando necessário.
+    """
+    s = (s or "").strip()
+    return quote(s, safe="-._~")  # não deixa espaços; preserva alguns chars
 
+def _to_literal(v):
+    if isinstance(v, bool):  return Literal(v)
+    if isinstance(v, int):   return Literal(v, datatype=XSD.integer)
+    if isinstance(v, float): return Literal(v, datatype=XSD.decimal)
+    return Literal(str(v))
+
+def _canon_rel(t: str) -> str | None:
+    t = (t or "").strip().upper()
+    return REL_MAP.get(t)
+
+def _safe(s: str) -> str:
+    
     s = (s or "").strip()
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode("ascii")
     s = re.sub(r"[^A-Za-z0-9]+", "_", s)  # troca tudo que não é [0-9A-Za-z] por "_"
     s = re.sub(r"_+", "_", s).strip("_")  # colapsa múltiplos "_" e remove nas bordas
-
+    
     return s or "item"
 
 # -------- IRI builders no formato curto --------

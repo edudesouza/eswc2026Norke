@@ -280,8 +280,8 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
             }}
 
             FILTER EXISTS {{
-                # VALUES ?tipoPermitido {{ :Chunk :Regra }}
-                VALUES ?tipoPermitido {{ :Chunk }}
+                VALUES ?tipoPermitido {{ :Chunk :Regra :Paragrafo }}
+                #VALUES ?tipoPermitido {{ :Chunk }}
                 ?chunk a ?tipoPermitido .
             }}
         }}

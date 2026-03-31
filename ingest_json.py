@@ -15,7 +15,8 @@ async def run_batch():
 
     inicio = time.time()
 
-    with open("./src/ingest/output/chunks_normativos.json", encoding="utf-8") as f:
+    #with open("./src/ingest/output/chunks_normativos.json", encoding="utf-8") as f:
+    with open("./src/ingest/output/chunks_normativos_lgpd.json", encoding="utf-8") as f:
         json_chunks = json.loads(f.read())
         
     chunks    = [item for item in json_chunks if item.get("paragrafo") == "caput"]
@@ -26,7 +27,7 @@ async def run_batch():
 
         id   = item['id']
         text = item['text']
-        file = 'https://storage.googleapis.com/comtodos-607d6.appspot.com/5511969033344/5511993891773/Nouveaux_Regulamento_2023.pdf',   
+        file = '',   
 
         data = {
             "id":id,

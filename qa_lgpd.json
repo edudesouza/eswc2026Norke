@@ -1,0 +1,96 @@
+{
+  "fonte": "https://www.mpdft.mp.br/portal/index.php/lgpd/13353-perguntas-e-respostas",
+  "numero de perguntas": 18,
+  "faq": [
+    {
+      "pergunta": "Qual a importância da LGPD? ",
+      "resposta": "Você sabe quais dados concede online e off-line todos os dias?  Você consegue dizer com exatidão quando distribuiu seus dados pessoais pela última vez?  Atualmente, fornecemos nossos dados para fazer parte de um clube de fidelidade, academia, e-mail, compras, redes sociais etc.  Tornando-se praticamente impossível controlar quais dados pessoais são tratados pelas entidades públicas e privadas e qual a finalidade deste tratamento.  Em virtude dos frequentes eventos de exposição irregular de dados pessoais e desvio de finalidade das informações disponibilizadas por clientes e usuários, fez-se necessária, no mundo inteiro, a elaboração de um dispositivo normativo que regulamentasse a forma com que as empresas devem utilizar, armazenar e prover os dados dos clientes, funcionários e usuários.  O que culminou, no Brasil, com a promulgação da Lei Geral de Proteção de Dados Pessoais.  A lei sobre proteção de dados permite que o cidadão tenha controle sobre como suas informações são utilizadas por organizações, empresas e pelo governo.  A regulamentação tem por objetivo estabelecer padrões mínimos a serem seguidos quando ocorrer o uso de um dado pessoal, como a limitação a uma finalidade específica, a criação de um ambiente seguro e controlado para seu uso e outros, sempre garantindo ao cidadão protagonismo nas decisões fundamentais a este respeito.  O impacto maior de uma lei sobre proteção de dados pessoais é o equilíbrio das assimetrias de poder sobre a informação pessoal existente entre o titular dos dados pessoais e aqueles que os usam e compartilham. ",
+      "artigo": ["1", "2", "6"]
+    },
+    {
+      "pergunta": "O que é LGPD? ",
+      "resposta": "LGPD é a sigla de Lei Geral de Proteção de Dados Pessoais, ou seja, a Lei n.  13.709, de 14 de agosto de 2018.  A Lei veio regulamentar as relações e definir condições e limites para o tratamento de dados pessoais por empresas e entidades públicas ou privadas.  Para tanto, a Lei padronizou normas e práticas que promovem a proteção, de forma igualitária, dentro do país ou fora, dos dados pessoais de todo cidadão que esteja no Brasil.  Vale para: dados relacionados à pessoa (brasileira ou não) que esteja no Brasil, no momento da coleta;  dados tratados dentro do território nacional, independentemente do meio aplicado, do país-sede do operador ou do país onde se localizam os dados;  dados usados para fornecimento de bens ou serviços.  Não se aplica para fins exclusivamente: jornalísticos e artísticos; de segurança pública;  de defesa nacional; de segurança do Estado; de investigação e repressão de infrações penais;  particulares (ou seja, a lei só se aplica para pessoa física ou jurídica que gerencie bases com fins ditos econômicos).  E não se aplica a dados de fora do Brasil e que não sejam objeto de transferência internacional. ",
+      "artigo": ["1", "3", "4"]
+    },
+    {
+      "pergunta": "Quando de fato entrou em vigor a LGPD? ",
+      "resposta": "A lei ainda não está em vigência plena.  A parte que trata das Sanções Administrativas (artigos 52, 53 e 54) entrará em 1º de agosto de 2021.  De resto, o capítulo da Autoridade Nacional de Proteção de Dados (ANPD) entrou em vigor logo no ano da publicação (18/12/2018) para permitir a sua estruturação;  e os demais dispositivos legais entraram em vigor no dia 18/9/2020, após sanção da Lei nº 14.058, de 17 de setembro de 2020 (conversão da MPV 959/2020). ",
+      "artigo": ["52","53","54"]
+    },
+    {
+      "pergunta": "A LGPD se aplica ao Poder Público? ",
+      "resposta": "Sim.  Ela dispõe sobre o tratamento de dados pessoais realizado, também, por pessoa jurídica de direito público.  (Artigo 1° da LGPD) ",
+      "artigo": ["1"]
+    },
+    {
+      "pergunta": "Quais Princípios regem a LGPD? ",
+      "resposta": "Elencados no artigo 6º, no qual a Lei dispõe que as atividades de tratamento de dados pessoais deverão observar, além da boa-fé, e os seguintes princípios: finalidade: realização do tratamento para propósitos legítimos, específicos, explícitos e informados ao titular, sem possibilidade de tratamento posterior de forma incompatível com essas finalidades;  adequação: compatibilidade do tratamento com as finalidades informadas ao titular, de acordo com o contexto do tratamento;  necessidade: limitação do tratamento ao mínimo necessário para a realização de suas finalidades, com abrangência dos dados pertinentes, proporcionais e não excessivos em relação às finalidades do tratamento de dados;  livre acesso: garantia, aos titulares, de consulta facilitada e gratuita sobre a forma e a duração do tratamento, bem como sobre a integralidade de seus dados pessoais;  qualidade dos dados: garantia, aos titulares, de exatidão, clareza, relevância e atualização dos dados, de acordo com a necessidade e para o cumprimento da finalidade de seu tratamento;  transparência: garantia, aos titulares, de informações claras, precisas e facilmente acessíveis sobre a realização do tratamento e os respectivos agentes de tratamento, observados os segredos comercial e industrial;  segurança: utilização de medidas técnicas e administrativas aptas a proteger os dados pessoais de acessos não autorizados e de situações acidentais ou ilícitas de destruição, perda, alteração, comunicação ou difusão;  prevenção: adoção de medidas para prevenir a ocorrência de danos em virtude do tratamento de dados pessoais;  não discriminação: impossibilidade de realização do tratamento para fins discriminatórios ilícitos ou abusivos;  responsabilização e prestação de contas: demonstração, pelo agente, da adoção de medidas eficazes e capazes de comprovar a observância e o cumprimento das normas de proteção de dados pessoais e, inclusive, da eficácia dessas medidas. ",
+      "artigo": ["6"]
+    },
+    {
+      "pergunta": "Quais atividades estão submetidas à LGDP? ",
+      "resposta": "O artigo 3º da LGPD prevê a aplicação da lei a qualquer operação de tratamento realizada por pessoa natural ou por pessoa jurídica de direito público ou privado, independentemente do meio, do país de sua sede ou do país onde estejam localizados os dados, desde que: a operação de tratamento seja realizada no território nacional;  a atividade de tratamento tenha por objetivo a oferta ou o fornecimento de bens ou serviços ou o tratamento de dados de indivíduos localizados no território nacional; [cite: 33, 34, 35] ou os dados pessoais objeto do tratamento tenham sido coletados no território nacional.  Consideram-se coletados no território nacional os dados pessoais cujo titular nele se encontre no momento da coleta. ",
+      "artigo": ["3"]
+    },
+    {
+      "pergunta": "Quais as hipóteses de não incidência? ",
+      "resposta": "A LGPD não se aplica ao tratamento de dados pessoais: realizado por pessoa natural para fins exclusivamente particulares e não econômicos;  realizado para fins exclusivamente: jornalístico e artísticos ou acadêmicos;  realizado para fins exclusivos de: segurança pública; defesa nacional;  segurança do Estado; ou atividades de investigação e repressão de infrações penais;  ou provenientes de fora do território nacional e que não sejam objeto de comunicação, uso compartilhado de dados com agentes de tratamento brasileiros ou objeto de transferência internacional de dados com outro país que não o de proveniência, desde que o país de proveniência proporcione grau de proteção de dados pessoais adequado ao previsto nesta Lei.  (Artigo 4º LGPD) ",
+      "artigo": ["4"]
+    },
+    {
+      "pergunta": "O que é a Autoridade Nacional de Proteção de Dados (ANPD)? ",
+      "resposta": "Trata-se de órgão público constituído com o objetivo de zelar pela implementação, fiscalização e monitoramento do cumprimento da LGPD.  Além disso, a ANPD é responsável por regular e orientar, preventivamente, sobre como aplicar a lei. ",
+      "artigo": ["5 (XIX)", "55-A", "55-J"]
+    },
+    {
+      "pergunta": "O que é o Controlador? ",
+      "resposta": "É o agente de tratamento de dados que toma as decisões sobre o tratamento dos dados.  No MPDFT, é a Pessoa Jurídica de Direito Público que exerce a função de Controlador e, portanto, detém o poder sobre os tratamentos dos dados pessoais. ",
+      "artigo": ["5 (VI)"]
+    },
+    {
+      "pergunta": "O que é o Operador? ",
+      "resposta": "É o agente de tratamento que realiza o tratamento de dados em nome do controlador.  O operador não pertence ao MPDFT. Em geral, é uma empresa contratada para tal finalidade. ",
+      "artigo": ["5 (VII)", "39"]
+    },
+    {
+      "pergunta": "O que é o Encarregado? ",
+      "resposta": "É o agente de tratamento de dados indicado pelo controlador e operador para atuar como canal de comunicação entre o controlador, os titulares dos dados e a Autoridade Nacional de Proteção de Dados (ANPD).  No MPDFT, o promotor de Justiça Rodrigo Fogagnolo Mauricio exerce as atribuições de encarregado, conforme Portaria PGJ nº 427, de 16 de agosto de 2021. ",
+      "artigo": ["5 (VIII)", "41"]
+    },
+    {
+      "pergunta": "O que são Dados Pessoais para a LGPD? ",
+      "resposta": "Dados Pessoais são toda informação que identifica ou que possa identificar uma Pessoa Natural.  Observe que dados que não possam identificar uma pessoa natural não são abrangidos pela proteção da lei.  Mas mesmo assim, trata-se de um conceito amplo que abrange, por exemplo: prenome, nome, números de documentos pessoais (RG, CPF, passaporte, título de eleitor), estado civil, gênero, profissão, orientação sexual, número de telefone, redes sociais, marcas características, profissão, origem racial, social e étnica, dados de saúde, convicções políticas, religiosas e filosóficas, registros de aplicações de internet, cookies, etc. (Artigo 5º LGPD) ",
+      "artigo": ["5"]
+    },
+    {
+      "pergunta": "O que são Dados Pessoais Sensíveis? ",
+      "resposta": "São os dados pessoais referentes a origem racial ou étnica; Convicção religiosa; Opinião política; Filiação a sindicato;  Filiação a organização de caráter religioso, filosófico ou político; Dado referente à saúde; Dado referente à vida sexual; Dado genético;  Dado biométrico. ",
+      "artigo": ["5 (II)", "11"]
+    },
+    {
+      "pergunta": "O que é tratamento de dados para efeito da Lei? ",
+      "resposta": "A lei definiu de forma abrangente dispondo que tratamento é toda operação realizada com dados pessoais, como as que se referem a coleta, produção, recepção, classificação, utilização, acesso, reprodução, transmissão, distribuição, processamento, arquivamento, armazenamento, eliminação, avaliação ou controle da informação, modificação, comunicação, transferência, difusão ou extração.  (Artigo 5° da LGPD) Nesse contexto a operação de armazenar os dados pessoais dos cidadãos (nome, filiação, CPF, RG, e-mail, etc) é considerada tratamento para fins da LGPD. ",
+      "artigo": ["5"]
+    },
+    {
+      "pergunta": "Quais os direitos do Titular? ",
+      "resposta": "Nos artigos 17 e 18 da LGPD estão enumerados os direitos dos titulares, quais sejam: confirmação da existência de tratamento;  acesso aos dados; correção de dados incompletos, inexatos ou desatualizados;  anonimização, bloqueio ou eliminação de dados desnecessários, excessivos ou tratados em desconformidade com o disposto nesta Lei;  portabilidade dos dados a outro fornecedor de serviço ou produto, mediante requisição expressa, de acordo com a regulamentação da autoridade nacional, observados os segredos comercial e industrial;  eliminação dos dados pessoais tratados com o consentimento do titular, exceto nas hipóteses previstas no art. 16 desta Lei;  informação das entidades públicas e privadas com as quais o controlador realizou uso compartilhado de dados;  e informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa; revogação do consentimento. ",
+      "artigo": ["16", "17","18"]
+    },
+    {
+      "pergunta": "Quais as bases-legais/requisitos para o tratamento de dados na LGPD? ",
+      "resposta": "O tratamento de dados pessoais somente poderá ser realizado nas seguintes hipóteses: mediante o fornecimento de consentimento pelo titular;  para o cumprimento de obrigação legal ou regulatória pelo controlador;  pela administração pública, para o tratamento e uso compartilhado de dados necessários à execução de políticas públicas previstas em leis e regulamentos ou respaldadas em contratos, convênios ou instrumentos congêneres;  para a realização de estudos por órgão de pesquisa, garantida, sempre que possível, a anonimização dos dados pessoais;  quando necessário para a execução de contrato ou de procedimentos preliminares relacionados a contrato do qual seja parte o titular, a pedido do titular dos dados;  para o exercício regular de direitos em processo judicial, administrativo ou arbitral, esse último nos termos da Lei nº 9.307, de 23 de setembro de 1996 (Lei de Arbitragem) ;  para a proteção da vida ou da incolumidade física do titular ou de terceiro;  para a tutela da saúde, em procedimento realizado por profissionais da área da saúde ou por entidades sanitárias;  para a tutela da saúde, exclusivamente, em procedimento realizado por profissionais de saúde, serviços de saúde ou autoridade sanitária;  quando necessário para atender aos interesses legítimos do controlador ou de terceiro, exceto no caso de prevalecerem direitos e liberdades fundamentais do titular que exijam a proteção dos dados pessoais;  ou para a proteção do crédito, inclusive quanto ao disposto na legislação pertinente. (Artigo 7° da LGPD). ",
+      "artigo": ["7"]
+    },
+    {
+      "pergunta": "O que é relatório de impacto à proteção de dados pessoais? ",
+      "resposta": "É a documentação do controlador que contém a descrição dos processos de tratamento de dados pessoais que podem gerar riscos às liberdades civis e aos direitos fundamentais, bem como medidas, salvaguardas e mecanismos de mitigação de risco.  (Art. 5º, inciso XVII) O relatório deverá conter, no mínimo, a descrição dos tipos de dados coletados, a metodologia utilizada para a coleta e para a garantia da segurança das informações e a análise do controlador com relação a medidas, salvaguardas e mecanismos de mitigação de risco adotados.  (Artigo 38, parágrafo único, LGPD) ",
+      "artigo": ["5","38"]
+    },
+    {
+      "pergunta": "A Autoridade Nacional de Proteção de Dados (ANPD) poderá solicitar a elaboração de relatório de impacto à proteção de dados pessoais aos órgãos do Poder Público? ",
+      "resposta": "Sim. Conforme disposto no artigo 32 da LGPD, a ANPD poderá solicitar a agentes do Poder Público a publicação de relatórios de impacto à proteção de dados pessoais e sugerir a adoção de padrões e de boas práticas para os tratamentos de dados pessoais pelo Poder Público. ",
+      "artigo": ["32"]
+    }
+  ]
+}

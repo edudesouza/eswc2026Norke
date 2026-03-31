@@ -355,7 +355,8 @@ if __name__ == "__main__":
     como é só pessoal daqui mesmo, acho que não precisa pagar   - regra sobre reserva e chunk sobre valores de localção
     '''
 
-    pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
+    _pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
+    pergunta_debugger = "Sou obrigado a dar minha biometria/foto para entrar em um hospital ou clínica"
 
     #load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
     #pergunta_debugger   = load_pergunta['_source']['pergunta']
