@@ -1,0 +1,601 @@
+<https://omc.co/5511993891773/749/2b8e254d_2f96d5ba>
+            a v:Paragrafo ;
+            v:descricao "**==> picture [451 x 236] intentionally omitted <==** # **REGULAMENTO INTERNO** # **SÃO PAULO** # **SETEMBRO/2023**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/2b8e254d> .<https://omc.co/5511993891773/749/2b8e254d_bb6d0036>
+            a v:Paragrafo ;
+            v:descricao "INTRODUÇÃO ............................................................................................................................................. 3 CAPÍTULO I – DAS DISPOSIÇÕES GERAIS ..................................................................................................... 3 CAPÍTULO II – DA PORTARIA .......................................................................................................................... 6 CAPÍTULO III – DAS UNIDADES AUTÔNOMAS ............................................................................................ 8 CAPÍTULO IV – DOS ANIMAIS DOMÉSTICOS .............................................................................................14 CAPÍTULO V – DAS MUDANÇAS E RECEBIMENTO DE MERCADORIAS ..............................................15 CAPÍTULO VI – DAS PARTES COMUNS ........................................................................................................17 CAPÍTULO VII – DA GARAGEM .....................................................................................................................19 CAPÍTULO VIII – DOS ESPAÇOS DE FESTAS ...............................................................................................23 CAPÍTULO IX– DA SAUNA, SPA E SALA DE MASSAGEM ........................................................................26 CAPÍTULO X – DA PISCINA ............................................................................................................................28 CAPÍTULO XI – DO FITNESS CENTER (SALA DE GINÁSTICA) ................................................................29 CAPÍTULO XII – DO PLAYGROUND ..............................................................................................................31 CAPÍTULO XIII – DA QUADRA RECREATIVA .............................................................................................31 CAPÍTULO XIV – DO SALÃO DE JOGOS (ADULTO E INFANTIL) ............................................................32 CAPÍTULO XV - DA SALA DE CINEMA (HOME THEATER) ......................................................................32 CAPÍTULO XVI – DO GARAGE BAND ...........................................................................................................34 CAPÍTULO XVII - DO ESPAÇO PARA RECREAÇÃO INFANTIL E BRINQUEDOTECA ..........................35 CAPÍTULO XVIII – DA LAN HOUSE (SALA DE JOGOS JUVENIL) ............................................................36 CAPÍTULO XIX – DO BICICLETÁRIO ............................................................................................................37 CAPÍTULO XX – DO REDÁRIO .......................................................................................................................38 CAPÍTULO XXI – DAS PENALIDADES ..........................................................................................................38 CAPÍTULO XXII – DISPOSIÇÕES FINAIS ......................................................................................................39"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/2b8e254d> .<https://omc.co/5511993891773/749/2b8e254d_76b469d2>
+            a v:Paragrafo ;
+            v:descricao "## **CONSIDERANDO** os termos da Convenção do **CONDOMÍNIO ALTO DO IPIRANGA NOUVEAUX** . **CONSIDERANDO** que tal Regulamento é obrigatório para proprietários de unidades, promitentes compradores, cessionários e promitentes cessionários e locatários, atuais e futuros, como para qualquer ocupante das unidades autônomas. **CONSIDERANDO** a vivência em comunidade e o interesse geral em prol de uma vida solidária e que assegure o bem-estar de todos, os **CONDÔMINOS** do **CONDOMÍNIO ALTO DO IPIRANGA NOUVEAUX** aprovam o seguinte Regulamento Interno, em Assembleia soberana e regularmente convocada para tal fim e observando os ditames da lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/2b8e254d> .<https://omc.co/5511993891773/749/248a6046_90b6ec3b>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Empregado(s) ou prestador (es) de serviço a serviço do **CONDOMÍNIO** são de responsabilidade do **CONDOMÍNIO,** sob gestão do Sindico e devem obrigatoriamente seguir os termos do Contrato de Prestação de Serviço, bem como a Convenção e este Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/248a6046> .<https://omc.co/5511993891773/749/9c71aed9_eea959d6>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Para atender melhorias a serem realizadas no **CONDOMÍNIO** será criado o Fundo de Obras/Melhorias que será constituído pela taxa adicional (definida em Assembleia) sobre as contribuições ordinárias dos **CONDÔMINOS** e no ato delas, pelo rendimento de seu capital e pelo produto arrecadado com as multas impostas. Este terá o objetivo de ações que agreguem patrimônio ao **CONDOMÍNIO** , ou valorização deste, sendo estas ações sempre aprovadas pelo Corpo Diretivo e em Assembleia."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/9c71aed9> .<https://omc.co/5511993891773/749/be2cea13_d19ff19c>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O ingresso do Locatário no **CONDOMÍNIO** somente será permitido mediante a apresentação de cópia autenticada do respectivo Contrato de Locação junto à Administradora do **CONDOMÍNIO** , para o devido cadastro do mesmo, no prazo mínimo de 24 (vinte e quatro) horas antes da mudança, diante do qual a Administradora comunicará o **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/be2cea13> .<https://omc.co/5511993891773/749/be2cea13_00f024b7>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - No caso de locação das unidades autônomas, os **CONDÔMINOS** e seus familiares transferem automaticamente para os inquilinos e seus familiares o direito ao uso das garagens, piscinas, sauna, salão de festas e outras dependências comuns, enquanto perdurar a locação. Ficam ainda obrigados a fazer constar do contrato a cópia do presente Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/be2cea13> .<https://omc.co/5511993891773/749/55f6021e_6cc96803>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Quando a Convenção do **CONDOMÍNIO** e o presente Regulamento Interno forem omissos a respeito da regra para a solução de qualquer caso surgido entre **CONDÔMINO** e **CONDOMÍNIO** , caberá ao Síndico em conjunto com o Conselho Consultivo, a solução do litígio, mediante aplicação da legislação pertinente, analogia, usos, costumes e precedentes jurisprudenciais, sempre em tal ordem e submetidas ao referendo da primeira assembleia geral que se realizar."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/55f6021e> .<https://omc.co/5511993891773/749/55f6021e_dca920d6>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Ao síndico caberá a administração geral do condomínio, cabendo aos subsíndicos a função fiscalizadora e de apoio aos seus Edifícios (torres) respectivos. Ao Conselho Consultivo caberá assessorar ao síndico e subsíndicos nas questões do **CONDOMÍNIO** , conforme estabelecido em sua Convenção."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/55f6021e> .<https://omc.co/5511993891773/749/55f6021e_e686e335>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Cada membro dos Grupos de Apoio, eleitos em Assembleia, tem a deliberação de criação de Comissões para participação dos **CONDÔMINOS,** objetivando tratar assuntos específicos e seguir o regulamento para direcionar, recomendar ou propor procedimentos, compras e outros dispositivos em benefício do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/55f6021e> .<https://omc.co/5511993891773/749/55f6021e_fecc1460>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O Sindico deverá elaborar trimestralmente um relatório aos **CONDÔMINOS** , informando as principais atividades realizadas no **CONDOMÍNIO** , e este será disponibilizado aos **CONDÔMINOS** por correspondência, correio eletrônico ou disponibilizado em local apropriado (Quadro de Avisos / Portal _WEB_ do Condomínio)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/55f6021e> .<https://omc.co/5511993891773/749/5002e4c4_f961f765>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Entenda-se como visitante, em todo o contexto deste regulamento, qualquer pessoa que adentrar no **CONDOMÍNIO** autorizado pelo **CONDÔMINO** , incluindo convidados, empregados ou prestadores de serviço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/5002e4c4> .<https://omc.co/5511993891773/749/5002e4c4_ff5a643a>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - As regras estabelecidas no Regulamento Interno sobre PROIBIÇÃO DE FUMO DENTRO DO **CONDOMÍNIO** concorda com o Art 3º do Decreto 8262, de 31 de maio de 2014, da Lei 12546/11, que afirma que “é proibido o uso de cigarros, cigarrilhas, charutos, cachimbos, narguilé ou outro produto fumígeno, derivado ou não do tabaco, em recinto coletivo fechado”, ou seja, fumar somente fora do Condomínio."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/5002e4c4> .<https://omc.co/5511993891773/749/3fb66ff8_389ee1c5>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** O Síndico, junto a aprovação do Conselho, poderá autorizar a utilização de espaços comuns do **CONDOMÍNIO** para a divulgação de informações e serviços que representem benefícios aos **CONDÔMINOS** e à coletividade."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3fb66ff8> .<https://omc.co/5511993891773/749/7cdec318_76670d2d>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** A entrada social do prédio destina-se aos moradores, proprietários ou inquilinos, respectivas famílias e visitantes, respeitado o que dispõe a Lei Estadual 952, de 27/12/85."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/7cdec318> .<https://omc.co/5511993891773/749/032494fd_2a73e714>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O ingresso e permanência de estranhos ao **CONDOMÍNIO** , entendidos esses como não **CONDÔMINOS** dependerá de autorização do **CONDÔMINO** responsável ou do **CONDOMÍNIO** quando relacionado a área comum, nos termos do _caput_ . **§2º** - Todos os **CONDÔMINOS** ficam obrigados a registrar no Portal _WEB_ do Condomínio, os dados pessoais de funcionários domésticos ou diaristas por eles contratados, indicando o número da unidade, bem como os dias e horários de trabalho. **§3º** - Aos empregados domésticos será permitido o seu acesso ao **CONDOMÍNIO** mediante autorização, através do Portal _WEB_ do Condomínio, do seu empregador, respeitando o horário indicado e, estando o **CONDÔMINO** (empregador) responsável por qualquer irregularidade que venha a acontecer quando da presença deste (empregado) no **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/032494fd> .<https://omc.co/5511993891773/749/032494fd_9710b08c>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Todos os **CONDÔMINOS** ficam obrigados a registrar no Portal _WEB_ do Condomínio, os dados pessoais de funcionários domésticos ou diaristas por eles contratados, indicando o número da unidade, bem como os dias e horários de trabalho."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/032494fd> .<https://omc.co/5511993891773/749/032494fd_49466ebe>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Aos prestadores de serviço a serviço do **CONDÔMINO** será permitido o seu acesso ao **CONDOMÍNIO** mediante autorização, através do Portal _WEB_ do Condomínio, por período predeterminado, respeitando os horários indicados pelo **CONDÔMINO** e os horários limites do **CONDOMÍNIO** para serviços estabelecidos neste Regulamento e, estando o **CONDÔMINO** (empregador) responsável por qualquer irregularidade que venha a acontecer quando da presença deste (prestador de serviço) no **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/032494fd> .<https://omc.co/5511993891773/749/1f6c8461_8812f22d>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - De pessoas interessadas na compra ou na locação de unidades, sem a companhia do corretor ou do **CONDÔMINO** . Nenhum empregado do **CONDOMÍNIO** terá, em hipótese alguma, a atribuição de acompanhar estes interessados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/1f6c8461> .<https://omc.co/5511993891773/749/dbcd8085_b3e0b56f>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Fora desse horário, os corretores deverão estar acompanhados do proprietário do apartamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/dbcd8085> .<https://omc.co/5511993891773/749/dbcd8085_09d67238>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Pode ser autorizada a entrada de prestadores de serviço (telefone, internet, luz, gás, água, serviços de televisão a cabo, internet, etc.) no apartamento do **CONDÔMINO** fora do horário acima, quando se tratar de reparos emergenciais, desde que devidamente acompanhados pelo **CONDÔMINO** (na entrada e saída), sendo que deve ser feita comunicação prévia à portaria. A responsabilidade por barulho indevido ou qualquer outro dano, nestas condições, é de responsabilidade do **CONDÔMINO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/dbcd8085> .<https://omc.co/5511993891773/749/dbcd8085_17c8e5a4>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Ao **CONDÔMINO** da unidade que não respeitar esta obrigatoriedade, terá a unidade punida com multa equivalente a 50% (cinquenta por cento) da cota condominial ordinária das unidades tipo de finais 3 e 4, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/dbcd8085> .<https://omc.co/5511993891773/749/2b0b5a82_95141688>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Quando se tratar de cumprimento de determinação judicial, o Oficial de Justiça, devidamente identificado através de sua funcional, não poderá ser impedido de ingressar no **CONDOMÍNIO** para cumprir a referida determinação judicial devendo ser acompanhado de um empregado do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/2b0b5a82> .<https://omc.co/5511993891773/749/3f5eadf4_383eb5fc>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - As entregas de correspondências (entregues sem protocolo) serão deixadas nas caixas de correspondências designadas para cada unidade em sua respectiva torre."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3f5eadf4> .<https://omc.co/5511993891773/749/3f5eadf4_cf339500>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - As entregas de correspondências (entregues com protocolo) serão armazenadas em local previamente comunicado, para retirada pelo **CONDÔMINO** mediante o registro em livro."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3f5eadf4> .<https://omc.co/5511993891773/749/960aee2e_1a10a0ef>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Serão permitidas as alterações constantes do _caput_ deste artigo se aprovadas em Assembleia, respeitando o quórum específico de cada matéria e para a aplicação simultânea a todos os **CONDÔMINOS,** como determina a Convenção do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_3bc8127c>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Não será permitido estender roupas, tapetes e peças em geral, nas sacadas ou outros locais visíveis do exterior."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_49f3a28e>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Fica terminantemente proibido colocar vasos com plantas, gaiolas, enfeites ou quaisquer objetos nos peitoris das janelas ou locais onde fiquem expostos e que possam a qualquer momento cair."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_da7f4d51>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Em nenhuma hipótese será permitido colocar placas, letreiros, cartazes de publicidade, negociação imobiliária, antenas, varais, enfeites ou quaisquer objetos nas paredes externas das unidades autônomas, bem como instalar chaminés, tubulações de coifas para exaustores, entre outros. A instalação de ar condicionado deverá obrigatoriamente ser feita no chão."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_043da210>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Não se inclui no previsto no _caput_ o local determinado pelo Síndico e referendado pelo Conselho, para aposição de comunicação de negociação imobiliária."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_6d2659fd>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Referente ao ambiente da Sacada é vetado alterar o padrão das luminárias existentes e pintar as paredes e/ou o teto, de qualquer cor que não às aplicadas na fachada do **CONDOMÍNIO** , sendo apenas permitidas neste ambiente: lâmpadas na cor amarela de qualquer modelo, mas nas mesmas dimensões (tamanho) e spots brancos de embutir. A quantidade de pontos de iluminação, devem obedecer a deliberação da Assembleia Geral realizada em 10 de outubro de 2011, representado no desenho abaixo: **==> picture [266 x 135] intentionally omitted <==**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_7d4c3a29>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - Os casos preexistentes deverão ser regularizados, em 15 (quinze) dias, a contar da aprovação do presente Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_ae4b92d8>
+            a v:Paragrafo ;
+            v:descricao "**§8º** - Só é permitido o fechamento dos terraços com vidros nos exatos termos do já deliberado na Assembleia Geral realizada em 10 de outubro de 2011, e que faz parte integrante deste para todos os fins e efeitos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_e1a13788>
+            a v:Paragrafo ;
+            v:descricao "**§9º** - Só é permitida a colocação de cortinas nas sacadas nos exatos termos do já deliberado na Assembleia Geral realizada em 10 de outubro de 2011, e que faz parte integrante deste para todos os fins e efeitos, sendo que esta aprovação consiste em cor branca, gramatura livre de escolha dos **CONDÔMINOS** considerando também ainda o sistema _blackout_ , instalada com paginação lado a lado, sendo que para os apartamentos Tipo e Garden de final 1 e 2 são com 4(quatro) folhas frontais e 2(duas) laterais e para os apartamentos Tipo e Garden de final 3 e 4 são com 4(quatro) folhas frontais."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_8af696d4>
+            a v:Paragrafo ;
+            v:descricao "**§10º** - É permitida a instalação de TV na parede da Churrasqueira e/ou na parede oposta."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_28937103>
+            a v:Paragrafo ;
+            v:descricao "**§11º** - É permitida a colocação de plantas na sacada desde que não ultrapassem o limite do guarda corpo. As plantas não devem pender sobre o guarda corpo para o lado de fora da fachada."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/960aee2e_88520cd0>
+            a v:Paragrafo ;
+            v:descricao "**§12** - Na parede oposta a churrasqueira é permitida a instalação de armários desde que não ultrapasse a altura do guarda corpo, e na parede da churrasqueira é permitida a instalação de armários entre a churrasqueira e a parede da sala desde que não ultrapasse as dimensões da churrasqueira."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/960aee2e> .<https://omc.co/5511993891773/749/a61d775f_eaafa22e>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Toda e qualquer obra a ser realizada pelo **CONDÔMINO** em sua unidade autônoma, inclusive pintura e troca de revestimentos, deverá ser previamente comunicada ao Síndico através da solicitação de reformas presente no Portal _WEB_ do Condomínio."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_6b5c2bba>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O Sindico e/ou Corpo Diretivo avaliarão a solicitação e retornarão ao **CONDÔMINO** a classificação da obra que pode ser Estética ou Reparadora;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_8a546d79>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - É proibido remover ou modificar quaisquer paredes assim como abrir vãos ou rasgos, para instalações (ainda que pequenas) ou permitir que terceiros o façam, pois isso equivaleria a remover um pilar ou uma viga de concreto, o que afetaria a estabilidade de toda a edificação, que empregou alvenaria estrutural;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_89cb9480>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - As obras classificadas como Reparadora deverão obrigatoriamente ser precedidas de apresentação de um projeto assinado por um engenheiro responsável, com antecedência mínima de 10 (dez) dias, sem que isso implique em exoneração de responsabilidade, que é exclusiva do **CONDÔMINO** ;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_416c31b0>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - A unidade que não informar devidamente a obra a ser realizada, terá a obra paralisada e será punida com multa equivalente a 1(uma) cota condominial ordinária das unidades tipo de finais 3 e 4 vigente à época da infração a cada 30 (trinta) dias até a regularização."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_f22d0c06>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Após a conclusão da obra o Síndico deverá ser informado, através do Portal WEB do Condomínio, no prazo máximo de 15 (quinze) dias para que seja realizada a vistoria de constatação da obra."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_b43b77ba>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - Os casos onde forem constatadas mudanças estruturais que contrariem o Manual do Proprietário entregue pela construtora, serão notificados a desfazer a obra no prazo máximo de 30 (trinta) dias a contar da data da notificação, caso contrário a unidade será punida com multa equivalente a 1(uma) cota condominial ordinária das unidades tipo de finais 3 e 4 vigente a cada 30 (trinta) dias, e ainda com o ingresso da competente ação judicial."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/a61d775f_0265c4ac>
+            a v:Paragrafo ;
+            v:descricao "**§8º** - É proibido o nivelamento da sacada/varanda dos apartamentos ao do piso da sala, mudando as caraterísticas do projeto original do apartamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a61d775f> .<https://omc.co/5511993891773/749/5a4b1b72_e6f68c04>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Nenhuma aprovação de requerimentos para reformas será assinada e consequentemente permitidas entre o período do Natal (25/12) e do Ano Novo (01/01), em qualquer dia da semana."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/5a4b1b72> .<https://omc.co/5511993891773/749/5a4b1b72_48ca4bd9>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A unidade que não respeitar o horário limite de execução de obra ou o período de recesso descrito no §1º será punida na primeira ocorrência com multa equivalente a 50%(cinquenta por cento) da cota condominial ordinária das unidades tipo de finais 3 e 4, e na segunda ocorrência será punida com multa equivalente a 1(uma) cota condominial ordinária das unidades tipo de finais 3 e 4 vigente à época da infração, a partir da terceira ocorrência será punida com multa equivalente a 2 (duas) cotas condominiais ordinária das unidades tipo de finais 3 e 4 vigente à época da infração."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/5a4b1b72> .<https://omc.co/5511993891773/749/c05b112a_8ae4a16f>
+            a v:Paragrafo ;
+            v:descricao "**§1** - º- Ao realizar qualquer reforma em sua unidade, o condômino assume a responsabilidade de cumprir todas as normas e diretrizes estabelecidas pelo Regulamento Intero e pela Convenção do Condomínio;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c05b112a> .<https://omc.co/5511993891773/749/c05b112a_63f87114>
+            a v:Paragrafo ;
+            v:descricao "**§2** - º- Caso o condômino cometa qualquer irregularidade que viole o Regulamento Interno ou a Convenção do Condomínio, resultando em danos à estrutura da construção, ele seráresponsabilizado financeiramente por todas as despesas relacionadas à correção dessas irregularidades. **§3°** - Quando houver suspeita ou constatação de irregularidades na reforma realizada pelo condômino, o Condomínio tem o direito de contratar profissionais especializados para realizar uma fiscalização adequada da obra; **§4°** - O condômino deverá permitir o acesso dos profissionais contratados pelo Condomínio à sua unidade, a fim de realizar a inspeção e produção de laudo necessários para verificar a conformidade da reforma com as normas estabelecidas; **§5°** O condômino deverá autorizar profissionais contratados pelo Condomínio a realizarem fotos especificamente dos locais é pontos onde se deu as irregularidades com a finalidade exclusiva de produção de laudo; **§6°** - As despesas decorrentes da contratação dos profissionais especializados para a fiscalização da obra serão integralmente arcadas pelo condômino responsável, no caso de constatação de irregularidades; **§7°** - O condômino responsável pela irregularidade na reforma, será obrigado a arcar com todas as despesas necessárias para reparar os danos causados à estrutura da construção, incluindo os custos relativos aos materiais, mão de obra e eventuais projetos técnicos exigidos;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c05b112a> .<https://omc.co/5511993891773/749/c05b112a_4089365e>
+            a v:Paragrafo ;
+            v:descricao "**§8** - ° - O condômino deverá efetuar o pagamento dessas despesas no prazo estabelecido pelo Condomínio, que fará a cobrança através dos) lançamento(s) no(s) boleto(s) para pagamento das colas condominiais, cuja forma de pagamento obedecerá a mesma negociada com os profissionais contratados quanto a valores e eventuais parcelamentos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c05b112a> .<https://omc.co/5511993891773/749/413fc2fa_167b3c91>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Na hipótese de inobservância ou omissão quanto ao previsto no _caput_ , o Síndico ordenará a retirada do material e a limpeza das áreas atingidas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/413fc2fa> .<https://omc.co/5511993891773/749/413fc2fa_861e7743>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Os custos relativos a limpeza providenciada pelo **CONDOMÍNIO** serão repassados ao **CONDÔMINO** , sem prejuízo de multa que é de 1 (uma) cota condominial ordinária das unidades tipo de finais 3 e 4 vigente à época da infração, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/413fc2fa> .<https://omc.co/5511993891773/749/91dca9fd_60d441be>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Não será permitido, outrossim, o uso de rádios transmissores e receptores que causem interferência aos demais aparelhos eletroeletrônicos existentes no **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/91dca9fd> .<https://omc.co/5511993891773/749/0724b3fc_81dc716b>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Os animais deverão ser transportados no colo ou presos à guia/coleira ou em recipientes apropriados, com utilizacao de elevador restrita ao de serviço, podendo o morador ingressar e sair do **CONDOMINIO** , por ambas entradas (tanto a de Serviço quanto a de moradores.)"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0724b3fc> .<https://omc.co/5511993891773/749/0724b3fc_15763b5e>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A permissão de permanência dos animais no **CONDOMÍNIO** restringese no caminho entre o elevador de serviço, hall de serviço e corredores que ligam as torres a saida do condominio, e no apartamento do respectivo dono."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0724b3fc> .<https://omc.co/5511993891773/749/0724b3fc_f75a18e8>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Qualquer sujeira feita pelo(s) animal(is) neste trajeto, jardins ou na calçada de responsabilidade do **CONDOMÍNIO** deverá ser limpa pelo morador imediatamente, sendo que a não limpeza está sujeita as regras de penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0724b3fc> .<https://omc.co/5511993891773/749/0724b3fc_168d6a86>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O ingresso ou a continuidade do **CONDÔMINO** acompanhado de animal de estimação no elevador dependerá de aprovação dos passageiros do elevador."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0724b3fc> .<https://omc.co/5511993891773/749/0724b3fc_998c1190>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - As restrições previstas neste artigo e parágrafos não se aplicam em hipótese alguma a **CONDÔMINO** deficiente visual, acompanhado de cão guia."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0724b3fc> .<https://omc.co/5511993891773/749/0724b3fc_4b1ec077>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Só poderão ser transportados 2 (dois) animais, por vez e sempre no elevador de serviço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0724b3fc> .<https://omc.co/5511993891773/749/73f2bd33_e5efa164>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** É expressamente proibido manter animal de guarda, grande ou de médio porte de raça de agressividade comprovada no interior do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/73f2bd33> .<https://omc.co/5511993891773/749/d867939d_c9595579>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** A não obediência a algum dos itens deste Capítulo IV, o **CONDÔMINO** será punido na primeira ocorrência com multa equivalente a 50%(cinquenta por cento) da cota ordinária, e a partir da segunda ocorrência será punida com multa equivalente a 1(uma) cota condominial ordinária das unidades tipo de finais 3 e 4, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/d867939d> .<https://omc.co/5511993891773/749/12aeeda5_55903076>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Em hipótese alguma poderá haver bloqueio das entradas do **CONDOMÍNIO.**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/12aeeda5> .<https://omc.co/5511993891773/749/12aeeda5_306679f2>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Objetivando não afetar a circulação de moradores, seja nos elevadores ou na entrada e saída de veículos e o desgaste devido a constante abertura dos portões da garagem decorrente da mudança, somente será autorizada uma mudança por dia, independente da Torre."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/12aeeda5> .<https://omc.co/5511993891773/749/25ffefac_a98b3850>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Os móveis e volumes que excederem em peso e dimensões a capacidade do elevador deverão ser transportados pela escada de serviço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/25ffefac> .<https://omc.co/5511993891773/749/25ffefac_dd802a44>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Havendo dúvida quanto ao peso e dimensão no caso de cofres, arquivos, pianos e outros, o transporte deverá ser previamente autorizado pela empresa responsável pela manutenção dos elevadores."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/25ffefac> .<https://omc.co/5511993891773/749/c081ebf1_1a1f970c>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** O prazo para reclamações é de 3 (três) dias a contar da data da mudança, sob pena de decadência, salvo por motivo de força maior."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c081ebf1> .<https://omc.co/5511993891773/749/18d0e74c_17208199>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Entregas de supermercados podem entrar pela garagem, sempre com a presença do **CONDÔMINO** , e devem ser transportadas diretamente para o seu apartamento, não podendo serem armazenadas em nenhuma hipótese na parte comum do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/18d0e74c> .<https://omc.co/5511993891773/749/18d0e74c_9d9757f5>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Todas as entregas de mercadorias de grande porte, bem como mudanças e móveis, após o devido registro na portaria e com a presença do **CONDÔMINO** , podem entrar pela garagem, e devem ser transportadas diretamente para o apartamento do **CONDÔMINO** , não podendo serem armazenadas em nenhuma hipótese na parte comum do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/18d0e74c> .<https://omc.co/5511993891773/749/6e8c7505_35c2184b>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** É proibido modificar, acrescentar ou subtrair objetos, mudar a composição dos existentes e alterar cores da decoração da recepção."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/6e8c7505> .<https://omc.co/5511993891773/749/180eddaa_3924a36a>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Na inobservância do disposto no _caput_ , o serviço será providenciado pelo **CONDOMÍNIO** e o custo será repassado ao responsável, sem prejuízo de aplicação de multa, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/180eddaa> .<https://omc.co/5511993891773/749/3913c298_32043548>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - É proibido utilizar os elevadores sociais quando em trajes de banho, sem camisa, bem como transportar bagagens, carga, lixo, objetos volumosos, equipamentos esportivos, bicicletas, veículos infantis (exceção ao carrinho de transporte de bebe) e animais. Somente serão permitidas maletas ou malas de transporte diário de material de trabalho, e neste caso, somente uma por **CONDÔMINO** . Exceção existirá no transporte de veículos infantis para crianças de até 4 anos, quando o elevador de serviço estiver em uso para mudanças ou transporte de materiais referente a reformas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/3913c298_c214456d>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - É proibido manter as portas dos elevadores abertas além do tempo necessário para a entrada e saída de pessoas, exceto em caso de limpeza ou manutenção por parte das pessoas credenciadas pela administração do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/3913c298_4525b77a>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Todas as restrições ao uso dos elevadores sociais cessarão desde que os de serviço estejam em manutenção, com defeito, com mudança ou em conservação. Neste caso os elevadores sociais serão preparados para substituírem os de serviço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/3913c298_bfc9922e>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - É de responsabilidade dos pais ou responsáveis o uso dos elevadores por menores de idade quando estiverem desacompanhados dos mesmos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/3913c298_1b9b9615>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - É proibido transportar pelos elevadores sociais qualquer tipo de volume utilizando-se de “carrinhos de compras”."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/3913c298_44085a98>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - É dever de cada morador limpar (ou comunicar aos profissionais de limpeza) a eventual sujeira que causar nos elevadores."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/3913c298_b0bb40bb>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - Conforme lei municipal 12.751 de 04/11/98, crianças menores de 10 anos de idade não podem andar desacompanhadas em elevadores. A criança não tem altura ou discernimento suficiente para acionar o botão de alarme em caso de emergência. O desacordo a esta regra poderá gerar uma multa ao **CONDÔMINO** por parte do **CONDOMÍNIO** , e o repasse da multa que o **CONDOMÍNIO** pode vir a pagar devido a infração da lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3913c298> .<https://omc.co/5511993891773/749/967e4033_e918996d>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Em Assembleia Geral Ordinária, os **CONDÔMINOS** que desejarem seu uso deverão pronunciar-se, ou antes, somente se houver vagas disponíveis."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/967e4033_5226cad7>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Em caso de haver mais **CONDÔMINOS** interessados do que vagas disponíveis realizar-se-á sorteio, com regra a ser estabelecida antes da Assembleia para este fim."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/967e4033_3e0f8e75>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Será designada uma motocicleta por apartamento e por vaga, sendo que o direito de uso terá prazo de duração de 02 (dois) anos, até a próxima Assembleia estipulada."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/967e4033_545f5be6>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Caso não haja ocupação total das vagas de motocicletas, uma segunda vaga por apartamento poderá ser sorteada, sendo que esta vaga poderá ser requisitada a qualquer momento pelo **CONDOMÍNIO** para atender a necessidade de algum apartamento que ainda não possua vaga."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/967e4033_6a17ba58>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Somente se houver procura maior que o número de vagas disponíveis, haverá um pagamento de taxa equivalente a 10% (dez por cento) da cota condominial ordinária de sua unidade autônoma, do mês anterior."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/967e4033_162a6b94>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Os **CONDÔMINOS** locatários das vagas poderão desistir de seu uso a qualquer momento sem nenhuma penalização."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/967e4033_47400fbd>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - Os **CONDÔMINOS** poderão fazer uso da vaga de veículo destinada para seu apartamento para a guarda da motocicleta, sendo que se mantém a regra de um veículo por vaga."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/967e4033> .<https://omc.co/5511993891773/749/39562d3f_afd872dc>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - A identificação fornecida pelo **CONDOMÍNIO** deve estar visível no veículo, sempre que o mesmo estiver na Garagem do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/39562d3f> .<https://omc.co/5511993891773/749/39562d3f_8ae240c7>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A identificação do número do apartamento do **CONDÔMINO** deve corresponder obrigatoriamente com a respectiva vaga; qualquer empréstimo ou transferência de vaga entre **CONDÔMINO** S deve ser comunicada a administração do **CONDOMÍNIO** imediatamente, caso contrário o **CONDÔMINO** está sujeito a aplicação de multa."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/39562d3f> .<https://omc.co/5511993891773/749/474cfad1_80bbd42c>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O **CONDÔMINO** que não observar o disposto no _caput_ deverá providenciar a retirada dos objetos no prazo estipulado pelo Síndico."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/474cfad1> .<https://omc.co/5511993891773/749/474cfad1_75bf6fa8>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Não observando o **CONDÔMINO** o prazo estipulado no parágrafo 1º, o **CONDOMÍNIO** providenciará a retirada dos objetos, cobrando do **CONDÔMINO** os valores referentes à retirada e eventual depósito, sem prejuízo de multa, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/474cfad1> .<https://omc.co/5511993891773/749/20fc5364_e0ddc89a>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Ao entrar no Edifício, o visitante deverá estar de posse do cartão original da vaga do **CONDÔMINO** cedida ao visitante, que deverá ser colocado no para-brisa ou no painel do veículo, em local visível, enquanto estiver estacionado no interior do **CONDOMÍNIO** , visando sua rápida localização em caso de necessidade."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/20fc5364> .<https://omc.co/5511993891773/749/91567515_757090aa>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - As cadeiras, mesas, e demais móveis e utensílios dos Salões de Festa e Espaço Gourmet e Churrasqueira/Forno de Pizza não poderão ser retirados de seus ambientes nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/91567515> .<https://omc.co/5511993891773/749/91567515_ade6fc70>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Quando do aluguel dos espaços dos Salões de Festa e Espaço Gourmet pelo mesmo **CONDÔMINO** estiver destinado para evento/reserva no mesmo dia/hora: será permitida somente a movimentação das mesas e cadeiras entre estes salões, sendo responsabilidade do **CONDÔMINO** o retorno dos mesmos ao local original até o término do evento/reserva. É proibida a movimentação da mesa grande do Gourmet, da mesa de bolo e do aparador sem uma prévia autorização do Síndico, por se tratar de uma exceção."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/91567515> .<https://omc.co/5511993891773/749/948c5c55_a0f25a3e>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O **CONDÔMINO** requisitante deverá obrigatoriamente criar uma lista prévia do seu evento através do Portal _WEB_ do Condomínio, constando nome completo e RG dos seus convidados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/948c5c55> .<https://omc.co/5511993891773/749/948c5c55_78ab1f29>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Caso haja mais de uma solicitação de reserva para a mesma data será obedecida a ordem cronológica de data e horário de entrega das solicitações, tendo preferência, em igualdade de data, a ordem de solicitação."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/948c5c55> .<https://omc.co/5511993891773/749/948c5c55_777d3603>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - O **CONDÔMINO** somente poderá fazer reserva com antecedência máxima de 12 meses;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/948c5c55> .<https://omc.co/5511993891773/749/948c5c55_9cf7c45d>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O **CONDÔMINO** titular da reserva e que não a usufrua pagará a taxa de utilização estipulada, caso não a cancele com 15 dias de antecedência."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/948c5c55> .<https://omc.co/5511993891773/749/948c5c55_ff8a4469>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Somente será permitida uma reserva por dia por Local (Salões de Festas, Espaço Gourmet ou Churrasqueira)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/948c5c55> .<https://omc.co/5511993891773/749/948c5c55_418d7d8d>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - O morador tera a taxa isenta por motivos de força maior relacionados a doença ou morte desde que devidamente comprovado."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/948c5c55> .<https://omc.co/5511993891773/749/1293bb45_a0cb09c7>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O **CONDÔMINO** obriga-se a deixar o espaço em perfeito estado de conservação e ordem, com todos os restos de alimentos, descartáveis e outros resíduos devidamente acondicionados nos recipientes de lixo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/1293bb45> .<https://omc.co/5511993891773/749/1293bb45_9f590bfc>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Os banheiros internos são de utilização do salão de festas e espaço gourmet, sendo que os banheiros externos servirão de apoio à área de churrasqueira e piscinas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/1293bb45> .<https://omc.co/5511993891773/749/1293bb45_ed8f544a>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Mensalmente o valor de 25% (vinte e cinco por cento) do valor arrecadado com o aluguel dos espaços, será transferido da Cota dos Salões de Festas para a Corta Condominial Ordinária objetivando cobrir custos de despesas pagas pela Cota Condominial Ordinária."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/1293bb45> .<https://omc.co/5511993891773/749/1293bb45_0c53056e>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Caso seja feita a reserva dos 3 espaços (Salão de Festas, Salão Gourmet e Churrasqueira) no mesmo dia, para o mesmo evento e pelo mesmo morador, o valor total da reserva terá um desconto de 10% (dez por cento)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/1293bb45> .<https://omc.co/5511993891773/749/0314d3b0_78a9f20f>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - A reserva para este tipo de evento deve ser feito com no maximo 72 horas de antecedencia e deve ser informada que se destina a somente **CONDÔMINOS** e quais os apartamentos participantes;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0314d3b0> .<https://omc.co/5511993891773/749/0314d3b0_117e4055>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Para reserva com antecedencia superior a 72 horas, a Administradora ou Corpo Diretivo devem ser infomados, e um comunicado sobre este evento deve informado para todos os **CONDÔMINOS** para convida los especificando o processo de rateio das despesas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0314d3b0> .<https://omc.co/5511993891773/749/0314d3b0_e5c2dab2>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Não pode existir restrição de participação de quaisquer **CONDÔMINOS** , sendo um evento somente para **CONDÔMINOS** ;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0314d3b0> .<https://omc.co/5511993891773/749/0314d3b0_8395dc12>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O **CONDOMÍNIO,** via aprovação do Corpo Diretivo, pode organizar um evento para todos os moradores, seguindo o processo de comunicação para todos os **CONDÔMINOS** com antecedência, sendo que pode ser um evento patrocinado pelo **CONDOMÍNIO** ou com processo de rateio entre os participantes;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0314d3b0> .<https://omc.co/5511993891773/749/27da97d9_3983e83a>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - A circulação dos convidados fica restrita apenas aos espaços do evento, às praças de apoio e ao playground, vedada sua permanência ou trânsito na entrada social, piscina, sauna e demais áreas de uso comum do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/27da97d9> .<https://omc.co/5511993891773/749/84793c4b_36911a3b>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** O **CONDOMÍNIO** fica responsável por toda a limpeza dos ambientes de salões e espaço gourmet, sendo que é responsabilidade do **CONDÔMINO** que todo o lixo seja acondicionado em local apropriado (lixeiras)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/84793c4b> .<https://omc.co/5511993891773/749/c775d22e_eee824fa>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Na sauna e spa o **CONDÔMINO** poderá se fazer acompanhar de convidados, limitados a 2 (dois) por apartamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c775d22e> .<https://omc.co/5511993891773/749/c775d22e_e43d4429>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A utilização do spa e sala de massagem deverá ser precedida de reserva através do Portal _WEB_ do Condomínio."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c775d22e> .<https://omc.co/5511993891773/749/c775d22e_e2d5765c>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - A reserva da sala de massagem terá duração de 2 (duas) horas e o spa de 4 (quatro) horas, sendo que o morador poderá seguir usando o espaço reservado até a próxima reserva registrada. Não será permitida a reserva recorrente do mesmo espaço pelo mesmo morador."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c775d22e> .<https://omc.co/5511993891773/749/c775d22e_9cc64974>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O **CONDÔMINO** obriga-se a deixar o espaço em perfeito estado de conservação e ordem, incluído a higienização da banheira de hidromassagem ou da maca de massagem, conforme o que for utilizado."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c775d22e> .<https://omc.co/5511993891773/749/c775d22e_664d54f8>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - O **CONDÔMINO** deve receber e entregar a chave para um responsável do **CONDOMÍNIO** e exigir a vistoria do espaço, já que o **CONDÔMINO** é responsável por qualquer dano que ocorra no espaço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c775d22e> .<https://omc.co/5511993891773/749/c775d22e_68feffa5>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Sera cobrada uma taxa no valor de 8% (oito por cento) da cota condominial ordinaria das unidades tipo de finais 3 e 4 ao **CONDÔMINO** pela reserva do spa."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c775d22e> .<https://omc.co/5511993891773/749/9f25f367_400d367a>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Será cobrada do **CONDÔMINO** uma taxa de reserva no valor de 5% (cinco por cento) da cota condominial ordinária das unidades tipo de finais 3 e 4."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/9f25f367> .<https://omc.co/5511993891773/749/9f25f367_e39973e5>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A utilização do spa sem prévia reserva acarretará em punição à unidade responsável com multa equivalente a 100% (cem por cento) da cota condominial ordinária das unidades tipo de finais 3 e 4, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/9f25f367> .<https://omc.co/5511993891773/749/72e3a17f_c278eff3>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Da Sauna será das 8:00 às 00:00 horas e a utilização será mista;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/72e3a17f> .<https://omc.co/5511993891773/749/72e3a17f_b543ff46>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Do SPA será das 8:00 às 00:00 horas e a utilização deverá ser precedida por reserva do apartamento;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/72e3a17f> .<https://omc.co/5511993891773/749/72e3a17f_b06207de>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Da Sala de Massagem será das 6:00 às 00:00 horas e a utilização deverá ser precedida por reserva do apartamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/72e3a17f> .<https://omc.co/5511993891773/749/cbe7cb30_06df9419>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Fica entendido como má utilização da sauna e do spa, entre outros, não desligar o aparelho após sua utilização ou não esvaziar a banheira."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/cbe7cb30> .<https://omc.co/5511993891773/749/cbe7cb30_3436a95f>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O **CONDOMÍNIO** não se responsabilizará por quaisquer problemas de saúde, especialmente os cardíacos e de hipertensão dos usuários."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/cbe7cb30> .<https://omc.co/5511993891773/749/0a030c56_3f36eee3>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - É permitida a utilização da piscina, no limite de 2 (dois) convidados adultos com respectivos filhos por apartamento, na presença do **CONDÔMINO.**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0a030c56> .<https://omc.co/5511993891773/749/0a030c56_2097e3e6>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O Síndico poderá determinar o fechamento da piscina, por medida de economia, durante o inverno, desde que a temperatura torne impraticável a plena utilização da mesma."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0a030c56> .<https://omc.co/5511993891773/749/3404ecad_5c151f74>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Trafegar no recinto da piscina com bicicleta, patins, triciclos ou similares."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3404ecad> .<https://omc.co/5511993891773/749/3404ecad_48d00b91>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Frequentar a piscina em trajes de banho atentatórios à moral ou assumir posturas que firam o decoro e os bons costumes."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3404ecad> .<https://omc.co/5511993891773/749/3404ecad_2f38d98a>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Praticar quaisquer tipos de brincadeiras que possam prejudicar material ou moralmente os demais frequentadores, na piscina ou no recinto da mesma."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3404ecad> .<https://omc.co/5511993891773/749/3404ecad_eb2aa82f>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O ingresso à água com o corpo envolto em bronzeador ou similar, devendo o usuário fazer uso da ducha para removê-los."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3404ecad> .<https://omc.co/5511993891773/749/9c09e0ba_2cb1f946>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Todos os equipamentos e utensílios do ambiente das Piscinas não poderão ser retirados de seus ambientes nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/9c09e0ba> .<https://omc.co/5511993891773/749/9c09e0ba_d704df09>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O Sindico, junto com o Corpo Diretivo **CONDOMÍNIO** estabelecerá conforme a necessidade e acordo com prestadores de serviço qual o período que os ambientes das piscinas estarão fechados para a devida manutenção e limpeza."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/9c09e0ba> .<https://omc.co/5511993891773/749/34dcc7cc_87f4f680>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O **CONDOMÍNIO,** os prepostos da administração, o Síndico ou membros do conselho não se responsabilizarão por qualquer problema de saúde dos usuários ou por acidentes ocorridos na área da piscina, bem como no seu interior, muito menos terão dever de vigilância sobre os menores ou frequentadores da piscina."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/34dcc7cc> .<https://omc.co/5511993891773/749/34dcc7cc_a0d8c3db>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Os **CONDÔMINOS** somente deverão fazer uso de banho nas piscinas com trajes apropriados para a mesma."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/34dcc7cc> .<https://omc.co/5511993891773/749/f691d514_7862fd8c>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Quanto a alimentos líquidos, será permitido apenas o uso de copos e garrafas de plástico, desde que observadas às normas de segurança e limpeza, sendo vedado o uso de copos, garrafas de vidro ou louça."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f691d514> .<https://omc.co/5511993891773/749/f691d514_18294ad2>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O uso de aparelhos sonoros na área das piscinas deverá ser feito de modo a não prejudicar o sossego dos demais usuários e **CONDÔMINOS** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f691d514> .<https://omc.co/5511993891773/749/f691d514_9e328e45>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - É de responsabilidade dos pais o acesso à área das piscinas e seu uso por menores de idade."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f691d514> .<https://omc.co/5511993891773/749/f691d514_d3a84375>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - É dever de todos manter fechado o portão que dá acesso as piscinas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f691d514> .<https://omc.co/5511993891773/749/b5a37670_00944f36>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Todos os equipamentos e utensílios dos Fitness Center não poderão ser retirados de seus lugares nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/b5a37670> .<https://omc.co/5511993891773/749/e1fcf253_3f7a0961>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Menores de 6(seis) anos mesmo que acompanhado pelos seus pais ou responsáveis."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e1fcf253> .<https://omc.co/5511993891773/749/e1fcf253_65a503a0>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Menores de 16 (dezesseis) anos desacompanhados de seus pais ou responsáveis, salvo se com autorização por escrito dos mesmos, onde farão declaração de assumir todas as responsabilidades inerentes, a qual deve ser renovada anualmente. ## **§3º** - Não residentes no **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e1fcf253> .<https://omc.co/5511993891773/749/e1fcf253_c5343bf0>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Especificamente, na sacada fitness, não é permitido o uso de pesos, barras e outros equipamentos com pontas que possam gerar risco de quebra dos vidros deste espaço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e1fcf253> .<https://omc.co/5511993891773/749/94663908_04a36600>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** O **CONDOMÍNIO** não se responsabilizará por problemas cardíacos e de hipertensão dos usuários, por lesões decorrentes do uso inadequado dos equipamentos, bem como pela utilização por menores de idade."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/94663908> .<https://omc.co/5511993891773/749/a236b87a_a7f787eb>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O playground destina-se à recreação infantil e é de uso exclusivo dos **CONDÔMINOS** e de seus visitantes. Os pais ou responsáveis deverão orientar as crianças no sentido de preservar a área e aos brinquedos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a236b87a> .<https://omc.co/5511993891773/749/a236b87a_6cb197fd>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Em nenhuma hipótese será permitido o uso de carrinho de rolamento e veículos motorizados, exceto carrinhos elétricos para crianças pequenas. Não será permitido o uso de bicicleta, skate e patins neste espaço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a236b87a> .<https://omc.co/5511993891773/749/a236b87a_80be2d19>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Defeitos nos brinquedos devem ser imediatamente comunicados à administração ou ao corpo diretivo do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a236b87a> .<https://omc.co/5511993891773/749/a236b87a_606ed5bf>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - O **CONDOMÍNIO** não se responsabilizará por acidentes decorrentes do uso inadequado dos equipamentos e brinquedos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a236b87a> .<https://omc.co/5511993891773/749/a236b87a_66058726>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - É de responsabilidade dos pais ou responsáveis o acompanhamento de menores neste espaço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a236b87a> .<https://omc.co/5511993891773/749/59ecafb4_41c3d0a6>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - A quadra tem por finalidade a prática dos esportes específicos à mesma, ou seja, tênis, vôlei, basquete, futebol de salão e handebol, sendo esta a prioridade de uso neste ambiente;"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/59ecafb4> .<https://omc.co/5511993891773/749/59ecafb4_c24aabc8>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Somente é permitido o uso e tráfego de bicicletas infantis, patins, patinetes, skates, carrinhos e similares desde que conduzidos por crianças abaixo de 12 anos de idade e sempre acompanhada pelos pais ou responsáveis."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/59ecafb4> .<https://omc.co/5511993891773/749/0e559e0c_d046c8be>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** É vedado aos menores de 16 (dezesseis) anos de idade desacompanhados dos pais ou responsáveis."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/0e559e0c> .<https://omc.co/5511993891773/749/93c5d08b_119eed99>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Todos os equipamentos e utensílios do ambiente do Salão de Jogos não poderão ser retirados de seus ambientes nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/93c5d08b> .<https://omc.co/5511993891773/749/c536285b_8cb46053>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O funcionamento será de segunda a domingo das 8:00 às 00:00 horas, devendo a apresentação ter o volume diminuído após às 22:00 horas à níveis que atendam à Lei do Silêncio."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c536285b> .<https://omc.co/5511993891773/749/c536285b_0058f57b>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Todos os equipamentos e utensílios do ambiente da Sala de Cinema não poderão ser retirados de seus lugares, nem utilizados para outros fins a não ser aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c536285b> .<https://omc.co/5511993891773/749/c536285b_814ac665>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Proibido conectar equipamentos como videogames, notebook, tabletes, entre outros."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/c536285b> .<https://omc.co/5511993891773/749/a13133a4_9b19f374>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - A reserva terá validade de 4 (quatro) horas sendo que o morador poderá seguir na sala até a próxima reserva registrada. Não será permitida a reserva recorrente do mesmo espaço pelo mesmo morador."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a13133a4> .<https://omc.co/5511993891773/749/a13133a4_57f77bc7>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A ausência do **CONDÔMINO** responsável na Sala de Cinema representará que a mesma está disponível para utilização e para nova reserva."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a13133a4> .<https://omc.co/5511993891773/749/4f779d5b_461d72d0>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - As obras serão fiscalizadas pela administração do **CONDOMÍNIO.**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/4f779d5b> .<https://omc.co/5511993891773/749/4f779d5b_ef9ce3b2>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Ao **CONDÔMINO** facultar-se-á solicitar ao **CONDOMÍNIO** que contrate os serviços e reparos, cujos custos serão cobrados diretamente ## do **CONDÔMINO.**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/4f779d5b> .<https://omc.co/5511993891773/749/4f779d5b_2543dfef>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Em não se obedecendo ao prazo estabelecido pelo Síndico, o **CONDOMÍNIO** poderá determinar a feitura das obras e o conserto dos danos, com repasse dos custos, sem prejuízo de multa, conforme descrito no Capítulo de Penalidades deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/4f779d5b> .<https://omc.co/5511993891773/749/2df29123_26bc6fd1>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** O **CONDÔMINO** obriga-se a deixar o espaço em perfeito estado de conservação e ordem com todos os restos de alimentos descartáveis e outros resíduos devidamente acondicionados nos recipientes de lixo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/2df29123> .<https://omc.co/5511993891773/749/00db27af_2f93ddec>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Todos os equipamentos e utensílios do ambiente do Garage Band não poderão ser retirados de seus lugares nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/00db27af> .<https://omc.co/5511993891773/749/104b6996_37052edd>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Todos os equipamentos e utensílios do ambiente da Brinquedoteca não poderão ser retirados de seus ambientes nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/104b6996> .<https://omc.co/5511993891773/749/104b6996_d03b7b9c>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O **CONDÔMINO** ou o responsável pela criança que estiver ocupando o espaço obriga-se a deixá-lo em perfeito estado de conservação e ordem."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/104b6996> .<https://omc.co/5511993891773/749/3383c2d7_77903436>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - O funcionamento será das 8:00 às 00:00 horas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3383c2d7> .<https://omc.co/5511993891773/749/3383c2d7_9760454c>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Todos os equipamentos e utensílios deste ambiente não poderão ser retirados de seus ambientes nem utilizados para fins diversos aos que se destinam."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3383c2d7> .<https://omc.co/5511993891773/749/3383c2d7_3239102c>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - É proibida qualquer alteração na configuração dos equipamentos do local."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3383c2d7> .<https://omc.co/5511993891773/749/a3c49e41_b1f21002>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Também será considerado como mau uso da Lan House não desligar os computadores e demais equipamentos após a sua utilização."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a3c49e41> .<https://omc.co/5511993891773/749/a3c49e41_135fbb15>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - O **CONDÔMINO** , em caso de danos de qualquer espécie providenciará no prazo estabelecido pelo Síndico, as obras e/ou consertos aos danos que der causa."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a3c49e41> .<https://omc.co/5511993891773/749/a3c49e41_8c812377>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - As obras serão fiscalizadas pela administração do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a3c49e41> .<https://omc.co/5511993891773/749/a3c49e41_83faeb6e>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Ao **CONDÔMINO** facultará solicitar ao **CONDOMÍNIO** que contrate os serviços de reparos, cujos custos serão cobrados diretamente do **CONDÔMINO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a3c49e41> .<https://omc.co/5511993891773/749/a3c49e41_184f69a4>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Em não se obedecendo ao prazo estabelecido pelo Síndico, o **CONDOMÍNIO** poderá determinar a feitura das obras e o conserto dos danos, sem prejuízo de multa, conforme descrito no Capítulo de Penalidade deste Regulamento Interno."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a3c49e41> .<https://omc.co/5511993891773/749/a3c49e41_6d3c6c1b>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - É proibido o uso de cigarros, charutos, cachimbos e similares, assim como o consumo de alimentos ou bebidas, no interior da Lan House."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/a3c49e41> .<https://omc.co/5511993891773/749/3eced531_4382b030>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Somente será permitida a guarda de bicicletas no bicicletário, sendo expressamente vedada a guarda de acessórios, tais como capacetes, luvas, joelheiras, etc."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3eced531> .<https://omc.co/5511993891773/749/3eced531_f347aae6>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Somente moradores do **CONDOMÍNIO** poderão se utilizar do bicicletário."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3eced531> .<https://omc.co/5511993891773/749/3eced531_60441784>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Para garantir a segurança, o bicicletário deve estar sempre trancado e a chave deve ficar aos cuidados do porteiro/controlador de acesso."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3eced531> .<https://omc.co/5511993891773/749/3eced531_6642549b>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Não há vaga reservada para a guarda de bicicletas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3eced531> .<https://omc.co/5511993891773/749/3eced531_4b29ee29>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Mantenha sua bicicleta sempre presa com corrente e cadeado. - **§6º** - Ter cuidado com outras bicicletas ao retirar e guardar a sua."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3eced531> .<https://omc.co/5511993891773/749/3eced531_08607aac>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - As bicicletas poderão ser transportadas somente no elevador de serviço, obedecendo a preferência do transporte de pessoas."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/3eced531> .<https://omc.co/5511993891773/749/74239c72_10f164d9>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Obrigatoriamente, a porta deve ser mantida fechada após a utilização do espaço para segurança dos **CONDÔMINOS.**"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/74239c72> .<https://omc.co/5511993891773/749/f5d4eb85_e6cf4933>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - De acordo com a gravidade da infração elas serão classificadas como graves, médias ou leves."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/f5d4eb85_3e755839>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - A gravidade da infração será apreciada em decisão colegiada pelo Síndico, subsíndicos e conselheiros, com um mínimo de fundamentação de cada voto, levando em consideração que infrações graves incluem ações ou atitudes que geram risco de danos ao patrimônio do Condomínio, risco de descumprimento de acordo em contratos ou de serviços do **CONDOMÍNIO** , ou que gere descumprimento a legislações, bem como atitudes que firam decoro e os bons costumes."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/f5d4eb85_de768d42>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - As multas poderão ser de 20%, 50% ou 100% da cota condominial ordinária das unidades tipo de finais 3 e 4 subsequente do infrator, respectivamente para infrações leves, médias ou graves. Quando da necessidade de aplicação de uma nova multa ao **CONDÔMINO** , caracterizado por reincidência, poderá ser equivalente até 2 (duas) cotas condominiais ordinárias das unidades tipo de finais 3 e 4 vigente à época da infração."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/f5d4eb85_a33da3aa>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Desta decisão caberá recurso fundamentado ao Corpo Diretivo devendo estar registrado no Portal _WEB_ do Condomínio, no prazo de 15 dias da ciência pelo **CONDÔMINO** , devendo ser julgado pela próxima Assembleia, seja ordinária ou extraordinária."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/f5d4eb85_11069951>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Caso a Assembleia reforme a decisão, o **CONDÔMINO** recorrente será ressarcido do valor pago, sem juros ou correção monetária, mediante desconto no pagamento da próxima contribuição condominial, se houver tempo hábil."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/f5d4eb85_e38dc68e>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Todas as multas e notificações expiram após 2 (dois) anos somente para efeito de considerar reincidência da infração."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/f5d4eb85_40e27e34>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - As atitudes consideradas anti-sociais serao deliberadas por colegiado formado, pelo Sindico, subsindicos e conselheiros, com um minimo de fundamentaçao de cada voto, onde sera decidido pela gravidade e aplicaçao de multa ou advertencia."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/f5d4eb85> .<https://omc.co/5511993891773/749/1e35e5e0_0d60e81c>
+            a v:Paragrafo ;
+            v:descricao "**Parágrafo Único.** Fica proibida a utilização, caracterizada como contínua, dos pontos de energia localizados nas garagens para o carregamento de equipamentos eletrônicos, bem como de automóveis elétricos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/1e35e5e0> .<https://omc.co/5511993891773/749/bb049357_6eaf6265>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Pisar ou brincar nas partes que compõem o jardim, bem como nele intervir, adicionando ou removendo plantas ou mudando-lhe o arranjo a revelia do síndico."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/bb049357> .<https://omc.co/5511993891773/749/bb049357_bf6e06cf>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Depositar objetos ou outros materiais em qualquer das áreas de uso comum, isto é, na entrada, passagens, escadas, elevador, vestíbulos, garagem, etc. sem a permissão do Síndico. Os volumes depositados serão removidos pelos empregados do **CONDOMÍNIO** e somente serão devolvidos após o infrator pagar as despesas e danos porventura ocasionados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/bb049357> .<https://omc.co/5511993891773/749/bb049357_3c387630>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Sujar, danificar, afixar cartazes ou avisos nas áreas comuns, exceto os de ordem legal, com prévia anuência do Síndico."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/bb049357> .<https://omc.co/5511993891773/749/bb049357_01eecd9c>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Ter ou usar instalações ou material, por qualquer forma, que venham a afetar a saúde, segurança e tranquilidade dos demais condôminos ou inquilinos ou que possam onerar as despesas do seguro comum do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/bb049357> .<https://omc.co/5511993891773/749/bb049357_c4d443a8>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Utilizar os empregados do **CONDOMÍNIO** para serviços particulares durante o horário de serviço."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/bb049357> .<https://omc.co/5511993891773/749/e9020017_abff5658>
+            a v:Paragrafo ;
+            v:descricao "**§1º** - Manter aberta a porta de elevador somente o tempo necessário para a entrada e saída de pessoas, salvo nos casos de manutenção, carga ou descarga."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_a080b8dc>
+            a v:Paragrafo ;
+            v:descricao "**§2º** - Observar as normas de segurança dos elevadores, determinadas tanto por lei quanto pelo fabricante."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_15e87d49>
+            a v:Paragrafo ;
+            v:descricao "**§3º** - Todos os **CONDÔMINOS** têm o dever de tratar com respeito os empregados do **CONDOMÍNIO** . Toda reclamação ou sugestão deve ser dirigida à administração ou ao Corpo Diretivo do **CONDOMÍNIO** ."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_7d4c8b1b>
+            a v:Paragrafo ;
+            v:descricao "**§4º** - Acondicionar o lixo em sacos plásticos colocando-os nos coletores e cuidando para que não haja respingos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_31e4c90c>
+            a v:Paragrafo ;
+            v:descricao "**§5º** - Apresentar o cartão de estacionamento ao porteiro sempre que solicitado e uma vez estacionado, deixá-lo em local visível."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_4faeae2f>
+            a v:Paragrafo ;
+            v:descricao "**§6º** - Prestigiar e fazer cumprir as decisões do Síndico, subsíndico e Assembleia Geral e a esta comparecer, a fim de que as decisões tomadas expressem, realmente, a vontade condominial."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_cfc0c9a1>
+            a v:Paragrafo ;
+            v:descricao "**§7º** - Observar dentro do **CONDOMÍNIO** a mais rigorosa moralidade, decência e respeito."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_bcd77faa>
+            a v:Paragrafo ;
+            v:descricao "**§8º** - Notificar imediatamente o Síndico, e/ou subsíndico, a incidência de moléstia infectocontagiosa grave no seu apartamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_c36b8821>
+            a v:Paragrafo ;
+            v:descricao "**§9º** - Permitir a entrada em sua unidade, do Síndico, Subsíndico e das pessoas que os acompanharem, desde que se torne necessário a inspeção e execução de medidas que se relacionem com o interesse coletivo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_b552470b>
+            a v:Paragrafo ;
+            v:descricao "**§10º** - Contribuir para as despesas gerais, na forma do aprovado pela Assembleia Geral."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .<https://omc.co/5511993891773/749/e9020017_7f3b700a>
+            a v:Paragrafo ;
+            v:descricao "**§11º** - Permitir a vistoria do apartamento pelo Síndico, preposto ou profissional designado pelo Síndico, a qualquer momento para atender a NBR 16280:2014 da ABNT (Associação Brasileira de Normas Técnicas) que trata de reformas de edificações. Tais vistorias objetivam verificar se foi realizada alguma reforma que modifique as paredes estruturais, abertura de vãos ou rasgos, ainda que pequenos, que possa gerar risco ao apartamento, ao **CONDOMÍNIO** e demais moradores."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/749/e9020017> .

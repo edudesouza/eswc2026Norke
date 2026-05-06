@@ -18,7 +18,12 @@ OLLAMA           = 'http://localhost:11434'
 GRAPHDB_BASE_URL = os.getenv("GRAPHDB_BASE_URL_PROD")
 GRAPHDB_USERNAME = os.getenv('GRAPHDB_USERNAME')
 GRAPHDB_PASSWORD = os.getenv('GRAPHDB_PASSWORD_PROD')
-repositorio      = os.getenv('GRAPHDB_REPOSITORY')
+
+repositorio      = os.getenv('GRAPHDB_REPOSITORY_v2')
+
+repositorio_v1   = os.getenv('GRAPHDB_REPOSITORY_v2')
+repositorio_v2   = os.getenv('GRAPHDB_REPOSITORY_v2')
+repositorio_v3   = os.getenv('GRAPHDB_REPOSITORY_v3')
 
 ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST')
 ELASTICSEARCH_USER = os.getenv('ELASTICSEARCH_USER')

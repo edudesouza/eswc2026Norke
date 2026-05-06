@@ -10,9 +10,9 @@ from src.models import embedding_model
 
 def keywords_create(question,model,api,url):
 
-    ontology_txt:''
-
-    with open("src/ingest/_owl_tbox_v4.ttl", encoding="utf-8") as f:
+    ontology_txt=''
+    
+    with open("src/ingest/_owl_lgpd_gpt.ttl", encoding="utf-8") as f:
         ontology_txt = f.read()
     
     prompt = f'''

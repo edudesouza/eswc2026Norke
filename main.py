@@ -3,7 +3,7 @@ import os,sys,time,asyncio,json,re
 
 from rich import print
 
-from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth
+from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth, class_extraction
 from src.utils      import diff_time
 from src.evaluation import saf, score_dynamic_gt
 from src.output     import elastic_update_field, csv_create
@@ -68,6 +68,7 @@ def _build_retrieval_context(items, top_k=100, max_chars=1500, prefix_ids=True):
     return out
 
 def build_retrieval_context(items, top_k=100, max_chars=1500, prefix_ids=True):
+    
     # aceita: str, dict, list[dict]
     if items is None:
         return []
@@ -182,16 +183,16 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     inicio = time.time() 
 
     if retrieval=='grafo':
-
-        recuperacao = graph_search(palavras_chave,pergunta,user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']  
+        class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
+        recuperacao = graph_search(class_rules,palavras_chave,pergunta,user_id,retrieval_size)
+        contexto    = recuperacao['response']
+        knowledge   = recuperacao['dataset']  
     
     else:  
 
         recuperacao = vector_search(palavras_chave,query_canonical,'documentos',user_id,retrieval_size)
-        contexto  = recuperacao['response']
-        knowledge = recuperacao['dataset']    
+        contexto    = recuperacao['response']
+        knowledge   = recuperacao['dataset']    
 
     diff_time('\n-> #2 buscar dados, OK: ', inicio)
     
@@ -290,14 +291,14 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
     answer_relevancy = AnswerRelevancyMetric(model=model,include_reason=True)
     faithfulness     = FaithfulnessMetric(model=model,include_reason=True)
 
-    retrieval_ctx = build_retrieval_context(recuperacao["dataset"], top_k=20)          
+    retrieval_ctx = build_retrieval_context(recuperacao["dataset"], top_k=20)     
 
     test_case = LLMTestCase(
         input             = pergunta,
         actual_output     = resposta,
-        #expected_output   = response_gt,
+        expected_output   = response_gt,
         retrieval_context = retrieval_ctx,      
-        #context           = [recuperacao["response"]]
+        context           = [recuperacao["response"]]
     )
 
     try:
@@ -356,7 +357,7 @@ if __name__ == "__main__":
     '''
 
     _pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
-    pergunta_debugger = "Sou obrigado a dar minha biometria/foto para entrar em um hospital ou clínica"
+    pergunta_debugger = "Meu empregador pode monitorar meu celular corporativo, incluindo WhatsApp?"
 
     #load_pergunta       = elastic_load_one('perguntas','Gumgb5oB89dtCZp88yCX')
     #pergunta_debugger   = load_pergunta['_source']['pergunta']

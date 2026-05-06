@@ -3,11 +3,11 @@ import os,sys,time,asyncio,json,re
 
 from rich import print
 
-from src.services   import keywords_create, graph_search, vector_search, response_create, ground_truth, class_extraction
-from src.utils      import diff_time
-from src.evaluation import saf, score_dynamic_gt
-from src.output     import elastic_update_field, csv_create
-from src.config     import settings
+from src_en.services   import keywords_create, graph_search, vector_search, response_create, ground_truth, class_extraction
+from src_en.utils      import diff_time
+from src_en.evaluation import saf, score_dynamic_gt
+from src_en.output     import elastic_update_field, csv_create
+from src_en.config     import settings
 
 from langchain_together import ChatTogether
 
@@ -106,8 +106,8 @@ async def main(user_id,pergunta,retrieval='grafo',retrieval_size=5,size_gt=5,deb
 
     inicio = time.time() 
 
-    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'maritaca',size_gt)
-    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'maritaca')
+    task_ground_truth           = asyncio.to_thread(ground_truth,contexto,pergunta,palavras_chave,query_canonical,'gpt',size_gt)
+    task_response_llm           = asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'gpt')
     response_gt, response_llm   = await asyncio.gather(task_ground_truth, task_response_llm)
     resposta                    = response_llm['resposta']
 
@@ -217,7 +217,9 @@ if __name__ == "__main__":
     '''
 
     _pergunta_debugger = "Pensei usar o salão que não está ocupado no próximo final de semana, para um culto de final de natal só com os moradores e como é só pessoal daqui mesmo, acho que não precisa pagar né? obrigado deus te abençõe!"
-    pergunta_debugger = "Under what circumstances can a judgment of a court or tribunal and any decision of an administrative authority of a third country requiring a controller or processor to transfer or disclose personal data be recognised or enforceable?"
+    _pergunta_debugger = "O que é tratamento de dados para efeito da Lei?"
+    pergunta_debugger  = "What are the two types of measures that the controller must implement according to Article 25?"
+    _pergunta_debugger = "A empresa de telefonia pode vender a minha foto de cadastro?"
 
     '''
     Prédio comercial pode exigir foto e documento de visitante na portaria?

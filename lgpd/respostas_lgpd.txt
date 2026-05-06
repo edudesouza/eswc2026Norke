@@ -1,0 +1,334 @@
+PERGUNTA 1
+
+Processando: 'O que é considerado dado pessoal e quem são os agentes envolvidos no tratamento segundo a LGPD?'
+Entidades Detectadas: ['dadopessoal', 'titular', 'controlador', 'operador', 'encarregado']
+
+========= RESPOSTA =========
+De acordo com o artigo 5º da Lei Geral de Proteção de Dados (LGPD), considera-se "dado pessoal" a informação relacionada a pessoa natural identificada ou identificável (art_5).
+
+Já os agentes envolvidos no tratamento de dados pessoais são:
+- o "controlador", que é a pessoa natural ou jurídica, de direito público ou privado, a quem competem as decisões referentes ao tratamento de dados pessoais (art_5);
+- o "operador", que é a pessoa natural ou jurídica, de direito público ou privado, que realiza o tratamento de dados pessoais em nome do controlador (art_5);    
+- o "encarregado", que é a pessoa indicada pelo controlador e operador para atuar como canal de comunicação entre o controlador, os titulares dos dados e a Agência Nacional de Proteção de Dados (ANPD) (art_5).
+
+Além disso, o artigo 9º da LGPD também destaca a importância de informar os titulares sobre as responsabilidades dos agentes que realizarão o tratamento de seus 
+dados (art_9).
+
+FONTES UTILIZADAS PELA LLM: art_5, art_9
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.50 | R=1.00 | F1=0.67
+   - Artigos vetorial:  ['art_9']
+   - Artigos grafo:     ['art_5', 'art_9']
+   - Artigos esperados: ['art_5']
+
+
+///////////////////////////////////////
+
+PERGUNTA 2
+
+Processando: 'Quais princípios devem ser observados no tratamento de dados pessoais?'
+Entidades Detectadas: ['dadopessoal', 'titular']
+
+========= RESPOSTA =========
+De acordo com o artigo 6, as atividades de tratamento de dados pessoais deverão observar a boa-fé e os seguintes princípios, embora não sejam explicitados no trecho fornecido. No entanto, podemos inferir que os princípios gerais previstos na Lei (art_49) e a boa-fé (art_6) são fundamentais para o tratamento de dados pessoais.
+
+Além disso, o artigo 2 menciona que a disciplina da proteção de dados pessoais tem como fundamentos, mas não especifica quais são esses fundamentos no trecho fornecido.
+
+É importante notar que o artigo 44 menciona que o tratamento de dados pessoais será irregular quando não fornecer a segurança que o titular dele pode esperar, consideradas as circunstâncias relevantes, o que implica que a segurança é um princípio importante no tratamento de dados pessoais.
+
+Portanto, com base nos trechos fornecidos, podemos concluir que os princípios que devem ser observados no tratamento de dados pessoais incluem:
+
+* Boa-fé (art_6)
+* Princípios gerais previstos na Lei (art_49)
+* Segurança (art_44)
+
+Fontes:
+- Artigo 6
+- Artigo 49
+- Artigo 44
+- Artigo 2
+
+FONTES UTILIZADAS PELA LLM: art_11, art_15, art_2, art_23, art_44, art_49, art_5, art_55-J, art_6
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.11 | R=1.00 | F1=0.20
+   - Artigos vetorial:  ['art_44', 'art_6', 'art_11', 'art_55-j', 'art_2', 'art_15', 'art_23', 'art_49']
+   - Artigos grafo:     ['art_44', 'art_6', 'art_11', 'art_55-j', 'art_2', 'art_15', 'art_23', 'art_5']
+   - Artigos esperados: ['art_6']
+
+
+
+
+///////////////////////////////////////
+
+PERGUNTA 3
+
+
+
+Processando: 'Em quais hipóteses o tratamento de dados pessoais pode ser realizado sem o consentimento do titular?'
+Entidades Detectadas: ['titular', 'dadopessoal', 'controlador', 'consentimento']
+
+========= RESPOSTA =========
+De acordo com o artigo 11, o tratamento de dados pessoais sensíveis pode ocorrer sem o consentimento do titular nas seguintes hipóteses:
+
+a) Cumprimento de obrigação legal ou regulatória pelo controlador (art. 11, inciso I, alínea "a");
+b) Tratamento compartilhado de dados necessários à execução, pela administração pública, de políticas públicas previstas em leis ou regulamentos (art. 11, inciso I, alínea "b");
+c) Realização de estudos por órgão de pesquisa, garantida, sempre que possível, a anonimização dos dados pessoais sensíveis (art. 11, inciso I, alínea "c");     
+d) Exercício regular de direitos, inclusive em contrato e em processo judicial, administrativo e arbitral (art. 11, inciso I, alínea "d");
+e) Proteção da vida ou da incolumidade física do titular ou de terceiro (art. 11, inciso I, alínea "e");
+f) Tutela da saúde, exclusivamente, em procedimento realizado por profissionais de saúde, serviços de saúde ou autoridade sanitária (art. 11, inciso I, alínea "f");
+g) Garantia da prevenção à fraude e à segurança do titular, nos processos de identificação e autenticação de cadastro em sistemas eletrônicos, resguardados os direitos mencionados no art. 9º (art. 11, inciso I, alínea "g").
+
+Além disso, é importante notar que o artigo 8º veda o tratamento de dados pessoais mediante vício de consentimento, o que implica que o consentimento deve ser válido e não pode ser obtido por meio de fraude, coação ou outros meios ilícitos.
+
+É fundamental ressaltar que essas hipóteses devem ser interpretadas de forma restritiva e que o tratamento de dados pessoais sem consentimento deve ser realizado apenas quando estritamente necessário e em conformidade com a lei.
+
+FONTES UTILIZADAS PELA LLM: art_11, art_18, art_19, art_5, art_6, art_8, art_9
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.00 | R=0.00 | F1=0.00
+   - Artigos vetorial:  ['art_6', 'art_11', 'art_8', 'art_18', 'art_9', 'art_19', 'art_5']
+   - Artigos grafo:     ['art_6', 'art_11', 'art_8', 'art_18', 'art_9', 'art_19', 'art_5']
+   - Artigos esperados: ['art_7']
+   
+   
+///////////////////////////////////////
+PERGUNTA 4
+
+
+
+Processando: 'Quais são os direitos garantidos ao titular dos dados pessoais pela LGPD?'
+Entidades Detectadas: ['titular', 'dadopessoal', 'controlador']
+
+========= RESPOSTA =========
+De acordo com o contexto fornecido, os direitos garantidos ao titular dos dados pessoais pela LGPD incluem:
+
+1. **Direito ao acesso facilitado às informações sobre o tratamento de seus dados**: O titular tem direito ao acesso facilitado às informações sobre o tratamento de seus dados, que deverão ser disponibilizadas de forma clara, adequada e ostensiva (art. 9).
+2. **Direito à proteção dos dados pessoais**: A autoridade nacional deve avaliar o nível de proteção de dados do país estrangeiro ou do organismo internacional e levar em consideração a existência de garantias judiciais e institucionais para o respeito aos direitos de proteção de dados pessoais (art. 34).
+3. **Direito à observância dos princípios gerais de proteção de dados pessoais**: A autoridade nacional deve avaliar o nível de proteção de dados do país estrangeiro ou do organismo internacional e levar em consideração a observância dos princípios gerais de proteção de dados pessoais e direitos dos titulares previstos nesta Lei (art. 34).
+4. **Direito à proteção dos dados pessoais em caso de transferência internacional**: A transferência internacional de dados pessoais somente é permitida nos seguintes casos: para países ou organismos internacionais que proporcionem grau de proteção de dados pessoais adequado ao previsto nesta Lei (art. 33).
+5. **Direito à dispensa da exigência do consentimento para dados tornados manifestamente públicos**: É dispensada a exigência do consentimento previsto no caput 
+do art. 7 para os dados tornados manifestamente públicos pelo titular, resguardados os direitos do titular e os princípios previstos nesta Lei (art. 7).
+6. **Direito à proteção dos dados pessoais por parte da ANPD**: Compete à ANPD zelar pela proteção dos dados pessoais, nos termos da legislação (art. 55-J).     
+
+Esses direitos garantem que os titulares dos dados pessoais tenham controle sobre seus dados e sejam protegidos contra o uso indevido ou abuso de seus dados.    
+
+FONTES UTILIZADAS PELA LLM: art_33, art_34, art_5, art_55-J, art_7, art_9
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.00 | R=0.00 | F1=0.00
+   - Artigos vetorial:  ['art_34', 'art_33', 'art_55-j', 'art_7', 'art_9', 'art_5']
+   - Artigos grafo:     ['art_34', 'art_33', 'art_55-j', 'art_7', 'art_9', 'art_5']
+   - Artigos esperados: ['art_18']
+   
+   
+   
+///////////////////////////////////////
+PERGUNTA 5 
+   
+   
+Processando: 'Quais medidas devem ser adotadas em caso de incidente de segurança que possa acarretar risco ou dano relevante aos titulares?'
+Entidades Detectadas: ['incidente', 'titular']
+
+========= RESPOSTA =========
+De acordo com o art. 48, em caso de incidente de segurança que possa acarretar risco ou dano relevante aos titulares, o controlador deverá comunicar à autoridade nacional e ao titular a ocorrência do incidente. Além disso, de acordo com o mesmo artigo, as seguintes medidas devem ser adotadas:
+
+1. Comunicação à autoridade nacional e ao titular sobre a ocorrência do incidente (art. 48);
+2. Informação sobre os riscos relacionados ao incidente (art. 48);
+3. Implementação de medidas para reverter ou mitigar os efeitos do incidente (art. 48).
+
+Essas medidas visam proteger os titulares dos dados e minimizar os danos causados pelo incidente de segurança. É importante notar que a comunicação à autoridade 
+nacional e ao titular deve ser feita de forma clara e transparente, fornecendo todas as informações necessárias sobre o incidente e as medidas adotadas para mitigar seus efeitos.
+
+FONTES UTILIZADAS PELA LLM: art_34, art_48, art_5
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.33 | R=1.00 | F1=0.50
+   - Artigos vetorial:  ['art_34', 'art_48']
+   - Artigos grafo:     ['art_5', 'art_48']
+   - Artigos esperados: ['art_48']
+   
+   
+   
+///////////////////////////////////////
+PERGUNTA 6
+
+Processando: 'Quais são as sanções administrativas previstas pela LGPD em caso de infração?'
+Entidades Detectadas: ['autoridadenacional', 'controlador', 'operador', 'titular', 'dadopessoal']
+
+========= RESPOSTA =========
+De acordo com o artigo 52 da LGPD, os agentes de tratamento de dados que cometem infrações às normas previstas na Lei ficam sujeitos às sanções administrativas aplicáveis pela autoridade nacional. No entanto, o artigo 52 não especifica quais são as sanções administrativas previstas.
+
+No entanto, o artigo 55-J da LGPD estabelece que compete à ANPD (Autoridade Nacional de Proteção de Dados) fiscalizar e aplicar sanções em caso de tratamento de 
+dados realizado em descumprimento à legislação, mediante processo administrativo que assegure o contraditório, a ampla defesa e o direito de recurso.
+
+Além disso, o artigo 52 da LGPD também estabelece que as sanções serão aplicadas após procedimento administrativo que possibilite a oportunidade da ampla defesa, de forma gradativa, isolada ou cumulativa, de acordo com as peculiaridades do caso concreto e considerados os seguintes parâmetros e critérios.
+
+Já o artigo 53 da LGPD define que a autoridade nacional definirá, por meio de regulamento próprio sobre sanções administrativas a infrações a esta Lei, que deverá ser objeto de consulta pública, as metodologias que orientarão o cálculo do valor-base das sanções de multa.
+
+Portanto, embora o artigo 52 não especifique quais são as sanções administrativas previstas, podemos concluir que as sanções administrativas previstas pela LGPD 
+incluem:
+
+* Sanções aplicáveis pela autoridade nacional (artigo 52);
+* Fiscalização e aplicação de sanções pela ANPD (artigo 55-J);
+* Procedimento administrativo com ampla defesa e direito de recurso (artigo 52);
+* Sanções de multa, com cálculo do valor-base definido por regulamento próprio (artigo 53).
+
+Fontes:
+- Artigo 52 da LGPD;
+- Artigo 55-J da LGPD;
+- Artigo 53 da LGPD.
+
+FONTES UTILIZADAS PELA LLM: art_5, art_52, art_53, art_55-J
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.25 | R=1.00 | F1=0.40
+   - Artigos vetorial:  ['art_55-j', 'art_53', 'art_52']
+   - Artigos grafo:     ['art_5', 'art_55-j', 'art_53', 'art_52']
+   - Artigos esperados: ['art_52']
+   
+   
+///////////////////////////////////////
+PERGUNTA 7
+
+Processando: 'O que é o relatório de impacto à proteção de dados pessoais (RIPD) e quando o controlador deve formulá-lo?'
+Entidades Detectadas: ['controlador', 'dadopessoal']
+
+========= RESPOSTA =========
+De acordo com o artigo 5, o relatório de impacto à proteção de dados pessoais (RIPD) é uma documentação do controlador que contém a descrição dos processos de tratamento de dados pessoais que podem gerar riscos às liberdades civis e aos direitos fundamentais, bem como medidas, salvaguardas e mecanismos de mitigação de risco.
+
+O controlador deve elaborar o RIPD quando a autoridade nacional determinar, nos termos de regulamento, observados os segredos comercial e industrial, conforme estabelecido no artigo 38. Além disso, o controlador também deve elaborar o RIPD quando o tratamento de dados tiver como fundamento o interesse legítimo do controlador, nos termos do artigo 10.
+
+Portanto, o controlador deve formulá-lo em duas situações:
+
+1. Quando a autoridade nacional determinar, nos termos de regulamento, observados os segredos comercial e industrial (artigo 38).
+2. Quando o tratamento de dados tiver como fundamento o interesse legítimo do controlador (artigo 10).
+
+Fontes:
+- Artigo 5: definição de relatório de impacto à proteção de dados pessoais.
+- Artigo 38: determinação da autoridade nacional para elaboração do RIPD.
+- Artigo 10: elaboração do RIPD quando o tratamento tiver como fundamento o interesse legítimo do controlador.
+
+FONTES UTILIZADAS PELA LLM: art_10, art_38, art_5
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.67 | R=1.00 | F1=0.80
+   - Artigos vetorial:  ['art_10', 'art_5', 'art_38']
+   - Artigos grafo:     ['art_10', 'art_5', 'art_38']
+   - Artigos esperados: ['art_5', 'art_38']
+   
+   
+///////////////////////////////////////
+PERGUNTA 8   
+
+
+Processando: 'Quais são as funções e atividades do encarregado pelo tratamento de dados pessoais?'
+Entidades Detectadas: ['encarregado', 'dadopessoal', 'controlador']
+
+========= RESPOSTA =========
+De acordo com o contexto fornecido, as funções e atividades do encarregado pelo tratamento de dados pessoais incluem:
+
+1. **Orientar os funcionários e os contratados da entidade**: O encarregado deve orientar os funcionários e os contratados da entidade a respeito das práticas a 
+serem tomadas em relação à proteção de dados pessoais, conforme estabelecido no art. 41.
+
+2. **Indicação pelo controlador**: O controlador deve indicar um encarregado pelo tratamento de dados pessoais, conforme estabelecido nos artigos 41 e 23.       
+
+3. **Atendimento à finalidade pública**: No caso de pessoas jurídicas de direito público, o encarregado deve atuar na persecução do interesse público, com o objetivo de executar as competências legais ou cumprir as atribuições legais do serviço público, conforme estabelecido no art. 23.
+
+É importante notar que as funções e atividades específicas do encarregado podem variar dependendo do contexto e das necessidades da entidade, mas essas são as principais funções e atividades mencionadas no contexto fornecido.
+
+Fontes:
+- Art. 41: O controlador deve indicar encarregado pelo tratamento de dados pessoais e orientar os funcionários e os contratados da entidade.
+- Art. 23: O tratamento de dados pessoais pelas pessoas jurídicas de direito público deve ser realizado para o atendimento de sua finalidade pública.
+- Art. 39: Referenciado no art. 23, mas não explicitado no contexto fornecido.
+
+FONTES UTILIZADAS PELA LLM: art_23, art_41, art_44, art_5, art_55-J, art_58-A, art_6
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.14 | R=1.00 | F1=0.25
+   - Artigos vetorial:  ['art_44', 'art_6', 'art_55-j', 'art_23', 'art_58-a', 'art_5', 'art_41']
+   - Artigos grafo:     ['art_44', 'art_6', 'art_55-j', 'art_23', 'art_58-a', 'art_5', 'art_41']
+   - Artigos esperados: ['art_41']
+   
+   
+///////////////////////////////////////  
+PERGUNTA 9
+
+
+Processando: 'Como deve ser realizado o tratamento de dados pessoais de crianças e adolescentes?'
+Entidades Detectadas: ['titular', 'dadopessoal', 'controlador']
+
+========= RESPOSTA =========
+De acordo com o artigo 14, o tratamento de dados pessoais de crianças e de adolescentes deverá ser realizado em seu melhor interesse, nos termos deste artigo e da legislação pertinente. Além disso, o tratamento de dados pessoais de crianças deverá ser realizado com o consentimento específico e em destaque dado por pelo menos um dos pais ou pelo responsável legal, conforme também estabelecido no artigo 14.
+
+É importante ressaltar que o tratamento de dados pessoais deve observar a boa-fé e os princípios estabelecidos no artigo 6, o que inclui a necessidade de considerar as circunstâncias relevantes, como as técnicas de tratamento de dados pessoais disponíveis à época em que foi realizado, conforme o artigo 44.
+
+Portanto, o tratamento de dados pessoais de crianças e adolescentes deve ser realizado de forma a proteger seus interesses e garantir a segurança e a privacidade de seus dados, em conformidade com a legislação aplicável e os princípios estabelecidos na Lei.
+
+FONTES UTILIZADAS PELA LLM: art_14, art_44, art_5, art_6
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.25 | R=1.00 | F1=0.40
+   - Artigos vetorial:  ['art_6', 'art_5', 'art_44', 'art_14']
+   - Artigos grafo:     ['art_6', 'art_5', 'art_44', 'art_14']
+   - Artigos esperados: ['art_14']
+   
+   
+   
+///////////////////////////////////////
+PERGUNTA 10
+
+Processando: 'Em quais situações é permitida a transferência internacional de dados pessoais?'
+Entidades Detectadas: ['dadopessoal', 'controlador', 'titular', 'autoridadenacional']
+
+========= RESPOSTA =========
+De acordo com o artigo 33, a transferência internacional de dados pessoais somente é permitida nos seguintes casos, embora não seja especificado quais são esses 
+casos no contexto fornecido. No entanto, podemos inferir que a transferência internacional de dados pessoais está sujeita a certas condições e restrições, como a necessidade de que o país de destino proporcione um grau de proteção de dados pessoais adequado ao previsto na Lei, conforme mencionado no artigo 4.
+
+Além disso, o artigo 4 também estabelece que a Lei não se aplica ao tratamento de dados pessoais provenientes de fora do território nacional, desde que o país de proveniência proporcione um grau de proteção de dados pessoais adequado ao previsto na Lei e que os dados não sejam objeto de comunicação, uso compartilhado de 
+dados com agentes de tratamento brasileiros ou objeto de transferência internacional de dados com outro país que não o de proveniência.
+
+Portanto, embora o contexto não forneça uma lista explícita de situações em que a transferência internacional de dados pessoais é permitida, podemos concluir que a transferência internacional de dados pessoais está sujeita a certas condições e restrições, como a necessidade de que o país de destino proporcione um grau de proteção de dados pessoais adequado ao previsto na Lei.
+
+Fontes:
+- Artigo 33: A transferência internacional de dados pessoais somente é permitida nos seguintes casos;
+- Artigo 4: Esta Lei não se aplica ao tratamento de dados pessoais provenientes de fora do território nacional e que não sejam objeto de comunicação, uso compartilhado de dados com agentes de tratamento brasileiros ou objeto de transferência internacional de dados com outro país que não o de proveniência, desde que o país de proveniência proporcione grau de proteção de dados pessoais adequado ao previsto nesta Lei.
+
+FONTES UTILIZADAS PELA LLM: art_33, art_4, art_5
+==============================
+
+========================================
+RESULTADOS DA AVALIAÇÃO (GROUND-TRUTH)
+========================================
+MÉTRICAS DE FONTES: P=0.33 | R=1.00 | F1=0.50
+   - Artigos vetorial:  ['art_4', 'art_5', 'art_33']
+   - Artigos grafo:     ['art_4', 'art_5', 'art_33']
+   - Artigos esperados: ['art_33']

@@ -1,0 +1,68 @@
+PREFIX :     <https://omc.co/vocabulary/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX path: <http://www.ontotext.com/path#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT
+    ?regraURI
+    (SAMPLE(?descricao) AS ?descricao)
+    (SAMPLE(?texto) AS ?texto)
+    (SAMPLE(?idChunk) AS ?idChunk)
+    (SAMPLE(?tipo) AS ?tipo)
+    (MIN(?grd) AS ?grdMin)
+    (COUNT(DISTINCT ?classe) AS ?supportClasses)
+    (COUNT(DISTINCT ?instancia) AS ?supportInstancias)
+    (COUNT(DISTINCT ?chunk) AS ?supportChunks)
+FROM <https://omc.co/graph/5511993891773>
+WHERE {
+
+    VALUES ?classe {
+        :Tratamentodedados :Atividadedetratamento :Agentedetratamento :Controlador :Operador
+    }
+
+    ?instancia rdf:type ?classe .
+
+    {
+        ?instancia :relacionamento ?chunk .
+    } UNION {
+        ?chunk :relacionamento ?instancia .
+    }
+
+    ?chunk rdf:type :Chunk .
+
+    {
+        ?regraURI :relacionamento ?chunk .
+    } UNION {
+        ?chunk :relacionamento ?regraURI .
+    }
+
+    ?regraURI rdf:type/rdfs:subClassOf* :Regra .
+
+    OPTIONAL {
+        ?regraURI :descricao ?descricao .
+        FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+    }
+
+    OPTIONAL { ?regraURI rdf:type ?tipo }
+
+    OPTIONAL {
+        ?chunk :texto ?textoBruto .
+        FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+    }
+
+    OPTIONAL { ?chunk :idChunk ?idChunk }
+
+    BIND(COALESCE(?textoBruto, ?descricao) AS ?texto)
+
+    SERVICE path:search {
+        [] path:findPath path:distance ;
+           path:sourceNode ?instancia ;
+           path:destinationNode ?regraURI ;
+           path:distanceBinding ?grd ;
+           path:bidirectional true ;
+           path:maxPathLength 6 .
+    }
+}
+GROUP BY ?regraURI
+ORDER BY ASC(?grdMin) DESC(?supportClasses) DESC(?supportInstancias) DESC(?supportChunks)

@@ -1,0 +1,397 @@
+<https://omc.co/5511993891773/7492/Chapter_I/Article_1>
+            a v:Article ; 
+            v:articleNumber "1"  ;
+            v:title "Subject-matter and objectives"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_I> .<https://omc.co/5511993891773/7492/Chapter_I/Article_2>
+            a v:Article ; 
+            v:articleNumber "2"  ;
+            v:title "Material scope"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_I> .<https://omc.co/5511993891773/7492/Chapter_I/Article_3>
+            a v:Article ; 
+            v:articleNumber "3"  ;
+            v:title "Territorial scope"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_I> .<https://omc.co/5511993891773/7492/Chapter_I/Article_4>
+            a v:Article ; 
+            v:articleNumber "4"  ;
+            v:title "Definitions"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_I> .<https://omc.co/5511993891773/7492/Chapter_II/Article_5>
+            a v:Article ; 
+            v:articleNumber "5"  ;
+            v:title "Principles relating to processing of personal data"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_II/Article_6>
+            a v:Article ; 
+            v:articleNumber "6"  ;
+            v:title "Lawfulness of processing"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_II/Article_7>
+            a v:Article ; 
+            v:articleNumber "7"  ;
+            v:title "Conditions for consent"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_II/Article_8>
+            a v:Article ; 
+            v:articleNumber "8"  ;
+            v:title "Conditions applicable to child's consent in relation to information society services"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_II/Article_9>
+            a v:Article ; 
+            v:articleNumber "9"  ;
+            v:title "Processing of special categories of personal data"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_II/Article_10>
+            a v:Article ; 
+            v:articleNumber "10"  ;
+            v:title "Processing of personal data relating to criminal convictions and offences"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_II/Article_11>
+            a v:Article ; 
+            v:articleNumber "11"  ;
+            v:title "Processing which does not require identification"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_II> .<https://omc.co/5511993891773/7492/Chapter_III/Article_12>
+            a v:Article ; 
+            v:articleNumber "12"  ;
+            v:title "Transparent information, communication and modalities for the exercise of the rights of the data subject"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_13>
+            a v:Article ; 
+            v:articleNumber "13"  ;
+            v:title "Information to be provided where personal data are collected from the data subject"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_14>
+            a v:Article ; 
+            v:articleNumber "14"  ;
+            v:title "Information to be provided where personal data have not been obtained from the data subject"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_15>
+            a v:Article ; 
+            v:articleNumber "15"  ;
+            v:title "Right of access by the data subject"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_16>
+            a v:Article ; 
+            v:articleNumber "16"  ;
+            v:title "Right to rectification"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_17>
+            a v:Article ; 
+            v:articleNumber "17"  ;
+            v:title "Right to erasure (‘right to be forgotten’)"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_18>
+            a v:Article ; 
+            v:articleNumber "18"  ;
+            v:title "Right to restriction of processing"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_19>
+            a v:Article ; 
+            v:articleNumber "19"  ;
+            v:title "Notification obligation regarding rectification or erasure of personal data or restriction of processing"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_20>
+            a v:Article ; 
+            v:articleNumber "20"  ;
+            v:title "Right to data portability"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_21>
+            a v:Article ; 
+            v:articleNumber "21"  ;
+            v:title "Right to object"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_22>
+            a v:Article ; 
+            v:articleNumber "22"  ;
+            v:title "Automated individual decision-making, including profiling"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_III/Article_23>
+            a v:Article ; 
+            v:articleNumber "23"  ;
+            v:title "Restrictions"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_III> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_24>
+            a v:Article ; 
+            v:articleNumber "24"  ;
+            v:title "Responsibility of the controller"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_25>
+            a v:Article ; 
+            v:articleNumber "25"  ;
+            v:title "Data protection by design and by default"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_26>
+            a v:Article ; 
+            v:articleNumber "26"  ;
+            v:title "Joint controllers"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_27>
+            a v:Article ; 
+            v:articleNumber "27"  ;
+            v:title "Representatives of controllers or processors not established in the Union"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_28>
+            a v:Article ; 
+            v:articleNumber "28"  ;
+            v:title "Processor"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_29>
+            a v:Article ; 
+            v:articleNumber "29"  ;
+            v:title "Processing under the authority of the controller or processor"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_30>
+            a v:Article ; 
+            v:articleNumber "30"  ;
+            v:title "Records of processing activities"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_31>
+            a v:Article ; 
+            v:articleNumber "31"  ;
+            v:title "Cooperation with the supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_32>
+            a v:Article ; 
+            v:articleNumber "32"  ;
+            v:title "Security of processing"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_33>
+            a v:Article ; 
+            v:articleNumber "33"  ;
+            v:title "Notification of a personal data breach to the supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_34>
+            a v:Article ; 
+            v:articleNumber "34"  ;
+            v:title "Communication of a personal data breach to the data subject"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_35>
+            a v:Article ; 
+            v:articleNumber "35"  ;
+            v:title "Data protection impact assessment"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_36>
+            a v:Article ; 
+            v:articleNumber "36"  ;
+            v:title "Prior consultation"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_37>
+            a v:Article ; 
+            v:articleNumber "37"  ;
+            v:title "Designation of the data protection officer"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_38>
+            a v:Article ; 
+            v:articleNumber "38"  ;
+            v:title "Position of the data protection officer"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_39>
+            a v:Article ; 
+            v:articleNumber "39"  ;
+            v:title "Tasks of the data protection officer"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_40>
+            a v:Article ; 
+            v:articleNumber "40"  ;
+            v:title "Codes of conduct"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_41>
+            a v:Article ; 
+            v:articleNumber "41"  ;
+            v:title "Monitoring of approved codes of conduct"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_42>
+            a v:Article ; 
+            v:articleNumber "42"  ;
+            v:title "Certification"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_IV/Article_43>
+            a v:Article ; 
+            v:articleNumber "43"  ;
+            v:title "Certification bodies"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IV> .<https://omc.co/5511993891773/7492/Chapter_V/Article_44>
+            a v:Article ; 
+            v:articleNumber "44"  ;
+            v:title "General principle for transfers"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_V/Article_45>
+            a v:Article ; 
+            v:articleNumber "45"  ;
+            v:title "Transfers on the basis of an adequacy decision"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_V/Article_46>
+            a v:Article ; 
+            v:articleNumber "46"  ;
+            v:title "Transfers subject to appropriate safeguards"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_V/Article_47>
+            a v:Article ; 
+            v:articleNumber "47"  ;
+            v:title "Binding corporate rules"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_V/Article_48>
+            a v:Article ; 
+            v:articleNumber "48"  ;
+            v:title "Transfers or disclosures not authorised by Union law"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_V/Article_49>
+            a v:Article ; 
+            v:articleNumber "49"  ;
+            v:title "Derogations for specific situations"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_V/Article_50>
+            a v:Article ; 
+            v:articleNumber "50"  ;
+            v:title "International cooperation for the protection of personal data"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_V> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_51>
+            a v:Article ; 
+            v:articleNumber "51"  ;
+            v:title "Supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_52>
+            a v:Article ; 
+            v:articleNumber "52"  ;
+            v:title "Independence"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_53>
+            a v:Article ; 
+            v:articleNumber "53"  ;
+            v:title "General conditions for the members of the supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_54>
+            a v:Article ; 
+            v:articleNumber "54"  ;
+            v:title "Rules on the establishment of the supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_55>
+            a v:Article ; 
+            v:articleNumber "55"  ;
+            v:title "Competence"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_56>
+            a v:Article ; 
+            v:articleNumber "56"  ;
+            v:title "Competence of the lead supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_57>
+            a v:Article ; 
+            v:articleNumber "57"  ;
+            v:title "Tasks"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_58>
+            a v:Article ; 
+            v:articleNumber "58"  ;
+            v:title "Powers"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VI/Article_59>
+            a v:Article ; 
+            v:articleNumber "59"  ;
+            v:title "Activity reports"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VI> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_60>
+            a v:Article ; 
+            v:articleNumber "60"  ;
+            v:title "Cooperation between the lead supervisory authority and the other supervisory authorities concerned"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_61>
+            a v:Article ; 
+            v:articleNumber "61"  ;
+            v:title "Mutual assistance"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_62>
+            a v:Article ; 
+            v:articleNumber "62"  ;
+            v:title "Joint operations of supervisory authorities"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_63>
+            a v:Article ; 
+            v:articleNumber "63"  ;
+            v:title "Consistency mechanism"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_64>
+            a v:Article ; 
+            v:articleNumber "64"  ;
+            v:title "Opinion of the Board"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_65>
+            a v:Article ; 
+            v:articleNumber "65"  ;
+            v:title "Dispute resolution by the Board"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_66>
+            a v:Article ; 
+            v:articleNumber "66"  ;
+            v:title "Urgency procedure"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_67>
+            a v:Article ; 
+            v:articleNumber "67"  ;
+            v:title "Exchange of information"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_68>
+            a v:Article ; 
+            v:articleNumber "68"  ;
+            v:title "European Data Protection Board"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_69>
+            a v:Article ; 
+            v:articleNumber "69"  ;
+            v:title "Independence"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_70>
+            a v:Article ; 
+            v:articleNumber "70"  ;
+            v:title "Tasks of the Board"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_71>
+            a v:Article ; 
+            v:articleNumber "71"  ;
+            v:title "Reports"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_72>
+            a v:Article ; 
+            v:articleNumber "72"  ;
+            v:title "Procedure"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_73>
+            a v:Article ; 
+            v:articleNumber "73"  ;
+            v:title "Chair"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_74>
+            a v:Article ; 
+            v:articleNumber "74"  ;
+            v:title "Tasks of the Chair"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_75>
+            a v:Article ; 
+            v:articleNumber "75"  ;
+            v:title "Secretariat"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VII/Article_76>
+            a v:Article ; 
+            v:articleNumber "76"  ;
+            v:title "Confidentiality"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_77>
+            a v:Article ; 
+            v:articleNumber "77"  ;
+            v:title "Right to lodge a complaint with a supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_78>
+            a v:Article ; 
+            v:articleNumber "78"  ;
+            v:title "Right to an effective judicial remedy against a supervisory authority"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_79>
+            a v:Article ; 
+            v:articleNumber "79"  ;
+            v:title "Right to an effective judicial remedy against a controller or processor"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_80>
+            a v:Article ; 
+            v:articleNumber "80"  ;
+            v:title "Representation of data subjects"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_81>
+            a v:Article ; 
+            v:articleNumber "81"  ;
+            v:title "Suspension of proceedings"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_82>
+            a v:Article ; 
+            v:articleNumber "82"  ;
+            v:title "Right to compensation and liability"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_83>
+            a v:Article ; 
+            v:articleNumber "83"  ;
+            v:title "General conditions for imposing administrative fines"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_VIII/Article_84>
+            a v:Article ; 
+            v:articleNumber "84"  ;
+            v:title "Penalties"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_VIII> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_85>
+            a v:Article ; 
+            v:articleNumber "85"  ;
+            v:title "Processing and freedom of expression and information"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_86>
+            a v:Article ; 
+            v:articleNumber "86"  ;
+            v:title "Processing and public access to official documents"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_87>
+            a v:Article ; 
+            v:articleNumber "87"  ;
+            v:title "Processing of the national identification number"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_88>
+            a v:Article ; 
+            v:articleNumber "88"  ;
+            v:title "Processing in the context of employment"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_89>
+            a v:Article ; 
+            v:articleNumber "89"  ;
+            v:title "Safeguards and derogations relating to processing for archiving purposes in the public interest, scientific or historical research purposes or statistical purposes"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_90>
+            a v:Article ; 
+            v:articleNumber "90"  ;
+            v:title "Obligations of secrecy"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_IX/Article_91>
+            a v:Article ; 
+            v:articleNumber "91"  ;
+            v:title "Existing data protection rules of churches and religious associations"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_IX> .<https://omc.co/5511993891773/7492/Chapter_X/Article_92>
+            a v:Article ; 
+            v:articleNumber "92"  ;
+            v:title "Exercise of the delegation"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_X> .<https://omc.co/5511993891773/7492/Chapter_X/Article_93>
+            a v:Article ; 
+            v:articleNumber "93"  ;
+            v:title "Committee procedure"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_X> .<https://omc.co/5511993891773/7492/Chapter_XI/Article_94>
+            a v:Article ; 
+            v:articleNumber "94"  ;
+            v:title "Repeal of Directive 95/46/EC"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_XI> .<https://omc.co/5511993891773/7492/Chapter_XI/Article_95>
+            a v:Article ; 
+            v:articleNumber "95"  ;
+            v:title "Relationship with Directive 2002/58/EC"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_XI> .<https://omc.co/5511993891773/7492/Chapter_XI/Article_96>
+            a v:Article ; 
+            v:articleNumber "96"  ;
+            v:title "Relationship with previously concluded Agreements"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_XI> .<https://omc.co/5511993891773/7492/Chapter_XI/Article_97>
+            a v:Article ; 
+            v:articleNumber "97"  ;
+            v:title "Commission reports"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_XI> .<https://omc.co/5511993891773/7492/Chapter_XI/Article_98>
+            a v:Article ; 
+            v:articleNumber "98"  ;
+            v:title "Review of other Union legal acts on data protection"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_XI> .<https://omc.co/5511993891773/7492/Chapter_XI/Article_99>
+            a v:Article ; 
+            v:articleNumber "99"  ;
+            v:title "Entry into force and application"@en ;
+            v:is_part_of <https://omc.co/5511993891773/7492/Chapter_XI> .

@@ -6,12 +6,16 @@ from requests.auth import HTTPBasicAuth
 
 from src.config import settings
 
-# py -m src.ingest.json_insert_v1
+# py -m src.ingest.json_insert
+
+'''Explixação:
+
+'''
 
 GRAPHDB_BASE_URL   = settings.GRAPHDB_BASE_URL
 GRAPHDB_USERNAME   = settings.GRAPHDB_USERNAME
 GRAPHDB_PASSWORD   = settings.GRAPHDB_PASSWORD
-GRAPHDB_REPOSITORY = settings.repositorio
+GRAPHDB_REPOSITORY = settings.repositorio_v3
 GRAPHDB_REPO_URL   = f"{GRAPHDB_BASE_URL}/repositories/{GRAPHDB_REPOSITORY}/statements"
 
 def normalize(texto):  
@@ -48,12 +52,12 @@ def upload(ttl,path,USUARIO):
     
     return True 
 
-with open("src/ingest/output/chunks_normativos.json", encoding="utf-8") as f:
+with open("src/ingest/output/chunks_normativos_lgpd.json", encoding="utf-8") as f:
     json_chunks = json.loads(f.read())
 
 full_text = [item for item in json_chunks if item.get("tipo") == "full_text"]
 total     = len(full_text)
-ttl_path  = "src/ingest/output/normativos.ttl"
+ttl_path  = "src/ingest/output/normativos_lgpd.ttl"
 ttl_lines = []
 
 for index, item in enumerate(full_text,start=1):     
@@ -74,10 +78,10 @@ for index, item in enumerate(full_text,start=1):
             parent_id = item['parent_id']   
             path      = f"{parent_id}_{uuid.uuid4().hex[:8]}"
 
-            rdf = f'''<https://omc.co/5511993891773/749/{path}>
+            rdf = f'''<https://omc.co/5511993891773/7491/{path}>
             a v:{tipo} ;
             v:descricao "{text}"@pt ;
-            v:temEvidenciaEm <https://omc.co/5511993891773/749/{parent_id}> .'''
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/{parent_id}> .'''
 
             upload(rdf,path,'5511993891773')        
 

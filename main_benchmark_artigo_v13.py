@@ -88,11 +88,10 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
     # retriever
     #--------------------------------------------------------------------------
     
-    inicio = time.time() 
-
-    class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
+    inicio = time.time()     
 
     if retrieval=='grafo':
+        class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
         recuperacao = graph_search(class_rules,palavras_chave,pergunta,user_id,retrieval_size)
         contexto  = recuperacao['response']
         knowledge = recuperacao['dataset']  

@@ -55,7 +55,7 @@ def class_extraction(keyword,question,query_canonical,model_provider):
 
     print(f'--> extract classes')
 
-    with open("src/ingest/_owl_tbox_v4.ttl", encoding="utf-8") as f:
+    with open("src/ingest/_owl_lgpd_gpt.ttl", encoding="utf-8") as f:
         ontology_txt = f.read()
 
     system = (f'''
@@ -238,7 +238,7 @@ def response_create(keyword,question,context,model_provider):
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            model="kimi-k2:1t-cloud",
+            #model="kimi-k2.6:cloud",
             #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
             #model="deepseek-v3.2:cloud",
@@ -248,7 +248,8 @@ def response_create(keyword,question,context,model_provider):
             #model="mistral-large-3:675b-cloud",
             #model="qwen3-next:80b-cloud",
             #model="gemma3:27b-cloud",
-            num_predict=200,
+            model="gemma4:31b-cloud",
+            num_predict=1024,
             temperature=0,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
@@ -263,12 +264,12 @@ def response_create(keyword,question,context,model_provider):
         
         **REGRAS ABSOLUTAS:**       
         1. Nunca começar a resposta com: sim, não, claro, com certeza, negativo, positivo
-        2. O campo "resposta" deve ter *OBRIGATÓRIAMENTE* entre 220 e 300 caracteres (contando letras, espaços, números, pontuação)
+        2. O campo "resposta" deve ter *OBRIGATÓRIAMENTE* entre 500 e 900 caracteres (contando letras, espaços, números, pontuação)
         3. O campo "resposta_completa" tem limite de 2000 caracteres
         4. SAÍDA: JSON puro, válido, sem markdown (sem ```json ou ```) 
         
         **Formato obrigatório:**
-        {"resposta": "texto *OBRIGATÓRIAMENTE* entre 220 e 300 caracteres aqui", "resposta_completa": "texto mais detalhado aqui", "chunks": ["id_chunk_1", "id_chunk_2"]}'''
+        {"resposta": "texto *OBRIGATÓRIAMENTE* entre 500 e 900 caracteres aqui", "resposta_completa": "texto mais detalhado aqui", "chunks": ["id_chunk_1", "id_chunk_2"]}'''
     )   
 
     user = f'''
@@ -279,8 +280,7 @@ def response_create(keyword,question,context,model_provider):
 
         Fatos que devem ser respondidos:
         {keyword}
-
-        Contexto:
+   
         {context}        
 
         # METODOLOGIA DE ANÁLISE JURÍDICA
@@ -334,11 +334,11 @@ def response_create(keyword,question,context,model_provider):
         - [ ] Trecho-chave é citação literal (não paráfrase)
         - [ ] Resposta tem consequência lógica baseada nos chunks
         - [ ] Nenhuma informação foi inventada ou inferida sem base textual
-        - [ ] A resposta deve possuir *OBRIGATÓRIAMENTE* entre 220 e 300 caracteres
+        - [ ] A resposta deve possuir *OBRIGATÓRIAMENTE* entre 500 e 900 caracteres
 
         ## 5. Mecanismo de controle:
         - Caso alguma das validações falhe, reescreva a resposta corrigindo o erro.
-        - A resposta deve ter *OBRIGATÓRIAMENTE* 220 e 300 caracteres, caso a resposta tenha menos ou mais caracteres, descarte-a e gere uma nova.
+        - A resposta deve ter *OBRIGATÓRIAMENTE* 500 e 900 caracteres, caso a resposta tenha menos ou mais caracteres, descarte-a e gere uma nova.
 
         ## 6. FORMATO DE SAÍDA
         - Sua resposta deve ter *OBRIGATÓRIAMENTE* de 220 a 300 caracteres, nunca mais de 300 caracteres.
@@ -347,7 +347,7 @@ def response_create(keyword,question,context,model_provider):
         - Retorne exclusivamente JSON sem markdown, seguindo estrutura exata especificada no exemplo abaixo:
         
         ## 7. Mecanismo de resumo
-        -  Caso a resposta tenha mais de 300 cracteres, reescreva de modo a atender o limite *OBRIGATÓRIO* de caracteres (entre 220 e 300), mantendo a essência da resposta.
+        -  Caso a resposta tenha mais de 300 cracteres, reescreva de modo a atender o limite *OBRIGATÓRIO* de caracteres (entre 500 e 900), mantendo a essência da resposta.
 
         {{
             "resposta": "Texto da resposta fundamentada na regra (220-300 chars), não colocar o id do chunk aqui>",            
@@ -357,12 +357,14 @@ def response_create(keyword,question,context,model_provider):
         }}  
 
         **IMPORTANTE**:
-        VALIDAÇÃO: caso a resposta tenha mais de 300 cracteres, reescreva de modo a atender o limite *OBRIGATÓRIO* de caracteres (entre 220 e 300), mantendo a essência da resposta.
+        VALIDAÇÃO: caso a resposta tenha mais de 900 cracteres, reescreva de modo a atender o limite *OBRIGATÓRIO* de caracteres (entre 500 e 900), mantendo a essência da resposta.
     '''
 
     msg = llm.invoke([("system", system), ("user", user)])
 
     #print(f'tokens: {msg.usage_metadata}\n' )
+    '''print('-'*100)
+    print(user)'''
     print('--> llm response OK')
 
     try:
@@ -408,17 +410,18 @@ def ground_truth(dataset,question,keywords,query_canonical,model_provider,size):
 
     if model_provider=='ollama':
         llm = ChatOllama(
-            #model="kimi-k2:1t-cloud",
+            #model="kimi-k2.5:cloud",
             #model="glm-4.7:cloud",
             #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
-            model="deepseek-v3.2:cloud",           #bom
+            #model="deepseek-v3.2:cloud",           #bom
             #model="deepseek-v3.1:671b-cloud",      #bom
             #model="gpt-oss:120b-cloud",
             #model="gemini-3-pro-preview:latest",
             #model="mistral-large-3:675b-cloud",    #bom
             #model="qwen3-next:80b-cloud",
             #model="gemma3:27b-cloud",
+            model="gemma4:31b-cloud",
             temperature=0,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
@@ -489,10 +492,10 @@ def ground_truth(dataset,question,keywords,query_canonical,model_provider,size):
         - Quando houver proibição expressa no documento.
 
         # 4. CRIAÇÃO DAS PERGUNTAS E RESPOSTAS:
-        - Gere {size} perguntas e respostas (respostas entre 220 e 300 caracteres) para a pergunta ou dúvida: {question}, lembando que o principal fato para ser abordado: {query_canonical}
+        - Gere {size} perguntas e respostas (respostas entre 500 e 900 caracteres) para a pergunta ou dúvida: {question}, lembando que o principal fato para ser abordado: {query_canonical}
         
         # 5. MECANISMO DE CONTROLE:
-        - As respostas devem ter entre 220 e 300 caracteres, caso a resposta tenha menos ou mais caracteres, descarte-a e gere uma nova.
+        - As respostas devem ter entre 500 e 900 caracteres, caso a resposta tenha menos ou mais caracteres, descarte-a e gere uma nova.
 
         # 6. CRIAÇÃO DO CONTEXTO:
         - Gere um resumo do contexto que foi usado para gerar a pergunta e resposta.

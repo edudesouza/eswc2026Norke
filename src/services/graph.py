@@ -6,6 +6,8 @@ from requests.auth  import HTTPBasicAuth
 from src.config     import settings
 from src.utils.text import normalize
 
+'''Graph Reasoning Distance (GRD), pensar!'''
+
 def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
 
     print( f'--> search graph ({settings.repositorio})')
@@ -236,18 +238,18 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
             ORDER BY DESC(?score)
             LIMIT 20
         '''
-
+        
         query_chunks = f'''
             PREFIX :           <https://omc.co/vocabulary/>
             PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
             PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
             PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
 
-            SELECT ?idChunk ?score ?texto ?descricao ?documento ?tipo
+            SELECT ?idChunk ?score ?fullText ?descricao ?documento ?tipo
             FROM <https://omc.co/graph/{named_graph}>
             WHERE {{  
             {{
-                SELECT ?chunk (MAX(?s) AS ?score) (SAMPLE(?id) AS ?idChunk) (SAMPLE(?t)  AS ?texto) (SAMPLE(?descRegra) AS ?descricao)
+                SELECT ?chunk (MAX(?s) AS ?score) (SAMPLE(?id) AS ?idChunk) (SAMPLE(?t)  AS ?fullText) (SAMPLE(?descRegra) AS ?descricao)
                 WHERE {{
                     ?q a luc-index:omc_full ;
                     luc:query '{keyword}' ;
@@ -256,7 +258,7 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
                     ?chunk luc:score ?s .
 
                     OPTIONAL {{ ?chunk :idChunk ?id }}
-                    OPTIONAL {{ ?chunk :texto ?t . FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt")) }}
+                    OPTIONAL {{ ?chunk :fullText ?t . FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt")) }}
                     OPTIONAL {{
                         ?chunk a/rdfs:subClassOf* :Regra ;
                         :descricao ?descRegra .
@@ -294,18 +296,20 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
             PREFIX inst: <http://www.ontotext.com/graphdb/similarity/instance/>
             PREFIX v: <https://omc.co/vocabulary/>
 
-            SELECT ?score ?idChunk ?texto
+            SELECT ?score ?idChunk ?fullText
             FROM <https://omc.co/graph/{named_graph}>
             WHERE {{
-                ?search a inst:similarity_v1 ;
+                ?search a inst:contexto ;
                         :searchTerm '{keyword}';
                         :documentResult ?result .
 
                 ?result :value ?documentID ;   		
                         :score ?score .    		
 
+                BIND(?chunkID AS ?chunk)
+
                 OPTIONAL {{ ?chunk v:idChunk ?idChunk }}
-                OPTIONAL {{ ?chunk v:texto  ?texto }}
+                OPTIONAL {{ ?chunk v:fullText   ?fullText }}
                 
             }}
             ORDER BY DESC(?score)
@@ -315,9 +319,9 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
         url     = f"{settings.GRAPHDB_BASE_URL}/repositories/{settings.repositorio}"
         headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
 
-        '''print( query_class_rules )
+        print( query_class_rules )
         print( '-'*100 )
-        print( query_chunks )'''
+        print( query_chunks )
 
         # Buscar apenas Regras
 
@@ -357,6 +361,9 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
                 'response': error_msg, 
                 'dataset': {}
             }         
+        
+        #print( query_chunks )
+        #print( '-'*100 )
 
         # Buscar apenas Chunks
 
@@ -372,6 +379,10 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
             results   = resp_chunks.json()  
             bindings = results.get("results", {}).get("bindings", [])
 
+            '''print(results)
+            print('-'*100)
+            print(bindings)'''
+
             resp_chunks_toon = 'id_chunk;score;texto_chunk\n'
 
             for index,item in enumerate(bindings,1):        
@@ -380,6 +391,8 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
                 score    = round(score, 3)
                 id_chunk = item.get("idChunk", {}).get("value", "")
                 texto    = normalize(item.get("texto", {}).get("value", ""))
+                if texto=='':
+                    texto    = normalize(item.get("descricao", {}).get("value", ""))
 
                 resp_chunks_toon += f'{id_chunk};{score};{texto}\n' 
                 knowledge_base[id_chunk] = texto
@@ -395,11 +408,14 @@ def graph_search(class_rules,keyword,question,named_graph,retrieval_size):
                 'dataset': {}
             } 
         
-        resp_final = f'''Regras:
+        resp_final = f'''Regras deôntonicas:
         {textwrap.dedent(resp_rules_toon)}
-        Chunks:
+        Contexto geral:
         {textwrap.dedent(resp_chunks_toon) }
         ''' 
+
+        #print('-'*100)
+        #print(resp_final)
 
         return {
             'status':'OK',

@@ -1,0 +1,27 @@
+Question,Answer,Complexity
+I was fired. Does the company have to delete my photo and fingerprint from the time clock and turnstile?,"Not automatically. Under Article 17 GDPR, personal data must be erased when no longer necessary, but employers may retain certain data to comply with legal obligations or defend against legal claims. Biometric data should be minimized and retention must be justified and proportionate.",3
+Can I refuse to give my fingerprint to the company's time clock?,"Yes, in many cases. Biometric data is a special category under Article 9 GDPR and requires necessity and proportionality. If alternatives exist, you may object, especially given the imbalance in employment relationships.",4
+Can the company use my badge photo in advertising campaigns without my permission?,No. Using employee images for advertising requires explicit consent under Articles 6 and 7 GDPR. Legitimate interest is not sufficient for this purpose.,2
+My employer installed a camera pointed directly at my desk. Is this allowed?,Likely not. Monitoring must be necessary and proportionate under Article 5 GDPR. Continuous surveillance of an individual employee is typically excessive and intrusive.,4
+Can the company install a camera in the bathroom or locker room claiming security?,No. This would violate fundamental privacy rights and fail GDPR proportionality and necessity requirements.,1
+Can I demand that the gym delete my fingerprint after I cancel my membership?,"Yes. Under Article 17 GDPR, you have the right to erasure when data is no longer necessary. Biometric data must be handled with strict limitations.",2
+Can the condominium require residents to register their face to enter?,Facial recognition is biometric data under Article 9 GDPR and requires strong justification or explicit consent. Alternatives should be considered.,4
+Am I required to provide biometrics to enter a hospital or clinic?,"Not necessarily. Hospitals must justify necessity under Article 9(2)(h), and less intrusive methods should be considered.",3
+Can the company share my pre-employment medical exam with my direct manager?,No. Health data is sensitive under Article 9 GDPR and must be restricted to authorized personnel.,2
+Can I be fired for refusing to provide biometric data for a new company system?,"GDPR does not regulate dismissal directly, but refusal may be justified if biometric processing is not necessary or lawful.",5
+Can the supermarket film me while I'm shopping?,"Yes, under legitimate interest, but must be proportionate, transparent, and limited to necessary purposes.",2
+Can a business use facial recognition to identify 'suspicious' customers?,"Highly problematic. It involves biometric data and raises risks of discrimination, requiring strong legal basis.",5
+"Can my employer monitor my work cell phone, including WhatsApp?","Monitoring may be allowed if proportionate and transparent, but cannot excessively interfere with privacy.",4
+Can I request to see security camera footage from a business where an incident involving me occurred?,"Yes, under Article 15 GDPR, subject to rights of others.",2
+Can a pharmacy sell my medication purchase history to laboratories?,No. This is sensitive health data and cannot be used for commercial purposes without explicit consent.,1
+Can my company require an HIV test as a condition of employment?,Generally no. It is sensitive health data and usually disproportionate and discriminatory.,2
+Can a bank share my credit score with other banks without my authorization?,"Possibly, under legitimate interest or legal obligation, but must meet GDPR principles.",3
+Can I demand that an e-commerce site delete all my data after a purchase?,"Yes, except where retention is required by law, such as tax obligations.",2
+Can a delivery app sell my home address to advertisers?,"No, unless there is explicit consent for that purpose.",1
+Can a website use cookies to track my browsing without notifying me?,No. Consent is required for non-essential cookies under GDPR and ePrivacy rules.,1
+Can I ask Google to remove search results with my name?,"Yes, under the right to be forgotten, subject to balancing with public interest.",3
+Can a company monitor my corporate email?,"Yes, if necessary, proportionate, and transparent.",2
+Can I ask the company for a copy of all the data it has about me?,"Yes, under Article 15 GDPR, you have the right of access.",1
+Does the company have a deadline to respond to my request for access to my data?,"Yes, one month under Article 12 GDPR, extendable in complex cases.",1
+Can I sue for moral damages if my data is leaked from a company?,"Yes, Article 82 GDPR allows compensation for damages.",2
+Can a company claim it was hacked to avoid responsibility for the leak?,No. Organizations must demonstrate adequate security measures under Article 32 GDPR.,3

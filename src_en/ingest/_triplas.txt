@@ -1,0 +1,70 @@
+- Entidades principais
+Condomínio
+Edificação (prédio, torre, bloco)
+Unidade (apartamento, sala, loja)
+Área Comum
+Garagem
+Vaga de Estacionamento
+Piscina
+Salão de Festas
+Playground
+Academia
+Chunk
+
+- Pessoas e papéis
+Síndico
+Subsíndico
+Conselheiro (fiscal/deliberativo)
+Morador (proprietário ou inquilino)
+Inquilino
+Visitante
+Funcionário
+Zelador
+Porteiro
+Faxineiro
+Vigia / Segurança
+Jardineiro
+Prestador de Serviço (terceirizado)
+
+- Instituições externas
+Administradora
+Contador
+Advogado
+Seguradora
+Banco (conta do condomínio)
+Fornecedor
+
+- Documentos e regras
+Convenção
+Regimento Interno
+Ata de Assembleia
+Orçamento
+Balancete
+Contrato de Prestação de Serviços
+Notificação
+Multa
+
+- Outros elementos úteis
+Assembleia
+Manutenção
+Obra
+Reserva de área Comum
+Segurança
+Sistema de controle de acesso
+Correspondência / encomenda
+Culto religioso
+
+- Esses nós podem se conectar via relações como:
+"INCLUI": ("PERMITIDO_EM", "reverse"),
+"REGIDA_POR": ("APLICA_A", "reverse"),
+"TIPO_DE": ("TIPO_DE", "same"),
+"PERMITIDO_EM": ("PERMITIDO_EM", "same"),
+"PROIBIDO_SE": ("PROIBIDO_SE", "same"),
+"APLICA_A": ("APLICA_A", "same"),
+"PARTE_DE": ("PARTE_DE", "same"),
+"REFERE_SE_A": ("REFERE_SE_A", "same"),
+"CITADO_EM": ("CITADO_EM", "same"),
+"OCUPA": ("OCUPA", "same"),
+"USA": ("USA", "same"),
+"RESPONSABILIZADO_POR": ("RESPONSABILIZADO_POR", "same"),
+"EQUIVALE_A": ("EQUIVALE_A", "same"),

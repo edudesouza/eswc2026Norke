@@ -34,7 +34,7 @@
 
 :Regra a owl:Class ;
   rdfs:label "Regra"@pt ;
-  rdfs:comment "Norma ou determinação aplicável no conetxto da lei."@pt .
+  rdfs:comment "Norma ou determinação, deôntica, especificando o que é obrigatório, permitido ou proibido aplicável no conetxto da lei."@pt .
 
 :Diretriz a owl:Class ;
     rdfs:subClassOf :Documento ;

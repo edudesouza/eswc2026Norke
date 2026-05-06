@@ -1,0 +1,307 @@
+<https://omc.co/5511993891773/7491/e69cf387_cf1bc9a0>
+            a v:Paragrafo ;
+            v:descricao "17/07/2023, 15:30 LEI No 13.709, DE 14 DE AGOSTO DE 2018 - Imprensa Nacional # **DIÁRIO OFICIAL DA UNIÃO** Publicado em: 15/08/2018 | Edição: 157 | Seção: 1 | Página: 59 **Órgão: Atos do Poder Legislativo** **LEI NO 13.709, DE 14 DE AGOSTO DE 2018** Dispõe sobre a proteção de dados pessoais e altera a Lei nº 12.965, de 23 de abril de 2014 (Marco Civil da Internet). **O P R E S I D E N T E D A R E P Ú B L I C A** Faço saber que o Congresso Nacional decreta e eu sanciono a seguinte Lei:"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/e69cf387> .<https://omc.co/5511993891773/7491/19e28c65_1bbc6dfc>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Consideram-se coletados no território nacional os dados pessoais cujo titular nele se encontre no momento da coleta."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/19e28c65> .<https://omc.co/5511993891773/7491/19e28c65_d9e709aa>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Excetua-se do disposto no inciso I deste artigo o tratamento de dados previsto no inciso IV do **caput** do art. 4º desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/19e28c65> .<https://omc.co/5511993891773/7491/cfd5d742_92b662f7>
+            a v:Paragrafo ;
+            v:descricao "§ 1º O tratamento de dados pessoais previsto no inciso III será regido por legislação específica, que deverá prever medidas proporcionais e estritamente necessárias ao atendimento do interesse público, observados o devido processo legal, os princípios gerais de proteção e os direitos do titular previstos nesta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/cfd5d742> .<https://omc.co/5511993891773/7491/cfd5d742_8aaa6468>
+            a v:Paragrafo ;
+            v:descricao "§ 2º É vedado o tratamento dos dados a que se refere o inciso III do **caput** deste artigo por pessoa de direito privado, exceto em procedimentos sob tutela de pessoa jurídica de direito público, que serão objeto de informe específico à autoridade nacional e que deverão observar a limitação imposta no § 4º deste artigo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/cfd5d742> .<https://omc.co/5511993891773/7491/cfd5d742_4041c03d>
+            a v:Paragrafo ;
+            v:descricao "§ 3º A autoridade nacional emitirá opiniões técnicas ou recomendações referentes às exceções previstas no inciso III do **caput** deste artigo e deverá solicitar aos responsáveis relatórios de impacto à proteção de dados pessoais."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/cfd5d742> .<https://omc.co/5511993891773/7491/cfd5d742_5ee6ebf3>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Em nenhum caso a totalidade dos dados pessoais de banco de dados de que trata o inciso III do **caput** deste artigo poderá ser tratada por pessoa de direito privado."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/cfd5d742> .<https://omc.co/5511993891773/7491/9c7da499_edc00679>
+            a v:Paragrafo ;
+            v:descricao "DO TRATAMENTO DE DADOS PESSOAIS **Seção I** https://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/36849373/do1-2018-08-15-lei-no-13-709-de-14-de-agosto-de-2018-36849337 3/18 17/07/2023, 15:30 LEI No 13.709, DE 14 DE AGOSTO DE 2018 - Imprensa Nacional Dos Requisitos para o Tratamento de Dados Pessoais"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/9c7da499> .<https://omc.co/5511993891773/7491/a57ec09b_84cc70d3>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Nos casos de aplicação do disposto nos incisos II e III do **caput** deste artigo e excetuadas as hipóteses previstas no art. 4º desta Lei, o titular será informado das hipóteses em que será admitido o tratamento de seus dados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a57ec09b> .<https://omc.co/5511993891773/7491/a57ec09b_5f2fdc47>
+            a v:Paragrafo ;
+            v:descricao "§ 2º A forma de disponibilização das informações previstas no § 1º e no inciso I do **caput** do art. 23 desta Lei poderá ser especificada pela autoridade nacional."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a57ec09b> .<https://omc.co/5511993891773/7491/a57ec09b_a4b9a414>
+            a v:Paragrafo ;
+            v:descricao "§ 3º O tratamento de dados pessoais cujo acesso é público deve considerar a finalidade, a boafé e o interesse público que justificaram sua disponibilização."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a57ec09b> .<https://omc.co/5511993891773/7491/a57ec09b_aa67aada>
+            a v:Paragrafo ;
+            v:descricao "§ 4º É dispensada a exigência do consentimento previsto no **caput** deste artigo para os dados tornados manifestamente públicos pelo titular, resguardados os direitos do titular e os princípios previstos nesta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a57ec09b> .<https://omc.co/5511993891773/7491/a57ec09b_bd6eaa0e>
+            a v:Paragrafo ;
+            v:descricao "§ 5º O controlador que obteve o consentimento referido no inciso I do **caput** deste artigo que necessitar comunicar ou compartilhar dados pessoais com outros controladores deverá obter consentimento específico do titular para esse fim, ressalvadas as hipóteses de dispensa do consentimento previstas nesta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a57ec09b> .<https://omc.co/5511993891773/7491/a57ec09b_7c1aaa33>
+            a v:Paragrafo ;
+            v:descricao "§ 6º A eventual dispensa da exigência do consentimento não desobriga os agentes de tratamento das demais obrigações previstas nesta Lei, especialmente da observância dos princípios gerais e da garantia dos direitos do titular."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a57ec09b> .<https://omc.co/5511993891773/7491/d157f57f_92e01326>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Caso o consentimento seja fornecido por escrito, esse deverá constar de cláusula destacada das demais cláusulas contratuais."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d157f57f> .<https://omc.co/5511993891773/7491/d157f57f_6a6d8b48>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Cabe ao controlador o ônus da prova de que o consentimento foi obtido em conformidade com o disposto nesta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d157f57f> .<https://omc.co/5511993891773/7491/d157f57f_75d69980>
+            a v:Paragrafo ;
+            v:descricao "§ 3º É vedado o tratamento de dados pessoais mediante vício de consentimento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d157f57f> .<https://omc.co/5511993891773/7491/d157f57f_ace1c076>
+            a v:Paragrafo ;
+            v:descricao "§ 4º O consentimento deverá referir-se a finalidades determinadas, e as autorizações genéricas para o tratamento de dados pessoais serão nulas. https://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/36849373/do1-2018-08-15-lei-no-13-709-de-14-de-agosto-de-2018-36849337 4/18 17/07/2023, 15:30 LEI No 13.709, DE 14 DE AGOSTO DE 2018 - Imprensa Nacional"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d157f57f> .<https://omc.co/5511993891773/7491/d157f57f_ae7fcd22>
+            a v:Paragrafo ;
+            v:descricao "§ 5º O consentimento pode ser revogado a qualquer momento mediante manifestação expressa do titular, por procedimento gratuito e facilitado, ratificados os tratamentos realizados sob amparo do consentimento anteriormente manifestado enquanto não houver requerimento de eliminação, nos termos do inciso VI do **caput** do art. 18 desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d157f57f> .<https://omc.co/5511993891773/7491/d157f57f_2c33ce92>
+            a v:Paragrafo ;
+            v:descricao "§ 6º Em caso de alteração de informação referida nos incisos I, II, III ou V do art. 9º desta Lei, o controlador deverá informar ao titular, com destaque de forma específica do teor das alterações, podendo - titular, nos casos em que o seu consentimento é exigido, revogá-lo caso discorde da alteração."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d157f57f> .<https://omc.co/5511993891773/7491/ffc54078_e5f0748e>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Na hipótese em que o consentimento é requerido, esse será considerado nulo caso as informações fornecidas ao titular tenham conteúdo enganoso ou abusivo ou não tenham sido apresentadas previamente com transparência, de forma clara e inequívoca."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/ffc54078> .<https://omc.co/5511993891773/7491/ffc54078_567bae81>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Na hipótese em que o consentimento é requerido, se houver mudanças da finalidade para o tratamento de dados pessoais não compatíveis com o consentimento original, o controlador deverá informar previamente o titular sobre as mudanças de finalidade, podendo o titular revogar o consentimento, caso discorde das alterações."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/ffc54078> .<https://omc.co/5511993891773/7491/ffc54078_99fab2d4>
+            a v:Paragrafo ;
+            v:descricao "§ 3º Quando o tratamento de dados pessoais for condição para o fornecimento de produto ou de serviço ou para o exercício de direito, o titular será informado com destaque sobre esse fato e sobre os meios pelos quais poderá exercer os direitos do titular elencados no art. 18 desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/ffc54078> .<https://omc.co/5511993891773/7491/105471be_ed9f8161>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Quando o tratamento for baseado no legítimo interesse do controlador, somente os dados pessoais estritamente necessários para a finalidade pretendida poderão ser tratados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/105471be> .<https://omc.co/5511993891773/7491/105471be_f9cf73c6>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O controlador deverá adotar medidas para garantir a transparência do tratamento de dados baseado em seu legítimo interesse."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/105471be> .<https://omc.co/5511993891773/7491/105471be_b76e0a76>
+            a v:Paragrafo ;
+            v:descricao "§ 3º A autoridade nacional poderá solicitar ao controlador relatório de impacto à proteção de dados pessoais, quando o tratamento tiver como fundamento seu interesse legítimo, observados os segredos comercial e industrial. **Seção II** Do Tratamento de Dados Pessoais Sensíveis"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/105471be> .<https://omc.co/5511993891773/7491/b47f4387_d03559fd>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Aplica-se o disposto neste artigo a qualquer tratamento de dados pessoais que revele dados pessoais sensíveis e que possa causar dano ao titular, ressalvado o disposto em legislação específica."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b47f4387> .<https://omc.co/5511993891773/7491/b47f4387_fcdde04f>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Nos casos de aplicação do disposto nas alíneas "a" e "b" do inciso II do **caput** deste artigo pelos órgãos e pelas entidades públicas, será dada publicidade à referida dispensa de consentimento, nos termos do inciso I do caput do art. 23 desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b47f4387> .<https://omc.co/5511993891773/7491/b47f4387_3898b352>
+            a v:Paragrafo ;
+            v:descricao "§ 3º A comunicação ou o uso compartilhado de dados pessoais sensíveis entre controladores com objetivo de obter vantagem econômica poderá ser objeto de vedação ou de regulamentação por parte da autoridade nacional, ouvidos os órgãos setoriais do Poder Público, no âmbito de suas competências."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b47f4387> .<https://omc.co/5511993891773/7491/b47f4387_b8be4f1f>
+            a v:Paragrafo ;
+            v:descricao "§ 4º É vedada a comunicação ou o uso compartilhado entre controladores de dados pessoais sensíveis referentes à saúde com objetivo de obter vantagem econômica, exceto nos casos de portabilidade de dados quando consentido pelo titular."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b47f4387> .<https://omc.co/5511993891773/7491/742cef0e_e1b1703f>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A determinação do que seja razoável deve levar em consideração fatores objetivos, tais como custo e tempo necessários para reverter o processo de anonimização, de acordo com as tecnologias disponíveis, e a utilização exclusiva de meios próprios."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/742cef0e> .<https://omc.co/5511993891773/7491/742cef0e_a457c126>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Poderão ser igualmente considerados como dados pessoais, para os fins desta Lei, aqueles utilizados para formação do perfil comportamental de determinada pessoa natural, se identificada."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/742cef0e> .<https://omc.co/5511993891773/7491/742cef0e_dc5c16b6>
+            a v:Paragrafo ;
+            v:descricao "§ 3º A autoridade nacional poderá dispor sobre padrões e técnicas utilizados em processos de anonimização e realizar verificações acerca de sua segurança, ouvido o Conselho Nacional de Proteção de Dados Pessoais."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/742cef0e> .<https://omc.co/5511993891773/7491/bfc17de8_d44d774d>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A divulgação dos resultados ou de qualquer excerto do estudo ou da pesquisa de que trata - **caput** deste artigo em nenhuma hipótese poderá revelar dados pessoais."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/bfc17de8> .<https://omc.co/5511993891773/7491/bfc17de8_4a5a5a43>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O órgão de pesquisa será o responsável pela segurança da informação prevista no **caput** deste artigo, não permitida, em circunstância alguma, a transferência dos dados a terceiro. https://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/36849373/do1-2018-08-15-lei-no-13-709-de-14-de-agosto-de-2018-36849337 6/18 17/07/2023, 15:30 LEI No 13.709, DE 14 DE AGOSTO DE 2018 - Imprensa Nacional"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/bfc17de8> .<https://omc.co/5511993891773/7491/bfc17de8_cbba6d2b>
+            a v:Paragrafo ;
+            v:descricao "§ 3º O acesso aos dados de que trata este artigo será objeto de regulamentação por parte da autoridade nacional e das autoridades da área de saúde e sanitárias, no âmbito de suas competências."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/bfc17de8> .<https://omc.co/5511993891773/7491/bfc17de8_44d5578f>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Para os efeitos deste artigo, a pseudonimização é o tratamento por meio do qual um dado perde a possibilidade de associação, direta ou indireta, a um indivíduo, senão pelo uso de informação adicional mantida separadamente pelo controlador em ambiente controlado e seguro. **Seção III** Do Tratamento de Dados Pessoais de Crianças e de Adolescentes"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/bfc17de8> .<https://omc.co/5511993891773/7491/49389041_c0c3d537>
+            a v:Paragrafo ;
+            v:descricao "§ 1º O tratamento de dados pessoais de crianças deverá ser realizado com o consentimento específico e em destaque dado por pelo menos um dos pais ou pelo responsável legal."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/49389041> .<https://omc.co/5511993891773/7491/49389041_6977a8bb>
+            a v:Paragrafo ;
+            v:descricao "§ 2º No tratamento de dados de que trata o § 1º deste artigo, os controladores deverão manter pública a informação sobre os tipos de dados coletados, a forma de sua utilização e os procedimentos para o exercício dos direitos a que se refere o art. 18 desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/49389041> .<https://omc.co/5511993891773/7491/49389041_1fd3b249>
+            a v:Paragrafo ;
+            v:descricao "§ 3º Poderão ser coletados dados pessoais de crianças sem o consentimento a que se refere o § 1º deste artigo quando a coleta for necessária para contatar os pais ou o responsável legal, utilizados uma única vez e sem armazenamento, ou para sua proteção, e em nenhum caso poderão ser repassados a terceiro sem o consentimento de que trata o § 1º deste artigo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/49389041> .<https://omc.co/5511993891773/7491/49389041_29a2b52e>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Os controladores não deverão condicionar a participação dos titulares de que trata o § 1º deste artigo em jogos, aplicações de internet ou outras atividades ao fornecimento de informações pessoais além das estritamente necessárias à atividade."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/49389041> .<https://omc.co/5511993891773/7491/49389041_7d15905f>
+            a v:Paragrafo ;
+            v:descricao "§ 5º O controlador deve realizar todos os esforços razoáveis para verificar que o consentimento a que se refere o § 1º deste artigo foi dado pelo responsável pela criança, consideradas as tecnologias disponíveis."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/49389041> .<https://omc.co/5511993891773/7491/49389041_6df18be3>
+            a v:Paragrafo ;
+            v:descricao "§ 6º As informações sobre o tratamento de dados referidas neste artigo deverão ser fornecidas de maneira simples, clara e acessível, consideradas as características físico-motoras, perceptivas, sensoriais, intelectuais e mentais do usuário, com uso de recursos audiovisuais quando adequado, de forma a proporcionar a informação necessária aos pais ou ao responsável legal e adequada ao entendimento da criança. **Seção IV** Do Término do Tratamento de Dados"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/49389041> .<https://omc.co/5511993891773/7491/5cf8dbf1_cec0098b>
+            a v:Paragrafo ;
+            v:descricao "DOS DIREITOS DO TITULAR"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/5cf8dbf1> .<https://omc.co/5511993891773/7491/f9e4ad69_b29eff71>
+            a v:Paragrafo ;
+            v:descricao "§ 1º O titular dos dados pessoais tem o direito de peticionar em relação aos seus dados contra o controlador perante a autoridade nacional."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_2d619052>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O titular pode opor-se a tratamento realizado com fundamento em uma das hipóteses de dispensa de consentimento, em caso de descumprimento ao disposto nesta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_30603d12>
+            a v:Paragrafo ;
+            v:descricao "§ 3º Os direitos previstos neste artigo serão exercidos mediante requerimento expresso do titular ou de representante legalmente constituído, a agente de tratamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_6c50584a>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Em caso de impossibilidade de adoção imediata da providência de que trata o § 3º deste artigo, o controlador enviará ao titular resposta em que poderá: I - comunicar que não é agente de tratamento dos dados e indicar, sempre que possível, o agente; ou II - indicar as razões de fato ou de direito que impedem a adoção imediata da providência."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_6d2d0334>
+            a v:Paragrafo ;
+            v:descricao "§ 5º O requerimento referido no § 3º deste artigo será atendido sem custos para o titular, nos prazos e nos termos previstos em regulamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_d47587ba>
+            a v:Paragrafo ;
+            v:descricao "§ 6º O responsável deverá informar de maneira imediata aos agentes de tratamento com os quais tenha realizado uso compartilhado de dados a correção, a eliminação, a anonimização ou o bloqueio dos dados, para que repitam idêntico procedimento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_35d08367>
+            a v:Paragrafo ;
+            v:descricao "§ 7º A portabilidade dos dados pessoais a que se refere o inciso V do **caput** deste artigo não inclui dados que já tenham sido anonimizados pelo controlador."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/f9e4ad69_3061530b>
+            a v:Paragrafo ;
+            v:descricao "§ 8º O direito a que se refere o § 1º deste artigo também poderá ser exercido perante os organismos de defesa do consumidor."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/f9e4ad69> .<https://omc.co/5511993891773/7491/7b6b9e10_90bb6d76>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Os dados pessoais serão armazenados em formato que favoreça o exercício do direito de acesso."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/7b6b9e10> .<https://omc.co/5511993891773/7491/7b6b9e10_1881206b>
+            a v:Paragrafo ;
+            v:descricao "§ 2º As informações e os dados poderão ser fornecidos, a critério do titular: I - por meio eletrônico, seguro e idôneo para esse fim; ou II - sob forma impressa."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/7b6b9e10> .<https://omc.co/5511993891773/7491/7b6b9e10_50770455>
+            a v:Paragrafo ;
+            v:descricao "§ 3º Quando o tratamento tiver origem no consentimento do titular ou em contrato, o titular poderá solicitar cópia eletrônica integral de seus dados pessoais, observados os segredos comercial e industrial, nos termos de regulamentação da autoridade nacional, em formato que permita a sua utilização subsequente, inclusive em outras operações de tratamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/7b6b9e10> .<https://omc.co/5511993891773/7491/7b6b9e10_ab8b0ced>
+            a v:Paragrafo ;
+            v:descricao "§ 4º A autoridade nacional poderá dispor de forma diferenciada acerca dos prazos previstos nos incisos I e II do **caput** deste artigo para os setores específicos."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/7b6b9e10> .<https://omc.co/5511993891773/7491/d864f83b_464a2874>
+            a v:Paragrafo ;
+            v:descricao "§ 1º O controlador deverá fornecer, sempre que solicitadas, informações claras e adequadas a respeito dos critérios e dos procedimentos utilizados para a decisão automatizada, observados os segredos comercial e industrial."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d864f83b> .<https://omc.co/5511993891773/7491/d864f83b_92682f31>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Em caso de não oferecimento de informações de que trata o § 1º deste artigo baseado na observância de segredo comercial e industrial, a autoridade nacional poderá realizar auditoria para verificação de aspectos discriminatórios em tratamento automatizado de dados pessoais."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d864f83b> .<https://omc.co/5511993891773/7491/ec8e9ff1_20f474b6>
+            a v:Paragrafo ;
+            v:descricao "DO TRATAMENTO DE DADOS PESSOAIS PELO PODER PÚBLICO **Seção I** Das Regras"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/ec8e9ff1> .<https://omc.co/5511993891773/7491/a625792a_6e688418>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A autoridade nacional poderá dispor sobre as formas de publicidade das operações de tratamento. https://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/36849373/do1-2018-08-15-lei-no-13-709-de-14-de-agosto-de-2018-36849337 9/18 17/07/2023, 15:30 LEI No 13.709, DE 14 DE AGOSTO DE 2018 - Imprensa Nacional"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a625792a> .<https://omc.co/5511993891773/7491/a625792a_61cbb016>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O disposto nesta Lei não dispensa as pessoas jurídicas mencionadas no **caput** deste artigo de instituir as autoridades de que trata a Lei nº 12.527, de 18 de novembro de 2011 (Lei de Acesso à Informação)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a625792a> .<https://omc.co/5511993891773/7491/a625792a_1b338e04>
+            a v:Paragrafo ;
+            v:descricao "§ 3º Os prazos e procedimentos para exercício dos direitos do titular perante o Poder Público observarão o disposto em legislação específica, em especial as disposições constantes da Lei nº 9.507, de 12 de novembro de 1997 (Lei do Habeas Data), da Lei nº 9.784, de 29 de janeiro de 1999 (Lei Geral do Processo Administrativo), e da Lei nº 12.527, de 18 de novembro de 2011 (Lei de Acesso à Informação)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a625792a> .<https://omc.co/5511993891773/7491/a625792a_78edee10>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Os serviços notariais e de registro exercidos em caráter privado, por delegação do Poder Público, terão o mesmo tratamento dispensado às pessoas jurídicas referidas no **caput** deste artigo, nos termos desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a625792a> .<https://omc.co/5511993891773/7491/a625792a_c480fe19>
+            a v:Paragrafo ;
+            v:descricao "§ 5º Os órgãos notariais e de registro devem fornecer acesso aos dados por meio eletrônico para a administração pública, tendo em vista as finalidades de que trata o **caput** deste artigo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a625792a> .<https://omc.co/5511993891773/7491/3048c9bc_ddeb33a9>
+            a v:Paragrafo ;
+            v:descricao "Parágrafo único. As empresas públicas e as sociedades de economia mista, quando estiverem operacionalizando políticas públicas e no âmbito da execução delas, terão o mesmo tratamento dispensado aos órgãos e às entidades do Poder Público, nos termos deste Capítulo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/3048c9bc> .<https://omc.co/5511993891773/7491/a7c645b8_fcb178aa>
+            a v:Paragrafo ;
+            v:descricao "§ 1º É vedado ao Poder Público transferir a entidades privadas dados pessoais constantes de bases de dados a que tenha acesso, exceto: I - em casos de execução descentralizada de atividade pública que exija a transferência, exclusivamente para esse fim específico e determinado, observado o disposto na Lei nº 12.527, de 18 de novembro de 2011 (Lei de Acesso à Informação); II - (VETADO); III - nos casos em que os dados forem acessíveis publicamente, observadas as disposições desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a7c645b8> .<https://omc.co/5511993891773/7491/a7c645b8_be598481>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Os contratos e convênios de que trata o § 1º deste artigo deverão ser comunicados à autoridade nacional."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/a7c645b8> .<https://omc.co/5511993891773/7491/0c93e0c2_eb9b9227>
+            a v:Paragrafo ;
+            v:descricao "DA TRANSFERÊNCIA INTERNACIONAL DE DADOS"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/0c93e0c2> .<https://omc.co/5511993891773/7491/268b9761_9333a725>
+            a v:Paragrafo ;
+            v:descricao "Parágrafo único. Para os fins do inciso I deste artigo, as pessoas jurídicas de direito público referidas no parágrafo único do art. 1º da Lei nº 12.527, de 18 de novembro de 2011 (Lei de Acesso à Informação), no âmbito de suas competências legais, e responsáveis, no âmbito de suas atividades, poderão requerer à autoridade nacional a avaliação do nível de proteção a dados pessoais conferido por país ou organismo internacional."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/268b9761> .<https://omc.co/5511993891773/7491/d4efcd3f_8747c991>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Para a verificação do disposto no **caput** deste artigo, deverão ser considerados os requisitos, as condições e as garantias mínimas para a transferência que observem os direitos, as garantias e os princípios desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d4efcd3f> .<https://omc.co/5511993891773/7491/d4efcd3f_7f94bd57>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Na análise de cláusulas contratuais, de documentos ou de normas corporativas globais submetidas à aprovação da autoridade nacional, poderão ser requeridas informações suplementares ou realizadas diligências de verificação quanto às operações de tratamento, quando necessário."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d4efcd3f> .<https://omc.co/5511993891773/7491/d4efcd3f_9495e70d>
+            a v:Paragrafo ;
+            v:descricao "§ 3º A autoridade nacional poderá designar organismos de certificação para a realização do previsto no **caput** deste artigo, que permanecerão sob sua fiscalização nos termos definidos em regulamento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d4efcd3f> .<https://omc.co/5511993891773/7491/d4efcd3f_91d4d86a>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Os atos realizados por organismo de certificação poderão ser revistos pela autoridade nacional e, caso em desconformidade com esta Lei, submetidos a revisão ou anulados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d4efcd3f> .<https://omc.co/5511993891773/7491/d4efcd3f_bb075e29>
+            a v:Paragrafo ;
+            v:descricao "§ 5º As garantias suficientes de observância dos princípios gerais de proteção e dos direitos do titular referidas no **caput** deste artigo serão também analisadas de acordo com as medidas técnicas e organizacionais adotadas pelo operador, de acordo com o previsto nos §§ 1º e 2º do art. 46 desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/d4efcd3f> .<https://omc.co/5511993891773/7491/5b4fc26d_224a9ce5>
+            a v:Paragrafo ;
+            v:descricao "DOS AGENTES DE TRATAMENTO DE DADOS PESSOAIS **Seção I** Do Controlador e do Operador"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/5b4fc26d> .<https://omc.co/5511993891773/7491/dfcc83b5_7cbf4ed3>
+            a v:Paragrafo ;
+            v:descricao "Parágrafo único. Observado o disposto no **caput** deste artigo, o relatório deverá conter, no mínimo, a descrição dos tipos de dados coletados, a metodologia utilizada para a coleta e para a garantia da segurança das informações e a análise do controlador com relação a medidas, salvaguardas e mecanismos de mitigação de risco adotados."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/dfcc83b5> .<https://omc.co/5511993891773/7491/aa8c1fdd_22abfabe>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A identidade e as informações de contato do encarregado deverão ser divulgadas publicamente, de forma clara e objetiva, preferencialmente no sítio eletrônico do controlador."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/aa8c1fdd> .<https://omc.co/5511993891773/7491/aa8c1fdd_2802aa44>
+            a v:Paragrafo ;
+            v:descricao "§ 2º As atividades do encarregado consistem em: I - aceitar reclamações e comunicações dos titulares, prestar esclarecimentos e adotar providências; II - receber comunicações da autoridade nacional e adotar providências; III - orientar os funcionários e os contratados da entidade a respeito das práticas a serem tomadas em relação à proteção de dados pessoais; e IV - executar as demais atribuições determinadas pelo controlador ou estabelecidas em normas complementares."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/aa8c1fdd> .<https://omc.co/5511993891773/7491/aa8c1fdd_44760ae5>
+            a v:Paragrafo ;
+            v:descricao "§ 3º A autoridade nacional poderá estabelecer normas complementares sobre a definição e as atribuições do encarregado, inclusive hipóteses de dispensa da necessidade de sua indicação, conforme a natureza e o porte da entidade ou o volume de operações de tratamento de dados. **Seção III** Da Responsabilidade e do Ressarcimento de Danos"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/aa8c1fdd> .<https://omc.co/5511993891773/7491/82b9f0a4_3474d53f>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A fim de assegurar a efetiva indenização ao titular dos dados: I - o operador responde solidariamente pelos danos causados pelo tratamento quando descumprir as obrigações da legislação de proteção de dados ou quando não tiver seguido as instruções lícitas do controlador, hipótese em que o operador equipara-se ao controlador, salvo nos casos de exclusão previstos no art. 43 desta Lei; II - os controladores que estiverem diretamente envolvidos no tratamento do qual decorreram danos ao titular dos dados respondem solidariamente, salvo nos casos de exclusão previstos no art. 43 desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/82b9f0a4> .<https://omc.co/5511993891773/7491/82b9f0a4_d5fff40b>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O juiz, no processo civil, poderá inverter o ônus da prova a favor do titular dos dados quando, a seu juízo, for verossímil a alegação, houver hipossuficiência para fins de produção de prova ou quando a produção de prova pelo titular resultar-lhe excessivamente onerosa."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/82b9f0a4> .<https://omc.co/5511993891773/7491/82b9f0a4_21d6b42b>
+            a v:Paragrafo ;
+            v:descricao "§ 3º As ações de reparação por danos coletivos que tenham por objeto a responsabilização nos termos do **caput** deste artigo podem ser exercidas coletivamente em juízo, observado o disposto na legislação pertinente."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/82b9f0a4> .<https://omc.co/5511993891773/7491/82b9f0a4_7593a585>
+            a v:Paragrafo ;
+            v:descricao "§ 4º Aquele que reparar o dano ao titular tem direito de regresso contra os demais responsáveis, na medida de sua participação no evento danoso."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/82b9f0a4> .<https://omc.co/5511993891773/7491/3d4c7895_7aef0a27>
+            a v:Paragrafo ;
+            v:descricao "Parágrafo único. Responde pelos danos decorrentes da violação da segurança dos dados o controlador ou o operador que, ao deixar de adotar as medidas de segurança previstas no art. 46 desta Lei, der causa ao dano."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/3d4c7895> .<https://omc.co/5511993891773/7491/4624e128_0445bc8c>
+            a v:Paragrafo ;
+            v:descricao "DA SEGURANÇA E DAS BOAS PRÁTICAS **Seção I** Da Segurança e do Sigilo de Dados"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/4624e128> .<https://omc.co/5511993891773/7491/44589f1c_128f1f1f>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A autoridade nacional poderá dispor sobre padrões técnicos mínimos para tornar aplicável o disposto no **caput** deste artigo, considerados a natureza das informações tratadas, as características específicas do tratamento e o estado atual da tecnologia, especialmente no caso de dados pessoais sensíveis, assim como os princípios previstos no caput do art. 6º desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/44589f1c> .<https://omc.co/5511993891773/7491/44589f1c_de977254>
+            a v:Paragrafo ;
+            v:descricao "§ 2º As medidas de que trata o **caput** deste artigo deverão ser observadas desde a fase de concepção do produto ou do serviço até a sua execução."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/44589f1c> .<https://omc.co/5511993891773/7491/8bfc0537_37338421>
+            a v:Paragrafo ;
+            v:descricao "§ 1º A comunicação será feita em prazo razoável, conforme definido pela autoridade nacional, e deverá mencionar, no mínimo: I - a descrição da natureza dos dados pessoais afetados; II - as informações sobre os titulares envolvidos; III - a indicação das medidas técnicas e de segurança utilizadas para a proteção dos dados, observados os segredos comercial e industrial; IV - os riscos relacionados ao incidente; V - os motivos da demora, no caso de a comunicação não ter sido imediata; e VI - as medidas que foram ou que serão adotadas para reverter ou mitigar os efeitos do prejuízo."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/8bfc0537> .<https://omc.co/5511993891773/7491/8bfc0537_0fee8853>
+            a v:Paragrafo ;
+            v:descricao "§ 2º A autoridade nacional verificará a gravidade do incidente e poderá, caso necessário para a salvaguarda dos direitos dos titulares, determinar ao controlador a adoção de providências, tais como: I - ampla divulgação do fato em meios de comunicação; e II - medidas para reverter ou mitigar os efeitos do incidente."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/8bfc0537> .<https://omc.co/5511993891773/7491/8bfc0537_715d848e>
+            a v:Paragrafo ;
+            v:descricao "§ 3º No juízo de gravidade do incidente, será avaliada eventual comprovação de que foram adotadas medidas técnicas adequadas que tornem os dados pessoais afetados ininteligíveis, no âmbito e nos limites técnicos de seus serviços, para terceiros não autorizados a acessá-los."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/8bfc0537> .<https://omc.co/5511993891773/7491/b9aa2a08_59168ee8>
+            a v:Paragrafo ;
+            v:descricao "§ 1º Ao estabelecer regras de boas práticas, o controlador e o operador levarão em consideração, em relação ao tratamento e aos dados, a natureza, o escopo, a finalidade e a probabilidade e a gravidade dos riscos e dos benefícios decorrentes de tratamento de dados do titular."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b9aa2a08> .<https://omc.co/5511993891773/7491/b9aa2a08_6c0327ab>
+            a v:Paragrafo ;
+            v:descricao "§ 2º Na aplicação dos princípios indicados nos incisos VII e VIII do **caput** do art. 6º desta Lei, o controlador, observados a estrutura, a escala e o volume de suas operações, bem como a sensibilidade dos dados tratados e a probabilidade e a gravidade dos danos para os titulares dos dados, poderá: I - implementar programa de governança em privacidade que, no mínimo: a) demonstre o comprometimento do controlador em adotar processos e políticas internas que assegurem o cumprimento, de forma abrangente, de normas e boas práticas relativas à proteção de dados pessoais; b) seja aplicável a todo o conjunto de dados pessoais que estejam sob seu controle, independentemente do modo como se realizou sua coleta; c) seja adaptado à estrutura, à escala e ao volume de suas operações, bem como à sensibilidade dos dados tratados; d) estabeleça políticas e salvaguardas adequadas com base em processo de avaliação sistemática de impactos e riscos à privacidade; e) tenha o objetivo de estabelecer relação de confiança com o titular, por meio de atuação transparente e que assegure mecanismos de participação do titular; f) esteja integrado a sua estrutura geral de governança e estabeleça e aplique mecanismos de supervisão internos e externos; g) conte com planos de resposta a incidentes e remediação; e h) seja atualizado constantemente com base em informações obtidas a partir de monitoramento contínuo e avaliações periódicas; II - demonstrar a efetividade de seu programa de governança em privacidade quando apropriado e, em especial, a pedido da autoridade nacional ou de outra entidade responsável por promover o cumprimento de boas práticas ou códigos de conduta, os quais, de forma independente, promovam o cumprimento desta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b9aa2a08> .<https://omc.co/5511993891773/7491/b9aa2a08_08117ec7>
+            a v:Paragrafo ;
+            v:descricao "§ 3º As regras de boas práticas e de governança deverão ser publicadas e atualizadas periodicamente e poderão ser reconhecidas e divulgadas pela autoridade nacional."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/b9aa2a08> .<https://omc.co/5511993891773/7491/14a3590a_cd331460>
+            a v:Paragrafo ;
+            v:descricao "DA FISCALIZAÇÃO **Seção I** Das Sanções Administrativas"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/14a3590a> .<https://omc.co/5511993891773/7491/28e2924f_73259cc5>
+            a v:Paragrafo ;
+            v:descricao "§ 1º As sanções serão aplicadas após procedimento administrativo que possibilite a oportunidade da ampla defesa, de forma gradativa, isolada ou cumulativa, de acordo com as peculiaridades do caso concreto e considerados os seguintes parâmetros e critérios: I - a gravidade e a natureza das infrações e dos direitos pessoais afetados; II - a boa-fé do infrator; III - a vantagem auferida ou pretendida pelo infrator; IV - a condição econômica do infrator; V - a reincidência; VI - o grau do dano; VII - (VETADO); VIII - (VETADO); IX - (VETADO); X - a pronta adoção de medidas corretivas; e XI - a proporcionalidade entre a gravidade da falta e a intensidade da sanção."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/28e2924f> .<https://omc.co/5511993891773/7491/28e2924f_59128599>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O disposto neste artigo não substitui a aplicação de sanções administrativas, civis ou penais definidas em legislação específica."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/28e2924f> .<https://omc.co/5511993891773/7491/28e2924f_3ba7fc8e>
+            a v:Paragrafo ;
+            v:descricao "§ 3º O disposto nos incisos I, IV, V, VI, VII, VIII e IX do **caput** deste artigo poderá ser aplicado às entidades e aos órgãos públicos, sem prejuízo do disposto na Lei nº 8.112, de 11 de dezembro de 1990 (Estatuto do Servidor Público Federal), na Lei nº 8.429, de 2 de junho de 1992 (Lei de Improbidade Administrativa), e na Lei nº 12.527, de 18 de novembro de 2011 (Lei de Acesso à Informação)."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/28e2924f> .<https://omc.co/5511993891773/7491/28e2924f_aa4e547c>
+            a v:Paragrafo ;
+            v:descricao "§ 4º No cálculo do valor da multa de que trata o inciso II do **caput** deste artigo, a autoridade nacional poderá considerar o faturamento total da empresa ou grupo de empresas, quando não dispuser do valor do faturamento no ramo de atividade empresarial em que ocorreu a infração, definido pela autoridade nacional, ou quando o valor for apresentado de forma incompleta ou não for demonstrado de forma inequívoca e idônea."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/28e2924f> .<https://omc.co/5511993891773/7491/2c685dfa_5d58a141>
+            a v:Paragrafo ;
+            v:descricao "§ 1º As metodologias a que se refere o **caput** deste artigo devem ser previamente publicadas, para ciência dos agentes de tratamento, e devem apresentar objetivamente as formas e dosimetrias para o cálculo do valor-base das sanções de multa, que deverão conter fundamentação detalhada de todos os seus elementos, demonstrando a observância dos critérios previstos nesta Lei."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/2c685dfa> .<https://omc.co/5511993891773/7491/2c685dfa_9bc32510>
+            a v:Paragrafo ;
+            v:descricao "§ 2º O regulamento de sanções e metodologias correspondentes deve estabelecer as circunstâncias e as condições para a adoção de multa simples ou diária. https://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/36849373/do1-2018-08-15-lei-no-13-709-de-14-de-agosto-de-2018-36849337 16/18 17/07/2023, 15:30 LEI No 13.709, DE 14 DE AGOSTO DE 2018 - Imprensa Nacional"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/2c685dfa> .<https://omc.co/5511993891773/7491/2be1944b_2589d196>
+            a v:Paragrafo ;
+            v:descricao "Parágrafo único. A intimação da sanção de multa diária deverá conter, no mínimo, a descrição da obrigação imposta, o prazo razoável e estipulado pelo órgão para o seu cumprimento e o valor da multa diária a ser aplicada pelo seu descumprimento."@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/2be1944b> .<https://omc.co/5511993891773/7491/2be1944b_cca5b241>
+            a v:Paragrafo ;
+            v:descricao "DA AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS (ANPD) E DO CONSELHO NACIONAL DE PROTEÇÃO DE DADOS PESSOAIS E DA PRIVACIDADE **Seção I** Da Autoridade Nacional de Proteção de Dados (ANPD)"@pt ;
+            v:temEvidenciaEm <https://omc.co/5511993891773/7491/2be1944b> .

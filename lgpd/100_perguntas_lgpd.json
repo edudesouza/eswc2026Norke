@@ -1,0 +1,502 @@
+[
+    {
+        "id": 1,
+        "question": "Fui demitido. A empresa tem que apagar minha foto e digital do relógio de ponto e da catraca?",
+        "answer": "Depende. A empresa pode manter os dados biométricos pelo tempo necessário para cumprir obrigações legais trabalhistas (ex.: comprovação de jornada em eventual ação judicial), com base no art. 16, I da LGPD. Após esse prazo, deve eliminá-los. Se você pedir a eliminação antes disso, a empresa poderá recusar alegando obrigação legal."
+    },
+    {
+        "id": 2,
+        "question": "Posso me recusar a dar minha digital para o relógio de ponto da empresa?",
+        "answer": "Ambíguo. A biometria é dado sensível (art. 5º, II), mas o registro de jornada é obrigação legal (CLT, art. 74). O TST admite o uso de biometria para ponto. A empresa pode ter base legal no \"cumprimento de obrigação legal\" (art. 7º, II), sem precisar de consentimento. Porém, deve oferecer alternativa proporcional se o funcionário se recusar."
+    },
+    {
+        "id": 3,
+        "question": "A empresa pode usar minha foto do crachá em campanhas publicitárias sem pedir minha autorização?",
+        "answer": "Não. O uso da imagem para fins de publicidade é finalidade diferente da coleta original (crachá para identificação interna). Viola o princípio da finalidade (art. 6º, I). Exige consentimento específico para essa nova finalidade."
+    },
+    {
+        "id": 4,
+        "question": "Meu empregador instalou câmera apontada diretamente para minha mesa. Isso é permitido?",
+        "answer": "É zona cinzenta. Câmeras no ambiente de trabalho são permitidas para segurança e controle, mas devem respeitar o princípio da necessidade (art. 6º, III). Câmera focada exclusivamente em um funcionário pode configurar monitoramento desproporcional. O TST já decidiu que câmeras em posição degradante ou em locais íntimos são proibidas."
+    },
+    {
+        "id": 5,
+        "question": "A empresa pode instalar câmera no banheiro ou vestiário alegando segurança?",
+        "answer": "Não. Viola direito à intimidade (art. 5º, X da CF) e o princípio de não discriminação da LGPD. Nenhuma base legal da LGPD ampara essa prática em locais de nudez ou higiene íntima."
+    },
+    {
+        "id": 6,
+        "question": "Posso exigir que a academia apague minha digital depois que cancelo a matrícula?",
+        "answer": "Sim. Após o término da relação contratual, a finalidade do tratamento se encerra (art. 15, I). Você pode solicitar a eliminação com base no art. 18, VI. A academia poderá manter apenas o mínimo necessário para obrigações legais remanescentes."
+    },
+    {
+        "id": 7,
+        "question": "O condomínio pode obrigar moradores a cadastrar o rosto no sistema de reconhecimento facial para entrar?",
+        "answer": "Ambíguo. Reconhecimento facial é dado biométrico sensível. Exige base legal robusta. O legítimo interesse pode ser invocado para segurança, mas o morador pode se opor (art. 18, §2º). A ANPD ainda não pacificou se assembleia de condomínio substitui o consentimento individual."
+    },
+    {
+        "id": 8,
+        "question": "Sou obrigado a dar minha foto para entrar em um hospital ou clínica?",
+        "answer": "Não necessariamente. O hospital pode ter base legal na \"tutela da saúde\" (art. 11, II, f), mas deve oferecer alternativa de identificação. Exigir biometria como única forma de acesso para quem não consentiu pode ser desproporcional."
+    },
+    {
+        "id": 9,
+        "question": "A empresa pode compartilhar meu exame médico admissional com o meu gestor direto?",
+        "answer": "Não. Dados de saúde são sensíveis (art. 5º, II) e o médico do trabalho só pode informar ao empregador se o funcionário está apto ou inapto — nunca o diagnóstico. Compartilhar o laudo completo viola o art. 11 e o sigilo médico."
+    },
+    {
+        "id": 10,
+        "question": "Posso ser demitido por me recusar a fornecer dados biométricos para um novo sistema da empresa?",
+        "answer": "Zona cinzenta trabalhista. Se a empresa tiver base legal sólida (obrigação regulatória, ex.: Portaria 671 para ponto eletrônico), a recusa pode ser considerada descumprimento de instrução. Se não houver base legal, a demissão por justa causa seria contestável."
+    },
+    {
+        "id": 11,
+        "question": "Meu vizinho instalou câmera que filma minha janela e varanda. O que a LGPD diz?",
+        "answer": "A LGPD exclui tratamento por pessoa natural para fins exclusivamente particulares (art. 4º, I). Mas se a câmera captura sistematicamente sua imagem, pode configurar violação do direito à privacidade via ação civil comum. Uma notificação extrajudicial é o primeiro passo recomendado."
+    },
+    {
+        "id": 12,
+        "question": "O supermercado pode me filmar enquanto faço compras?",
+        "answer": "Sim, com base no legítimo interesse (segurança patrimonial, art. 7º, IX). Mas deve informar sobre as câmeras (transparência, art. 6º, VI) e não pode usar as imagens para fins diferentes, como análise de comportamento de consumo sem consentimento."
+    },
+    {
+        "id": 13,
+        "question": "Posso fotografar pessoas na rua e postar nas redes sociais?",
+        "answer": "Depende. Fotos em locais públicos onde a pessoa é figurante ocasional geralmente são permitidas. Se a pessoa é o foco principal e é identificável, pode violar direito de imagem (art. 20, CC) e a LGPD se houver tratamento sistemático. A LGPD se aplica a pessoas jurídicas ou físicas que tratam dados com finalidade econômica."
+    },
+    {
+        "id": 14,
+        "question": "A câmera do meu condomínio que fica na entrada pode ser acessada por qualquer morador?",
+        "answer": "Não. O acesso às imagens deve ser restrito (princípio da necessidade) e controlado pelo responsável pelo tratamento (síndico/administradora). Disponibilizar imagens livremente a todos viola o princípio da segurança (art. 6º, VII)."
+    },
+    {
+        "id": 15,
+        "question": "Estabelecimento comercial pode usar reconhecimento facial para identificar clientes \"suspeitos\"?",
+        "answer": "Muito arriscado. Reconhecimento facial para perfil comportamental é dado sensível. Classificar clientes como \"suspeitos\" pode configurar tratamento discriminatório (art. 6º, IX). A ViaQuatro foi condenada em 2021 por uso de reconhecimento facial sem consentimento."
+    },
+    {
+        "id": 16,
+        "question": "Meu empregador pode monitorar meu celular corporativo, incluindo WhatsApp?",
+        "answer": "Ambíguo. Dispositivo corporativo pode ser monitorado para fins de segurança e cumprimento de políticas internas, desde que o funcionário seja previamente informado. O WhatsApp tem criptografia ponta-a-ponta, o que torna o monitoramento de conteúdo tecnicamente difícil e juridicamente questionável."
+    },
+    {
+        "id": 17,
+        "question": "A escola pode instalar câmera na sala de aula?",
+        "answer": "Permitido para segurança, mas com restrições. Deve haver transparência para alunos, pais e professores. Câmeras em sala de aula capturam dados de crianças (art. 14), exigindo atenção redobrada ao princípio do melhor interesse do menor."
+    },
+    {
+        "id": 18,
+        "question": "Posso pedir para ver as imagens de câmera de segurança de um estabelecimento onde ocorreu um incidente comigo?",
+        "answer": "Sim, com base no art. 18, II (direito de acesso). Mas o estabelecimento pode restringir o acesso a imagens de terceiros por questões de privacidade. O ideal é formalizar o pedido e, se negado, acionar a ANPD ou o judiciário."
+    },
+    {
+        "id": 19,
+        "question": "O plano de saúde pode negar cobertura com base no meu histórico de doenças?",
+        "answer": "Não. Dados de saúde são sensíveis. Usar histórico médico para negar cobertura configura uso discriminatório vedado pelo art. 6º, IX, e pelo Código de Defesa do Consumidor. A ANS também proíbe essa prática."
+    },
+    {
+        "id": 20,
+        "question": "O médico pode compartilhar meu prontuário com outro médico sem minha autorização?",
+        "answer": "Depende. Para continuidade do tratamento, o compartilhamento entre profissionais de saúde tem base legal na \"tutela da saúde\" (art. 11, II, f) e no sigilo médico (que prevê exceções dentro da equipe assistencial). Para fins diferentes, exige consentimento."
+    },
+    {
+        "id": 21,
+        "question": "A farmácia pode vender meu histórico de compras de medicamentos para laboratórios?",
+        "answer": "Não. Histórico de medicamentos revela informações de saúde, configurando dado sensível. A venda para fins comerciais entre controladores com objetivo de vantagem econômica é vedada pelo art. 11, §3º e §4º."
+    },
+    {
+        "id": 22,
+        "question": "Posso me recusar a informar minha pressão arterial/temperatura na entrada de uma empresa?",
+        "answer": "Sim. Dado de saúde é sensível. A empresa precisa de base legal específica (art. 11). Durante pandemias, pode haver base em \"proteção da vida\" (art. 11, II, e), mas em situações normais a recusa é legítima."
+    },
+    {
+        "id": 23,
+        "question": "A academia pode exigir atestado médico e guardar cópia no meu cadastro?",
+        "answer": "Pode exigir para proteção da vida do aluno (base legal: art. 7º, VII), mas deve guardar apenas o necessário. Manter cópia permanente do atestado sem prazo definido pode violar o princípio da necessidade (art. 6º, III)."
+    },
+    {
+        "id": 24,
+        "question": "Minha empresa pode exigir teste de HIV como condição para a contratação?",
+        "answer": "Não. Exame de HIV é dado de saúde sensível. Exigir como condição para emprego é prática discriminatória vedada pela lei 9.029/95 e pelo art. 6º, IX da LGPD."
+    },
+    {
+        "id": 25,
+        "question": "O hospital pode recusar atendimento de emergência se eu não fornecer meu CPF?",
+        "answer": "Não. O atendimento de emergência é direito garantido. A coleta do CPF pode ser necessária para fins administrativos e de saúde pública, mas não pode ser condição para atendimento de urgência. A base legal da tutela da vida (art. 7º, VII) dispensa o consentimento, não o atendimento."
+    },
+    {
+        "id": 26,
+        "question": "A empresa de telefonia pode vender a minha foto de cadastro?",
+        "answer": "Não. Foto é dado biométrico (sensível). A venda de dados sensíveis entre controladores com fins econômicos é vedada pelo art. 11, §4º. Além disso, violaria o princípio da finalidade: a foto foi coletada para identificação cadastral, não para comercialização."
+    },
+    {
+        "id": 27,
+        "question": "O banco pode compartilhar meu score de crédito com outros bancos sem minha autorização?",
+        "answer": "O score de crédito pode ser compartilhado entre instituições financeiras com base na \"proteção do crédito\" (art. 7º, X) e na lei do cadastro positivo (lei 12.414/2011). O consentimento não é sempre necessário nesse caso específico."
+    },
+    {
+        "id": 28,
+        "question": "Posso exigir que o e-commerce apague todos os meus dados depois de uma compra?",
+        "answer": "Sim, com base no art. 18, VI. Mas o e-commerce pode reter dados pelo prazo necessário para cumprir obrigações fiscais, tributárias e de defesa do consumidor (art. 16, I). O prazo prescricional de ações de consumidor é de 5 anos."
+    },
+    {
+        "id": 29,
+        "question": "A loja pode me pedir CPF como condição para fazer uma compra em dinheiro?",
+        "answer": "Não pode obrigar. O CPF não é necessário para uma transação em espécie. Exigir CPF como condição de venda pode violar o princípio da necessidade (art. 6º, III) e o CDC (venda casada). Você pode recusar e efetuar a compra normalmente."
+    },
+    {
+        "id": 30,
+        "question": "Posso ser incluído em lista negra de inadimplentes sem ser notificado?",
+        "answer": "Não. A inclusão em cadastros de inadimplentes exige notificação prévia (art. 43, §2º do CDC). A LGPD reforça o direito à transparência (art. 6º, VI) e ao acesso (art. 18, II). A ausência de notificação é causa de dano moral."
+    },
+    {
+        "id": 31,
+        "question": "O aplicativo de delivery pode vender meu endereço residencial para anunciantes?",
+        "answer": "Não sem consentimento específico. O endereço foi coletado para entrega — usar para publicidade é finalidade incompatível (art. 6º, I). O app precisaria de consentimento destacado e específico para essa finalidade adicional."
+    },
+    {
+        "id": 32,
+        "question": "Posso pedir para um site apagar meu cadastro e ele se recusar alegando \"interesse legítimo\"?",
+        "answer": "O site pode reter dados pelo tempo necessário para cumprir obrigações legais. Mas \"interesse legítimo\" não é carta branca: deve ser ponderado frente aos direitos do titular (art. 10). Se você revogou o consentimento e não há outra base legal, o site deve eliminar."
+    },
+    {
+        "id": 33,
+        "question": "A empresa pode continuar me mandando e-mail de marketing após eu pedir para sair da lista?",
+        "answer": "Não. O descadastramento é direito do titular (revogação do consentimento, art. 8º, §5º). Enviar marketing após opt-out é tratamento irregular. Pode ser denunciado à ANPD."
+    },
+    {
+        "id": 34,
+        "question": "O cartão de fidelidade de supermercado pode mapear todos os meus hábitos de consumo?",
+        "answer": "Pode, se você foi informado e consentiu (art. 6º, VI e art. 7º, I). Mas se o mapeamento gerar perfil comportamental que possa identificá-lo (art. 12, §2º), torna-se dado pessoal e exige tratamento em conformidade com a LGPD."
+    },
+    {
+        "id": 35,
+        "question": "Posso ser cobrado por serviços a mais se não aceitar o compartilhamento dos meus dados?",
+        "answer": "Depende. A empresa pode oferecer descontos para quem consente com o compartilhamento, desde que o serviço básico não seja negado ou encarecido de forma abusiva. A LGPD proíbe condicionar serviços essenciais ao fornecimento de dados desnecessários (art. 9º, §3º)."
+    },
+    {
+        "id": 36,
+        "question": "Posso usar a foto de perfil do Facebook de alguém para criar um meme?",
+        "answer": "Risco alto. A foto é dado pessoal (art. 5º, I) e o uso para fins humorísticos sem autorização pode violar direito de imagem. Se o meme for publicado com fins comerciais, viola mais claramente. Para fins estritamente privados, a LGPD não se aplica (art. 4º, I), mas o direito civil sim."
+    },
+    {
+        "id": 37,
+        "question": "Uma empresa pode me mandar mensagem no WhatsApp sem eu ter dado meu número a ela?",
+        "answer": "Depende de como obteve o número. Se comprou de lista, é tratamento sem base legal (violação do princípio da finalidade). Se obteve em contexto contratual, pode ter base legal. O envio de spam pelo WhatsApp também viola os termos de uso da plataforma."
+    },
+    {
+        "id": 38,
+        "question": "O Google pode guardar meu histórico de pesquisas para sempre?",
+        "answer": "A LGPD se aplica se a pessoa pesquisada está no Brasil. O Google deve observar os princípios de necessidade e finalidade. Você pode solicitar eliminação de dados (art. 18, VI). O \"direito ao esquecimento\" é debatido, mas a LGPD ampara pedidos de eliminação de dados desnecessários."
+    },
+    {
+        "id": 39,
+        "question": "Posso ser demitido por postagens no meu perfil pessoal do Instagram fora do horário de trabalho?",
+        "answer": "Zona cinzenta. A empresa pode demitir por \"atos contrários à honra\" da empresa (CLT), mas monitorar redes pessoais de funcionários é invasão de privacidade. O TST analisa caso a caso: posts que causem dano real à empresa têm mais chance de embasar demissão."
+    },
+    {
+        "id": 40,
+        "question": "Uma pessoa pode me fotografar na rua e vender a foto para um banco de imagens?",
+        "answer": "Não sem autorização. Mesmo em local público, a comercialização da imagem identificável de uma pessoa exige consentimento (art. 5º, XXVIII, CF). A LGPD reforça ao tratar dados de imagem como dados pessoais."
+    },
+    {
+        "id": 41,
+        "question": "O site pode usar cookies para rastrear minha navegação sem me avisar?",
+        "answer": "Não. O uso de cookies de rastreamento exige consentimento prévio e informado (art. 7º, I e art. 8º). O banner de cookies que \"pré-marca\" todas as opções não é consentimento válido (art. 8º, §4º — autorizações genéricas são nulas)."
+    },
+    {
+        "id": 42,
+        "question": "Posso pedir para o Google remover resultados de pesquisa com meu nome?",
+        "answer": "Sim, com base no \"direito ao esquecimento\" e no art. 18. O STJ já reconheceu esse direito. O Google tem ferramenta para pedidos de remoção. Mas o Google pode recusar se julgar que a informação é de interesse público."
+    },
+    {
+        "id": 43,
+        "question": "Uma escola pode criar grupo de WhatsApp com fotos e dados dos alunos sem pedir autorização dos pais?",
+        "answer": "Não. Dados de crianças exigem consentimento específico dos pais ou responsáveis (art. 14, §1º). Criar grupo com identificação e fotos de menores sem autorização viola o art. 14 da LGPD."
+    },
+    {
+        "id": 44,
+        "question": "O governo pode cruzar meus dados do IR com dados do INSS sem minha autorização?",
+        "answer": "Sim. O tratamento de dados pelo poder público para execução de políticas públicas e cumprimento de competências legais dispensa consentimento (art. 7º, III e art. 23). O cruzamento de bases governamentais para fins fiscais e previdenciários tem base legal expressa."
+    },
+    {
+        "id": 45,
+        "question": "A prefeitura pode divulgar meu nome e valor de IPTU em dívida no site oficial?",
+        "answer": "Ambíguo. A Lei de Acesso à Informação permite publicidade de dívidas fiscais. Mas a LGPD exige que dados pessoais sejam usados para finalidade legítima e proporcional. Há discussão se publicar lista nominal de devedores é necessário ou excessivo."
+    },
+    {
+        "id": 46,
+        "question": "Posso pedir para o Detran apagar minha multa do sistema?",
+        "answer": "Não. Registros de infrações administrativas têm base legal em obrigação regulatória (art. 16, I). O direito de eliminação não se aplica quando há base legal para a conservação. Você pode contestar a multa, mas não pode pedir a eliminação do dado enquanto ele for válido."
+    },
+    {
+        "id": 47,
+        "question": "O hospital público pode compartilhar meu prontuário com pesquisadores sem minha autorização?",
+        "answer": "Pode, em condições específicas. O art. 13 permite acesso a dados de saúde por órgãos de pesquisa, desde que os dados sejam anonimizados sempre que possível e tratados apenas dentro do órgão. A divulgação dos resultados não pode revelar dados pessoais."
+    },
+    {
+        "id": 48,
+        "question": "A escola pública pode exigir foto do aluno para matrícula?",
+        "answer": "Pode, com base no cumprimento de obrigação legal (identificação do aluno). Mas a foto não pode ser usada para fins diferentes (ex.: publicidade da escola) sem consentimento dos pais, dado que o aluno é menor de idade."
+    },
+    {
+        "id": 49,
+        "question": "O governo pode usar meu CPF para cruzar dados de diferentes ministérios?",
+        "answer": "Sim, com base no art. 7º, III (execução de políticas públicas) e no art. 26 (uso compartilhado entre órgãos públicos para finalidades específicas). O cruzamento deve ter finalidade legítima e ser proporcional."
+    },
+    {
+        "id": 50,
+        "question": "Posso pedir para a Receita Federal revelar quem acessou meus dados fiscais?",
+        "answer": "Sim, com base no art. 18, VII (direito de saber com quem os dados foram compartilhados). Mas o sigilo fiscal pode limitar quais informações o agente público pode revelar. A Receita tem portais de transparência com informações limitadas."
+    },
+    {
+        "id": 51,
+        "question": "A empresa pode pedir certidão de antecedentes criminais na seleção de emprego?",
+        "answer": "Depende do cargo. Para cargos que exigem confiança especial ou que envolvem acesso a vulneráveis (ex.: educação infantil, segurança), pode ser justificado. Para cargos sem essa exigência, pode ser considerado excessivo e potencialmente discriminatório (art. 6º, IX)."
+    },
+    {
+        "id": 52,
+        "question": "Posso recusar exame toxicológico para ser contratado como motorista profissional?",
+        "answer": "Não. Para motoristas profissionais, o exame toxicológico é obrigação legal (lei 13.103/2015). Trata-se de base legal para tratamento de dado sensível (cumprimento de obrigação legal, art. 11, II, a), sem necessidade de consentimento."
+    },
+    {
+        "id": 53,
+        "question": "A empresa pode monitorar meu e-mail corporativo?",
+        "answer": "Sim, desde que o funcionário seja previamente informado. E-mail corporativo é ferramenta de trabalho. O TST admite o monitoramento quando o funcionário tem ciência prévia da política da empresa. Sem aviso prévio, o monitoramento é questionável."
+    },
+    {
+        "id": 54,
+        "question": "Posso ser forçado a instalar aplicativo de monitoramento no meu celular pessoal para trabalhar em home office?",
+        "answer": "Não. Instalar software de monitoramento em dispositivo pessoal é invasivo e desproporcional. A empresa pode exigir isso apenas em dispositivos corporativos. No celular pessoal, viola o princípio da necessidade e o direito à privacidade."
+    },
+    {
+        "id": 55,
+        "question": "A empresa pode divulgar meu salário para outros funcionários?",
+        "answer": "Depende. Salário é dado pessoal. Divulgar sem consentimento pode violar o princípio da confidencialidade. Mas em contexto de negociação coletiva ou para combate à desigualdade salarial, pode haver interesse legítimo. O eSocial torna alguns dados acessíveis ao próprio trabalhador, não aos colegas."
+    },
+    {
+        "id": 56,
+        "question": "Posso pedir para minha ex-empregadora apagar meu currículo do sistema deles?",
+        "answer": "Sim, se não há mais relação contratual e não há obrigação legal de retenção (art. 18, VI). A empresa pode argumentar legítimo interesse para manter currículos por período razoável (recontratação futura), mas não indefinidamente."
+    },
+    {
+        "id": 57,
+        "question": "A empresa pode exigir que eu informe se tenho filhos ou sou casado durante a seleção?",
+        "answer": "Não deve. Esses dados podem ser usados de forma discriminatória. São dados pessoais desnecessários para avaliar a capacidade profissional. A coleta viola o princípio da necessidade e pode configurar discriminação vedada."
+    },
+    {
+        "id": 58,
+        "question": "Meu sindicato pode compartilhar meus dados com partidos políticos?",
+        "answer": "Não sem consentimento específico. Filiação sindical é dado sensível (art. 5º, II). Compartilhar com partidos políticos é finalidade completamente diferente da atuação sindical, violando o princípio da finalidade."
+    },
+    {
+        "id": 59,
+        "question": "A empresa pode instalar GPS no carro que eu uso para trabalhar (mesmo sendo meu carro)?",
+        "answer": "Ambíguo. No carro da empresa, o GPS é permitido para controle de uso do bem. No carro do funcionário, é muito mais invasivo. O monitoramento do veículo pessoal, mesmo durante o trabalho, pode ser desproporcional e exigiria consentimento expresso."
+    },
+    {
+        "id": 60,
+        "question": "Posso pedir à empresa uma cópia de todos os dados que ela tem sobre mim?",
+        "answer": "Sim. É direito do titular (art. 18, II). A empresa deve responder sem custo (art. 18, §5º) e no prazo regulamentado pela ANPD. Isso inclui dados de RH, ponto, avaliações de desempenho, histórico salarial, etc."
+    },
+    {
+        "id": 61,
+        "question": "O aplicativo de jogo online pode coletar dados da minha filha de 10 anos sem minha autorização?",
+        "answer": "Não. Dados de crianças (menores de 12 anos) exigem consentimento específico e destacado de pelo menos um dos pais ou responsável legal (art. 14, §1º). O app deve fazer esforços razoáveis para verificar que o consentimento veio do responsável."
+    },
+    {
+        "id": 62,
+        "question": "A escola pode criar perfil do aluno em plataforma de terceiros (ex.: Google Classroom) sem autorizar os pais?",
+        "answer": "Ambíguo. A escola atua como representante legal do aluno em contexto educacional. Mas ao criar perfil em plataformas de terceiros (que podem coletar dados), deveria informar e obter consentimento dos pais, especialmente se for criança (art. 14)."
+    },
+    {
+        "id": 63,
+        "question": "Posso deixar meu filho de 15 anos criar conta em rede social sozinho?",
+        "answer": "Legalmente, adolescentes não têm proteção tão específica quanto crianças na LGPD, mas plataformas costumam exigir 13 anos (conforme termos de uso). A LGPD exige que dados de menores sejam tratados no \"melhor interesse\" deles (art. 14, caput)."
+    },
+    {
+        "id": 64,
+        "question": "A creche pode fotografar meu filho e enviar as fotos no grupo de WhatsApp dos pais?",
+        "answer": "Risco. Envolve dados de crianças (imagem). Deve ter consentimento dos pais de cada criança fotografada. Se uma foto contém várias crianças, o consentimento de um pai não vale pelos outros. Grupos abertos ampliam o risco de exposição indevida."
+    },
+    {
+        "id": 65,
+        "question": "Posso processar um aplicativo que coletou dados do meu filho sem minha autorização?",
+        "answer": "Sim. O art. 42 prevê responsabilidade civil do controlador por danos decorrentes do tratamento irregular. A violação do art. 14 (dados de crianças) é especialmente grave. Pode-se acionar a ANPD e o judiciário, inclusive por danos morais."
+    },
+    {
+        "id": 66,
+        "question": "A empresa pode perguntar minha religião no cadastro de funcionário?",
+        "answer": "Não, salvo se necessário para acomodações razoáveis (ex.: folga em dias santos). Religião é dado sensível (art. 5º, II). A coleta sem necessidade clara viola o princípio da necessidade. Se perguntada no processo seletivo, pode indicar intenção discriminatória."
+    },
+    {
+        "id": 67,
+        "question": "Posso ser obrigado a revelar minha orientação sexual para ser adotado por uma empresa como dependente?",
+        "answer": "Não. Orientação sexual não é dado exigível para fins de dependência em plano de saúde ou benefícios. A exigência seria discriminatória (art. 6º, IX). Basta comprovar a relação de dependência por meios alternativos."
+    },
+    {
+        "id": 68,
+        "question": "Um partido político pode usar listas de eleitores para enviar propaganda sem consentimento?",
+        "answer": "Não. Dados eleitorais (nome, endereço, zona eleitoral) são públicos, mas usá-los para marketing político sem consentimento pode violar o princípio da finalidade. Filiação político-partidária é dado sensível (art. 5º, II). A ANPD ainda não regulamentou completamente o uso político de dados."
+    },
+    {
+        "id": 69,
+        "question": "A seguradora pode negar seguro de vida com base no meu perfil genético?",
+        "answer": "Não. Dado genético é dado sensível (art. 5º, II). Usar para fins discriminatórios como negar seguro viola o art. 6º, IX. Em outros países (como EUA com GINA), essa prática é expressamente proibida. No Brasil, a LGPD dá base para contestar."
+    },
+    {
+        "id": 70,
+        "question": "Posso pedir para o hospital apagar meu prontuário médico?",
+        "answer": "Não completamente. O prontuário tem prazo mínimo de guarda definido pelo CFM (20 anos após o último atendimento). Durante esse período, a base legal de obrigação regulatória impede a eliminação. Após o prazo, você pode solicitar."
+    },
+    {
+        "id": 71,
+        "question": "O app de celular pode enviar meus dados para servidores nos EUA sem minha autorização?",
+        "answer": "Depende. Transferência internacional exige uma das hipóteses do art. 33, como país com proteção adequada ou consentimento específico do titular. Os EUA não têm uma lei federal de proteção de dados equivalente à LGPD, o que torna a transferência mais sensível."
+    },
+    {
+        "id": 72,
+        "question": "A inteligência artificial da empresa pode tomar decisões sobre meu crédito sozinha?",
+        "answer": "A decisão puramente automatizada que afete interesses do titular deve ser passível de revisão por pessoa natural, a pedido do titular (art. 20). Você tem direito de pedir revisão humana de decisão de crédito feita por algoritmo."
+    },
+    {
+        "id": 73,
+        "question": "O chatbot da empresa pode guardar todo o histórico da nossa conversa para \"melhorar o serviço\"?",
+        "answer": "Pode, se houver base legal (consentimento ou legítimo interesse) e o titular for informado. Mas guardar indefinidamente viola o princípio da necessidade. O histórico deve ter prazo de retenção definido."
+    },
+    {
+        "id": 74,
+        "question": "Posso pedir para ver o algoritmo que a empresa usa para me recusar crédito?",
+        "answer": "Não o código-fonte completo (segredo industrial), mas a empresa deve fornecer \"informações claras e adequadas sobre os critérios e procedimentos\" (art. 20, §1º). Se a empresa alegar segredo industrial, a ANPD pode auditar para verificar discriminação (art. 20, §2º)."
+    },
+    {
+        "id": 75,
+        "question": "A empresa pode usar meu histórico de pesquisas no Google para me oferecer produtos?",
+        "answer": "Não diretamente. O histórico de pesquisas é tratado pelo Google. Para uma empresa acessá-lo e usá-lo para personalização, precisa de consentimento do titular ou ter obtido os dados por meio lícito com finalidade compatível."
+    },
+    {
+        "id": 76,
+        "question": "A empresa tem prazo para responder meu pedido de acesso aos meus dados?",
+        "answer": "Sim. A ANPD estabelece prazos específicos. O art. 19 prevê resposta imediata em formato simplificado ou em até 15 dias em formato completo. Descumprir o prazo pode ser denunciado à ANPD."
+    },
+    {
+        "id": 77,
+        "question": "Posso pedir para a empresa corrigir dados errados que ela tem sobre mim?",
+        "answer": "Sim. É direito expresso no art. 18, III. A empresa deve corrigir e informar a todos com quem compartilhou os dados incorretos (art. 18, §6º)."
+    },
+    {
+        "id": 78,
+        "question": "Se eu revogar meu consentimento, a empresa pode me cobrar para continuar usando o serviço?",
+        "answer": "Depende. Se o serviço depende do tratamento de dados para funcionar, a empresa pode oferecer uma versão paga sem o compartilhamento. Mas não pode negar completamente o serviço essencial apenas porque você revogou consentimento para tratamentos não essenciais."
+    },
+    {
+        "id": 79,
+        "question": "Posso pedir portabilidade dos meus dados de um banco para outro?",
+        "answer": "Sim. O art. 18, V garante portabilidade de dados para outro fornecedor. No setor bancário, o Open Finance (regulado pelo Bacen) implementa isso na prática. Os dados anonimizados não são portáveis (art. 18, §7º)."
+    },
+    {
+        "id": 80,
+        "question": "Posso entrar na Justiça por dano moral se meus dados vazaram de uma empresa?",
+        "answer": "Sim. O art. 42 prevê responsabilidade civil. O controlador responde pelos danos causados pelo tratamento irregular. Em caso de vazamento, presume-se o dano moral (dano in re ipsa tem sido reconhecido por alguns tribunais). A inversão do ônus da prova pode ser aplicada (art. 42, §2º)."
+    },
+    {
+        "id": 81,
+        "question": "A ex-empresa pode me ligar no celular particular que ela obteve durante o contrato de trabalho?",
+        "answer": "Não para fins comerciais ou não relacionados à relação trabalhista encerrada. O número foi coletado para fins de contato profissional. Usar após o término do contrato para outras finalidades viola o princípio da finalidade (art. 6º, I)."
+    },
+    {
+        "id": 82,
+        "question": "Posso usar dados pessoais de clientes coletados no emprego anterior na minha nova empresa?",
+        "answer": "Não. Os dados pertencem ao titular, não ao funcionário nem à empresa anterior. Levar banco de dados de clientes para nova empresa é tratamento sem base legal e pode configurar crime (concorrência desleal) além da violação à LGPD."
+    },
+    {
+        "id": 83,
+        "question": "A LGPD se aplica a grupos de WhatsApp privados entre amigos?",
+        "answer": "Não diretamente. O art. 4º, I exclui tratamento por pessoa natural para fins exclusivamente particulares. Mas se o grupo tem finalidade comercial ou o administrador usa os dados de membros para outros fins, pode se enquadrar na LGPD."
+    },
+    {
+        "id": 84,
+        "question": "O Airbnb pode compartilhar meu RG e CPF com o anfitrião?",
+        "answer": "Depende dos termos de uso e da necessidade. Compartilhar documento completo pode ser excessivo (necessidade, art. 6º, III). O anfitrião pode precisar confirmar identidade, mas não necessariamente acessar todos os dados do documento."
+    },
+    {
+        "id": 85,
+        "question": "Posso ser negativado no SPC/Serasa sem nunca ter assinado nada com a empresa credora?",
+        "answer": "Caso de dívida legítima: sim, desde que notificado. Sem relação contratual e sem notificação: não. Negativação indevida gera dano moral. A LGPD reforça o direito à exatidão dos dados (art. 6º, V) e o direito de correção (art. 18, III)."
+    },
+    {
+        "id": 86,
+        "question": "O Uber pode revelar meu endereço residencial ao motorista?",
+        "answer": "Não deve revelar o endereço completo. O Uber implementa mascaramento de localização (mostra área aproximada ao motorista, endereço exato apenas no momento do embarque). Revelar endereço permanente sem necessidade violaria o princípio da necessidade."
+    },
+    {
+        "id": 87,
+        "question": "A imobiliária pode exigir extrato bancário, IR e comprovante de renda para alugar um imóvel?",
+        "answer": "Documentos de renda têm base legal na execução de contrato (verificação de capacidade financeira, art. 7º, V). Mas guardar cópias indefinidamente após o fim do contrato viola o princípio da necessidade. O locatário pode pedir eliminação após o encerramento do contrato."
+    },
+    {
+        "id": 88,
+        "question": "Posso ser eliminado de processo seletivo por dado obtido nas minhas redes sociais?",
+        "answer": "Zona cinzenta. A empresa pode pesquisar redes públicas, mas usar dados sensíveis (religião, opinião política, orientação sexual inferida) como critério eliminatório configura discriminação. A pesquisa de redes sociais sem informar o candidato também levanta questões de transparência."
+    },
+    {
+        "id": 89,
+        "question": "O hospital pode negar acesso ao meu prontuário alegando que é propriedade do hospital?",
+        "answer": "Não. O prontuário é do paciente, não do hospital (Resolução CFM 1.821/07 e art. 18, II da LGPD). O hospital tem a guarda do prontuário, não a propriedade dos dados. Negar acesso ao titular é violação expressa."
+    },
+    {
+        "id": 90,
+        "question": "Dados de localização do meu celular podem ser usados como prova em processo judicial?",
+        "answer": "Sim, com as devidas cautelas processuais. Mas a obtenção desses dados deve respeitar a LGPD e, em processos criminais, pode exigir autorização judicial. Dados obtidos de forma ilícita podem ser contestados como prova ilícita."
+    },
+    {
+        "id": 91,
+        "question": "Como faço para denunciar uma empresa que vazou meus dados?",
+        "answer": "Você pode: (1) peticionar diretamente à empresa (art. 18); (2) denunciar à ANPD (www.gov.br/anpd); (3) acionar o Procon; (4) entrar com ação judicial. A ANPD pode aplicar multa de até 2% do faturamento, limitada a R$50 milhões por infração (art. 52, II)."
+    },
+    {
+        "id": 92,
+        "question": "A ANPD pode me ajudar se minha reclamação for contra uma empresa pequena?",
+        "answer": "Sim, mas a ANPD prioriza casos de maior impacto coletivo. Para questões individuais, o Procon e o judiciário (Juizado Especial) são mais ágeis. A ANPD publicou resoluções que flexibilizam obrigações para microempresas, mas não as isenta."
+    },
+    {
+        "id": 93,
+        "question": "Posso processar uma empresa por danos morais apenas por ter recebido spam?",
+        "answer": "Difícil. O dano moral exige demonstração de prejuízo além do mero aborrecimento, segundo o STJ. Spam isolado raramente gera dano moral indenizável. Mas campanha persistente de spam após opt-out, ou vazamento que gera exposição, têm maior chance de êxito."
+    },
+    {
+        "id": 94,
+        "question": "A empresa pode alegar que foi hackeada para se livrar de responsabilidade por vazamento?",
+        "answer": "Não automaticamente. O art. 43, III isenta de responsabilidade apenas quando o dano decorre de culpa exclusiva do titular ou de terceiro. Se a empresa não adotou medidas de segurança adequadas (art. 46), responde mesmo sendo vítima de ataque. A segurança inadequada é culpa da empresa."
+    },
+    {
+        "id": 95,
+        "question": "Filial brasileira de empresa estrangeira responde pela LGPD?",
+        "answer": "Sim. A LGPD tem aplicação extraterritorial (art. 3º). A empresa estrangeira que trata dados de pessoas no Brasil, ou que ofereça bens/serviços no Brasil, está sujeita à lei. A filial brasileira pode ser notificada nos termos do art. 61."
+    },
+    {
+        "id": 96,
+        "question": "O porteiro do meu prédio pode anotar o RG de todos os visitantes?",
+        "answer": "Pode, com base no legítimo interesse de segurança do condomínio. Mas deve informar o visitante, guardar os dados com segurança e por prazo razoável, e não usar para outras finalidades. Exigir biometria de visitantes é mais controverso."
+    },
+    {
+        "id": 97,
+        "question": "Posso tirar foto de um cheque com dados bancários de outra pessoa para guardar como prova de pagamento?",
+        "answer": "Contexto importa. Para fins de prova de transação legítima (execução de contrato, art. 7º, V), tem base legal. Compartilhar essa foto com terceiros sem necessidade viola o princípio da finalidade."
+    },
+    {
+        "id": 98,
+        "question": "A operadora de plano de saúde pode ligar para minha empresa informando que fiz uso de determinado procedimento?",
+        "answer": "Não. Dado de saúde é sensível e o sigilo é regra. Informar o empregador sobre procedimentos médicos do funcionário, sem autorização, viola o art. 11 e o sigilo médico. Pode gerar demissão discriminatória, agravando a responsabilidade."
+    },
+    {
+        "id": 99,
+        "question": "Posso fotografar a CNH de um motorista que bateu no meu carro?",
+        "answer": "Sim, para fins de registro do sinistro e eventual acionamento judicial ou de seguro — base legal no exercício regular de direitos (art. 7º, VI). Compartilhar a foto em redes sociais para \"expor\" o motorista seria uso incompatível com essa finalidade."
+    },
+    {
+        "id": 100,
+        "question": "Se eu morrer, meus herdeiros podem pedir acesso aos meus dados pessoais?",
+        "answer": "A LGPD não regulamenta expressamente dados post mortem. Há lacuna legal. O projeto de regulamentação da ANPD ainda não foi concluído. Atualmente, herdeiros podem buscar dados via inventário judicial, mas a empresa pode contestar sem base legal expressa que obrigue a entrega."
+    }
+]

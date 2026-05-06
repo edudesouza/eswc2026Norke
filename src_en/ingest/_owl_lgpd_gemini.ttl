@@ -1,0 +1,376 @@
+# Gemini 3.1 Pro Preview
+
+@prefix : <http://www.semanticweb.org/ontologies/lgpd#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://www.semanticweb.org/ontologies/lgpd> a owl:Ontology ;
+    rdfs:comment "Ontologia baseada na Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018) para representação em Knowledge Graph."@pt .
+
+#################################################################
+#    Classes (Entidades e Taxonomia)
+#################################################################
+
+### Entidades Principais e Agentes
+:Pessoa a owl:Class ;
+    rdfs:label "Pessoa"@pt ;
+    rdfs:comment "Pessoa natural ou jurídica."@pt .
+
+:Titular a owl:Class ;
+    rdfs:subClassOf :Pessoa ;
+    rdfs:label "Titular"@pt ;
+    rdfs:comment "Pessoa natural a quem se referem os dados pessoais que são objeto de tratamento (Art 5, V)."@pt .
+
+:AgentesDeTratamento a owl:Class ;
+    rdfs:label "Agentes de Tratamento"@pt ;
+    rdfs:comment "O controlador e o operador (Art 5, IX)."@pt .
+
+:Controlador a owl:Class ;
+    rdfs:subClassOf :AgentesDeTratamento ;
+    rdfs:label "Controlador"@pt ;
+    rdfs:comment "Pessoa a quem competem as decisões referentes ao tratamento de dados pessoais (Art 5, VI)."@pt .
+
+:Operador a owl:Class ;
+    rdfs:subClassOf :AgentesDeTratamento ;
+    rdfs:label "Operador"@pt ;
+    rdfs:comment "Pessoa que realiza o tratamento de dados pessoais em nome do controlador (Art 5, VII)."@pt .
+
+:EncarregadoDeDados a owl:Class ;
+    rdfs:subClassOf :Pessoa ;
+    rdfs:label "Encarregado de Dados"@pt ;
+    rdfs:comment "Pessoa indicada pelo controlador e operador para atuar como canal de comunicação entre o controlador, os titulares e a ANPD (Art 5, VIII)."@pt .
+
+:DPO a owl:Class ;
+    owl:equivalentClass :EncarregadoDeDados ;
+    rdfs:label "DPO - Data Protection Officer"@pt ;
+    rdfs:comment "Termo internacional e de mercado equivalente ao Encarregado de Dados da LGPD."@pt .
+
+### Instituições
+:Instituicao a owl:Class ;
+    rdfs:label "Instituição"@pt ;
+    rdfs:comment "Organização estruturada pública ou privada."@pt .
+
+:ANPD a owl:Class ;
+    rdfs:subClassOf :Instituicao ;
+    rdfs:label "ANPD"@pt ;
+    rdfs:comment "Agência Nacional de Proteção de Dados, órgão responsável por zelar, implementar e fiscalizar o cumprimento da LGPD."@pt .
+
+:OrgaosEEntidades a owl:Class ;
+    rdfs:subClassOf :Instituicao ;
+    rdfs:label "Órgãos e Entidades"@pt ;
+    rdfs:comment "Entidades da administração pública direta ou indireta."@pt .
+
+:EntidadePrivada a owl:Class ;
+    rdfs:subClassOf :Instituicao ;
+    rdfs:label "Entidade Privada"@pt ;
+    rdfs:comment "Pessoa jurídica de direito privado."@pt .
+
+:ServidorPublico a owl:Class ;
+    rdfs:subClassOf :Pessoa ;
+    rdfs:label "Servidor Público"@pt ;
+    rdfs:comment "Indivíduo que atua em nome do Poder Público."@pt .
+
+### Documentos e Normas
+:Regra a owl:Class ;
+  rdfs:label "Regra"@pt ;
+  rdfs:comment "Norma ou determinação aplicável no contexto da lei."@pt .
+
+:Regulamentacao a owl:Class ;
+    rdfs:label "Regulamentação"@pt .
+
+:Norma a owl:Class ;
+    rdfs:subClassOf :Regulamentacao ;
+    rdfs:label "Norma"@pt ;
+    rdfs:comment "Regra de conduta ou procedimento estabelecida por lei ou autoridade."@pt .
+
+:Diretrizes a owl:Class ;
+    rdfs:subClassOf :Regulamentacao ;
+    rdfs:label "Diretrizes"@pt ;
+    rdfs:comment "Instruções ou guias emitidas para orientação das práticas de proteção de dados."@pt .
+
+:Sancao a owl:Class ;
+    rdfs:label "Sanção"@pt ;
+    rdfs:comment "Penalidade administrativa aplicada em decorrência de infrações (Art. 52)."@pt .
+
+### Dados
+:Dado a owl:Class ;
+    rdfs:label "Dado"@pt ;
+    rdfs:comment "Informação armazenada ou tratada."@pt .
+
+:DadoPessoal a owl:Class ;
+    rdfs:subClassOf :Dado ;
+    rdfs:label "Dado Pessoal"@pt ;
+    rdfs:comment "Informação relacionada a pessoa natural identificada ou identificável (Art 5, I)."@pt .
+
+:DadoPessoalSensivel a owl:Class ;
+    rdfs:subClassOf :DadoPessoal ;
+    rdfs:label "Dado Pessoal Sensível"@pt ;
+    rdfs:comment "Dado sobre origem racial/étnica, religião, política, saúde, biometria etc (Art 5, II)."@pt .
+
+:Biometria a owl:Class ;
+    rdfs:subClassOf :DadoPessoalSensivel ;
+    rdfs:label "Biometria"@pt ;
+    rdfs:comment "Características biológicas ou comportamentais usadas para identificação."@pt .
+
+:DadoFisico a owl:Class ;
+    rdfs:subClassOf :Dado ;
+    rdfs:label "Dado Físico"@pt ;
+    rdfs:comment "Informação contida em meio não digital (papel)."@pt .
+
+:DadoDigital a owl:Class ;
+    rdfs:subClassOf :Dado ;
+    rdfs:label "Dado Digital"@pt ;
+    rdfs:comment "Informação tratada e armazenada em meios computacionais."@pt .
+
+:DadosAtualizados a owl:Class ;
+    rdfs:subClassOf :Dado ;
+    rdfs:label "Dados Atualizados"@pt ;
+    rdfs:comment "Dados cuja exatidão e relevância correspondem à situação atual."@pt .
+
+:DadosDesatualizados a owl:Class ;
+    rdfs:subClassOf :Dado ;
+    rdfs:label "Dados Desatualizados"@pt ;
+    rdfs:comment "Dados incompletos, inexatos ou antigos que devem ser corrigidos ou eliminados."@pt .
+
+:BancoDeDados a owl:Class ;
+    rdfs:label "Banco de Dados"@pt ;
+    rdfs:comment "Conjunto estruturado de dados pessoais, eletrônico ou físico (Art 5, IV)."@pt .
+
+### Tratamento e Ações
+:TratamentoDeDados a owl:Class ;
+    rdfs:label "Tratamento de Dados"@pt ;
+    rdfs:comment "Toda operação realizada com dados pessoais: coleta, acesso, modificação, exclusão etc (Art 5, X)."@pt .
+
+:AcessoADados a owl:Class ;
+    rdfs:subClassOf :TratamentoDeDados ;
+    rdfs:label "Acesso a Dados"@pt ;
+    rdfs:comment "Ato de consultar ou recuperar informações de um banco de dados."@pt .
+
+:AcessoAutorizado a owl:Class ;
+    rdfs:subClassOf :AcessoADados ;
+    rdfs:label "Acesso Autorizado"@pt ;
+    rdfs:comment "Acesso realizado por pessoa ou sistema com permissões legais e técnicas válidas."@pt .
+
+:AcessoNaoAutorizado a owl:Class ;
+    rdfs:subClassOf :AcessoADados ;
+    rdfs:label "Acesso Não Autorizado"@pt ;
+    rdfs:comment "Acesso indevido, constituindo quebra de segurança ou incidente."@pt .
+
+:Anonimizacao a owl:Class ;
+    rdfs:subClassOf :TratamentoDeDados ;
+    rdfs:label "Anonimização"@pt ;
+    rdfs:comment "Utilização de meios que fazem o dado perder a possibilidade de associação direta/indireta a um indivíduo (Art 5, XI)."@pt .
+
+:Compartilhamento a owl:Class ;
+    rdfs:subClassOf :TratamentoDeDados ;
+    rdfs:label "Compartilhamento"@pt ;
+    rdfs:comment "Comunicação, difusão ou transferência internacional de dados."@pt .
+
+:Portabilidade a owl:Class ;
+    rdfs:subClassOf :TratamentoDeDados ;
+    rdfs:label "Portabilidade"@pt ;
+    rdfs:comment "Transferência de dados a outro fornecedor de serviço ou produto, mediante requisição do titular."@pt .
+
+:DescarteDeInformacao a owl:Class ;
+    rdfs:subClassOf :TratamentoDeDados ;
+    rdfs:label "Descarte de Informação"@pt ;
+    rdfs:comment "Eliminação de dados ou conjunto de dados armazenados (Art 5, XIV)."@pt .
+
+:Consentimento a owl:Class ;
+    rdfs:label "Consentimento"@pt ;
+    rdfs:comment "Manifestação livre, informada e inequívoca de concordância do titular para o tratamento (Art 5, XII)."@pt .
+
+:RevogacaoDeConsentimento a owl:Class ;
+    rdfs:label "Revogação de Consentimento"@pt ;
+    rdfs:comment "Direito do titular de cancelar um consentimento previamente fornecido."@pt .
+
+### Princípios (Art. 6º)
+:Principio a owl:Class ;
+    rdfs:label "Princípio"@pt ;
+    rdfs:comment "Fundamentos ou diretrizes morais/legais que regem a proteção de dados (Art 6)."@pt .
+
+:Finalidade a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Finalidade"@pt ;
+    rdfs:comment "Propósito legítimo, explícito e informado ao titular."@pt .
+
+:Adequacao a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Adequação"@pt ;
+    rdfs:comment "Compatibilidade do tratamento com as finalidades informadas."@pt .
+
+:Necessidade a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Necessidade"@pt ;
+    rdfs:comment "Limitação do tratamento ao mínimo necessário."@pt .
+
+:LivreAcesso a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Livre Acesso"@pt ;
+    rdfs:comment "Garantia de consulta facilitada e gratuita aos titulares sobre seus dados."@pt .
+
+:QualidadeDeDados a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Qualidade de Dados"@pt ;
+    rdfs:comment "Exatidão, clareza, relevância e atualização dos dados."@pt .
+
+:Transparencia a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Transparência"@pt ;
+    rdfs:comment "Informações claras, precisas e facilmente acessíveis sobre o tratamento."@pt .
+
+### Segurança
+:Seguranca a owl:Class ;
+    rdfs:label "Segurança"@pt .
+
+:SegurancaDaInformacao a owl:Class ;
+    rdfs:subClassOf :Seguranca ;
+    rdfs:label "Segurança da Informação"@pt ;
+    rdfs:comment "Medidas técnicas e administrativas aptas a proteger os dados."@pt .
+
+:Prevencao a owl:Class ;
+    rdfs:subClassOf :Seguranca ;
+    rdfs:label "Prevenção"@pt ;
+    rdfs:comment "Adoção de medidas para prevenir a ocorrência de danos."@pt .
+
+:Vulnerabilidade a owl:Class ;
+    rdfs:subClassOf :Seguranca ;
+    rdfs:label "Vulnerabilidade"@pt ;
+    rdfs:comment "Fraqueza em sistemas que pode permitir acessos não autorizados."@pt .
+
+:IncidenteDeSeguranca a owl:Class ;
+    rdfs:subClassOf :Seguranca ;
+    rdfs:label "Incidente de Segurança"@pt ;
+    rdfs:comment "Violação, dano ou acesso indevido que gera risco ao titular."@pt .
+
+:Responsabilizacao a owl:Class ;
+    rdfs:subClassOf :Principio ;
+    rdfs:label "Responsabilização"@pt ;
+    rdfs:comment "Prestação de contas e demonstração da adoção de medidas eficazes."@pt .
+
+#################################################################
+#    Object Properties (Relacionamentos)
+#################################################################
+
+:estaContidoEm a owl:ObjectProperty ;
+    rdfs:label "está contido em"@pt ;
+    rdfs:comment "Indica hierarquia ou pertencimento de algo."@pt .
+
+:parteDe a owl:ObjectProperty ;
+    rdfs:label "parte de"@pt ;
+    rdfs:comment "Relação meronímica, indica que uma classe compõe outra."@pt .
+
+:localizadoEm a owl:ObjectProperty ;
+    rdfs:label "localizado em"@pt ;
+    rdfs:comment "Indica a posição ou o sistema onde um dado/entidade está armazenado."@pt .
+
+:possuiNorma a owl:ObjectProperty ;
+    rdfs:label "possui norma"@pt ;
+    rdfs:domain :Instituicao ;
+    rdfs:range :Norma .
+
+:possuiDiretriz a owl:ObjectProperty ;
+    rdfs:label "possui diretriz"@pt ;
+    rdfs:domain :Instituicao ;
+    rdfs:range :Diretrizes .
+
+:possuiAreaComum a owl:ObjectProperty ;
+    rdfs:label "possui área comum"@pt .
+
+:desempenhaPapel a owl:ObjectProperty ;
+    rdfs:label "desempenha papel"@pt ;
+    rdfs:domain :Pessoa .
+
+:papelEm a owl:ObjectProperty ;
+    rdfs:label "papel em"@pt .
+
+:aplicaA a owl:ObjectProperty ;
+    rdfs:label "aplica-se a"@pt ;
+    rdfs:domain :Sancao ;
+    rdfs:range :AgentesDeTratamento .
+
+:permitidoEm a owl:ObjectProperty ;
+    rdfs:label "permitido em"@pt .
+
+:proibidoEm a owl:ObjectProperty ;
+    rdfs:label "proibido em"@pt .
+
+:registradoEm a owl:ObjectProperty ;
+    rdfs:label "registrado em"@pt ;
+    rdfs:domain :TratamentoDeDados ;
+    rdfs:range :BancoDeDados .
+
+:ocorreuEm a owl:ObjectProperty ;
+    rdfs:label "ocorreu em"@pt ;
+    rdfs:domain :IncidenteDeSeguranca .
+
+:executadoPor a owl:ObjectProperty ;
+    rdfs:label "executado por"@pt ;
+    rdfs:domain :TratamentoDeDados ;
+    rdfs:range :AgentesDeTratamento .
+
+:temResponsavel a owl:ObjectProperty ;
+    rdfs:label "tem responsável"@pt ;
+    rdfs:range :Pessoa .
+
+:contratada a owl:ObjectProperty ;
+    rdfs:label "contratada"@pt ;
+    rdfs:domain :Controlador ;
+    rdfs:range :Operador .
+
+:refereSeA a owl:ObjectProperty ;
+    rdfs:label "refere-se a"@pt ;
+    rdfs:domain :Dado ;
+    rdfs:range :Titular .
+
+:relacionamento a owl:ObjectProperty ;
+    rdfs:label "relacionamento"@pt ;
+    rdfs:comment "Relacionamento genérico entre entidades do domínio."@pt .
+
+:responsavelPor a owl:ObjectProperty ;
+    rdfs:label "responsável por"@pt ;
+    rdfs:domain :Controlador ;
+    rdfs:range :TratamentoDeDados .
+
+#################################################################
+#    Data Properties (Propriedades Literias / Atributos)
+#################################################################
+
+:nome a owl:DatatypeProperty ;
+    rdfs:label "nome"@pt ;
+    rdfs:range xsd:string .
+
+:carteiraDeMotorista a owl:DatatypeProperty ;
+    rdfs:label "carteira de motorista"@pt ;
+    rdfs:range xsd:string .
+
+:rg a owl:DatatypeProperty ;
+    rdfs:label "RG"@pt ;
+    rdfs:range xsd:string .
+
+:cpf a owl:DatatypeProperty ;
+    rdfs:label "CPF"@pt ;
+    rdfs:range xsd:string .
+
+:cnpj a owl:DatatypeProperty ;
+    rdfs:label "CNPJ"@pt ;
+    rdfs:range xsd:string .
+
+:data a owl:DatatypeProperty ;
+    rdfs:label "data"@pt ;
+    rdfs:range xsd:dateTime .
+
+:texto a owl:DatatypeProperty ;
+    rdfs:label "texto"@pt ;
+    rdfs:range xsd:string .
+
+:descricao a owl:DatatypeProperty ;
+    rdfs:label "descrição"@pt ;
+    rdfs:range xsd:string .
+
+:conteudo a owl:DatatypeProperty ;
+    rdfs:label "conteúdo"@pt ;
+    rdfs:range xsd:string .

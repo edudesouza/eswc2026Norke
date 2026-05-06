@@ -1,0 +1,775 @@
+@prefix : <https://omc.co/vocabulary#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+#################################################################
+# Ontologia
+#################################################################
+:GDPROntology a owl:Ontology ;
+    rdfs:label "GDPR Ontology"@en ;
+    rdfs:comment "Ontology for the General Data Protection Regulation (EU) 2016/679, adapted from LGPD ontology with GDPR-specific extensions including educational domain and minors protection."@en ;
+    owl:versionInfo "1.0" .
+
+#################################################################
+# Classes estruturais auxiliares
+#################################################################
+:Chunk a owl:Class ;
+    rdfs:label "Chunk"@en ;
+    rdfs:comment "Segmented excerpt from a legal or regulatory document. Used for RAG retrieval."@en .
+
+:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    rdfs:comment "Legal, regulatory, contractual or evidentiary document related to data protection."@en .
+
+:Chapter a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Chapter"@en ;
+    rdfs:comment "Chapter or major subdivision of a legal or regulatory document."@en .
+
+:Article a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Article"@en ;
+    rdfs:comment "Article or numbered provision within a legal or regulatory document."@en .
+
+:Point a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Point"@en ;
+    rdfs:comment "Point, paragraph, item or numbered subprovision within an article."@en .
+
+:Norm a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Norm"@en ;
+    rdfs:comment "Normative document establishing rights, duties, principles or sanctions."@en .
+
+:Rule a owl:Class ;
+    rdfs:label "Rule"@en ;
+    rdfs:comment "Deontic norm specifying what is obligatory, permitted or prohibited under GDPR."@en .
+
+:Guideline a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Guideline"@en ;
+    rdfs:comment "Normative, regulatory or technical guidance applicable to data protection."@en .
+
+#################################################################
+# Entidades institucionais e agentes
+#################################################################
+:Entity a owl:Class ;
+    rdfs:label "Entity"@en ;
+    rdfs:comment "Any organisation, body, institution or person with a relevant role in the GDPR ecosystem."@en .
+
+:Institution a owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Institution"@en ;
+    rdfs:comment "Public or private organisation with formal attributions."@en .
+
+:PublicAuthority a owl:Class ;
+    rdfs:subClassOf :Institution ;
+    rdfs:label "Public Authority"@en ;
+    rdfs:comment "Authority with regulatory, supervisory or sanctioning powers under GDPR."@en .
+
+:SupervisoryAuthority a owl:Class ;
+    rdfs:subClassOf :PublicAuthority ;
+    rdfs:label "Supervisory Authority"@en ;
+    rdfs:comment "Independent public authority responsible for monitoring GDPR compliance (Art. 51). Equivalent to ANPD in LGPD."@en ;
+    skos:altLabel "Data Protection Authority"@en ;
+    skos:altLabel "DPA"@en .
+
+:PrivateEntity a owl:Class ;
+    rdfs:subClassOf :Institution ;
+    rdfs:label "Private Entity"@en ;
+    rdfs:comment "Legal person under private law processing personal data."@en .
+
+:ProcessingAgent a owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Processing Agent"@en ;
+    rdfs:comment "Category encompassing subjects responsible for data processing activities."@en .
+
+:Controller a owl:Class ;
+    rdfs:subClassOf :ProcessingAgent ;
+    rdfs:label "Controller"@en ;
+    rdfs:comment "Natural or legal person which determines the purposes and means of processing personal data (Art. 4(7))."@en .
+
+:Processor a owl:Class ;
+    rdfs:subClassOf :ProcessingAgent ;
+    rdfs:label "Processor"@en ;
+    rdfs:comment "Natural or legal person which processes personal data on behalf of the controller (Art. 4(8)). Requires a Data Processing Agreement under Art. 28."@en ;
+    skos:altLabel "Data Processor"@en .
+
+:DataProtectionOfficer a owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Data Protection Officer"@en ;
+    rdfs:comment "Person designated by controller or processor with expert knowledge of data protection law (Art. 37-39)."@en ;
+    skos:altLabel "DPO"@en .
+
+:DPO a owl:Class ;
+    owl:equivalentClass :DataProtectionOfficer ;
+    rdfs:label "DPO"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT DPO, equivalent to Data Protection Officer."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#DPO> .
+
+:DataSubject a owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Data Subject"@en ;
+    rdfs:comment "Identified or identifiable natural person to whom personal data relates (Art. 4(1))."@en ;
+    skos:altLabel "User"@en ;
+    skos:altLabel "Individual"@en .
+
+# ---------------------------------------------------------------
+# EXTENSÃO: Menores de idade (Art. 8 GDPR)
+# ---------------------------------------------------------------
+:Minor a owl:Class ;
+    rdfs:subClassOf :DataSubject ;
+    rdfs:label "Minor"@en ;
+    rdfs:comment "Data subject under 16 years of age (or lower age set by Member State law, minimum 13). Requires parental or guardian consent for information society services (Art. 8). Biometric processing of minors is subject to heightened restrictions combining Art. 8 and Art. 9."@en ;
+    skos:altLabel "Child"@en ;
+    skos:altLabel "Under-age data subject"@en .
+
+:ParentOrGuardian a owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Parent or Guardian"@en ;
+    rdfs:comment "Person holding parental responsibility over a minor data subject. Must provide consent on behalf of minors under Art. 8."@en .
+
+#################################################################
+# EXTENSÃO: Domínio Educacional
+#################################################################
+:EducationalInstitution a owl:Class ;
+    rdfs:subClassOf :Institution ;
+    rdfs:label "Educational Institution"@en ;
+    rdfs:comment "School, university or any organisation providing educational services. When processing personal data of enrolled students, it typically acts as Controller. Students are presumed to be minors, triggering Art. 8 combined with Art. 9 for biometric data."@en ;
+    skos:altLabel "School"@en ;
+    skos:altLabel "University"@en ;
+    skos:altLabel "College"@en .
+
+:Student a owl:Class ;
+    rdfs:subClassOf :Minor ;
+    rdfs:label "Student"@en ;
+    rdfs:comment "Person enrolled in an educational institution. Presumed to be a minor under GDPR, whose personal data processing requires parental consent (Art. 8) and whose biometric data processing is prohibited unless explicit parental consent is obtained (Art. 9(2)(a))."@en ;
+    skos:altLabel "Pupil"@en ;
+    skos:altLabel "Learner"@en .
+
+:EnrollmentContract a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Enrollment Contract"@en ;
+    rdfs:comment "Contract between educational institution and student/guardian. Does NOT constitute valid consent for biometric processing under Art. 7(4), as facial recognition is not necessary for enrollment. Cannot serve as legal basis for Art. 9 special category data."@en ;
+    skos:altLabel "Matriculation Contract"@en .
+
+:TechnologyProvider a owl:Class ;
+    rdfs:subClassOf :PrivateEntity ;
+    rdfs:label "Technology Provider"@en ;
+    rdfs:comment "External supplier of technical systems or services (e.g., camera systems, biometric readers). When processing personal data on behalf of the controller, qualifies as a Processor under Art. 4(8) and requires a Data Processing Agreement (Art. 28)."@en ;
+    skos:altLabel "Camera System Provider"@en ;
+    skos:altLabel "Biometric System Vendor"@en .
+
+#################################################################
+# Dados e recursos informacionais
+#################################################################
+:Data a owl:Class ;
+    rdfs:label "Data"@en ;
+    rdfs:comment "Informational unit processed in an organisational or regulatory context."@en .
+
+:PersonalData a owl:Class ;
+    rdfs:subClassOf :Data ;
+    rdfs:label "Personal Data"@en ;
+    rdfs:comment "Any information relating to an identified or identifiable natural person (Art. 4(1))."@en .
+
+:SpecialCategoryData a owl:Class ;
+    rdfs:subClassOf :PersonalData ;
+    rdfs:label "Special Category Data"@en ;
+    rdfs:comment "Personal data revealing racial/ethnic origin, political opinions, religious beliefs, trade union membership, genetic data, biometric data for unique identification, health data, sex life or sexual orientation (Art. 9(1)). Processing is prohibited by default unless an exception under Art. 9(2) applies."@en ;
+    skos:altLabel "Sensitive Data"@en .
+
+:SensitivePersonalData a owl:Class ;
+    owl:equivalentClass :SpecialCategoryData ;
+    rdfs:label "Sensitive Personal Data"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT SensitivePersonalData, equivalent to GDPR special category data."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#SensitivePersonalData> .
+
+:BiometricData a owl:Class ;
+    rdfs:subClassOf :SpecialCategoryData ;
+    rdfs:label "Biometric Data"@en ;
+    rdfs:comment "Personal data resulting from specific technical processing relating to physical, physiological or behavioural characteristics which allow unique identification (Art. 4(14)). Includes facial images used for facial recognition. Processing is prohibited under Art. 9(1) unless explicit consent or another Art. 9(2) exception applies."@en ;
+    skos:altLabel "Facial Recognition Data"@en ;
+    skos:altLabel "Fingerprint Data"@en .
+
+:GeneticData a owl:Class ;
+    rdfs:subClassOf :SpecialCategoryData ;
+    rdfs:label "Genetic Data"@en ;
+    rdfs:comment "Personal data relating to inherited or acquired genetic characteristics (Art. 4(13))."@en .
+
+:HealthData a owl:Class ;
+    rdfs:subClassOf :SpecialCategoryData ;
+    rdfs:label "Health Data"@en ;
+    rdfs:comment "Personal data related to physical or mental health of a natural person (Art. 4(15))."@en .
+
+:RacialEthnicData a owl:Class ;
+    rdfs:subClassOf :SpecialCategoryData ;
+    rdfs:label "Racial or Ethnic Origin Data"@en ;
+    rdfs:comment "Data revealing racial or ethnic origin (Art. 9(1))."@en .
+
+:PoliticalOpinionData a owl:Class ;
+    rdfs:subClassOf :SpecialCategoryData ;
+    rdfs:label "Political Opinion Data"@en ;
+    rdfs:comment "Data revealing political opinions (Art. 9(1))."@en .
+
+:AnonymisedData a owl:Class ;
+    rdfs:subClassOf :Data ;
+    rdfs:label "Anonymised Data"@en ;
+    rdfs:comment "Data from which the data subject can no longer be identified using reasonably available means. Not subject to GDPR."@en .
+
+:AnonymousData a owl:Class ;
+    owl:equivalentClass :AnonymisedData ;
+    rdfs:label "Anonymous Data"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT AnonymousData, equivalent to anonymised data."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#AnonymousData> .
+
+:Database a owl:Class ;
+    rdfs:label "Database"@en ;
+    rdfs:comment "Structured set of personal data accessible according to specific criteria (Art. 4(6))."@en .
+
+#################################################################
+# Fundamentos jurídicos (Art. 6 e Art. 9 GDPR)
+#################################################################
+:LegalBasis a owl:Class ;
+    rdfs:label "Legal Basis"@en ;
+    rdfs:comment "Lawful ground authorising processing of personal data under Art. 6(1) GDPR. For special category data, an additional Art. 9(2) exception is required."@en .
+
+:LawfulBasisForProcessing a owl:Class ;
+    owl:equivalentClass :LegalBasis ;
+    rdfs:label "Lawful Basis for Processing"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT LawfulBasisForProcessing, equivalent to Legal Basis."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#LawfulBasisForProcessing> .
+
+:Consent a owl:Class ;
+    rdfs:subClassOf :LegalBasis ;
+    rdfs:label "Consent"@en ;
+    rdfs:comment "Freely given, specific, informed and unambiguous indication of agreement to processing (Art. 4(11), Art. 6(1)(a)). Must be clearly distinguishable from other matters (Art. 7(2)). Invalid if conditional on contract performance for unnecessary processing (Art. 7(4))."@en .
+
+:ExplicitConsent a owl:Class ;
+    rdfs:subClassOf :Consent ;
+    rdfs:label "Explicit Consent"@en ;
+    rdfs:comment "Higher standard of consent required for special category data processing under Art. 9(2)(a). Must be specific to the biometric processing purpose. A general enrollment contract does NOT satisfy this requirement."@en .
+
+:ParentalConsent a owl:Class ;
+    rdfs:subClassOf :ExplicitConsent ;
+    rdfs:label "Parental Consent"@en ;
+    rdfs:comment "Consent provided by a parent or guardian on behalf of a minor (Art. 8). Required for data subjects under 16 (or lower Member State threshold). Must be explicit and specific when combined with biometric data processing (Art. 8 + Art. 9)."@en .
+
+:LegalObligation a owl:Class ;
+    rdfs:subClassOf :LegalBasis ;
+    rdfs:label "Legal Obligation"@en ;
+    rdfs:comment "Processing necessary for compliance with a legal obligation (Art. 6(1)(c))."@en .
+
+:ContractPerformance a owl:Class ;
+    rdfs:subClassOf :LegalBasis ;
+    rdfs:label "Contract Performance"@en ;
+    rdfs:comment "Processing necessary for performance of a contract to which the data subject is party (Art. 6(1)(b)). Does NOT cover processing not necessary for that contract — see Art. 7(4)."@en .
+
+:LegitimateInterest a owl:Class ;
+    rdfs:subClassOf :LegalBasis ;
+    rdfs:label "Legitimate Interest"@en ;
+    rdfs:comment "Processing necessary for legitimate interests of controller or third party, unless overridden by data subject rights (Art. 6(1)(f))."@en .
+
+:PublicTask a owl:Class ;
+    rdfs:subClassOf :LegalBasis ;
+    rdfs:label "Public Task"@en ;
+    rdfs:comment "Processing necessary for performance of a task in the public interest or in exercise of official authority (Art. 6(1)(e))."@en .
+
+#################################################################
+# Tratamento, operações e eventos
+#################################################################
+:ProcessingActivity a owl:Class ;
+    rdfs:label "Processing Activity"@en ;
+    rdfs:comment "Any operation performed on personal data (Art. 4(2))."@en .
+
+:DataProcessing a owl:Class ;
+    rdfs:subClassOf :ProcessingActivity ;
+    rdfs:label "Data Processing"@en ;
+    rdfs:comment "Collection, recording, organisation, structuring, storage, adaptation, retrieval, use, disclosure, dissemination, erasure or destruction of personal data."@en .
+
+:Processing a owl:Class ;
+    owl:equivalentClass :DataProcessing ;
+    rdfs:label "Processing"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT Processing, equivalent to Data Processing."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#Processing> .
+
+:AutomatedProcessing a owl:Class ;
+    rdfs:subClassOf :Processing ;
+    rdfs:label "Automated Processing"@en ;
+    rdfs:comment "Processing of personal data by automated means."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#AutomatedProcessing> .
+
+:UnlawfulProcessing a owl:Class ;
+    rdfs:subClassOf :Processing ;
+    rdfs:label "Unlawful Processing"@en ;
+    rdfs:comment "Processing of personal data without valid legal basis or otherwise contrary to GDPR."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#UnlawfulProcessing> .
+
+:DataAccess a owl:Class ;
+    rdfs:subClassOf :ProcessingActivity ;
+    rdfs:label "Data Access"@en ;
+    rdfs:comment "Operation of consulting or retrieving personal data."@en .
+
+:AuthorisedAccess a owl:Class ;
+    rdfs:subClassOf :DataAccess ;
+    rdfs:label "Authorised Access"@en ;
+    rdfs:comment "Access permitted under valid legal basis, purpose and controls."@en .
+
+:UnauthorisedAccess a owl:Class ;
+    rdfs:subClassOf :DataAccess ;
+    rdfs:label "Unauthorised Access"@en ;
+    rdfs:comment "Unlawful access in violation of security measures and GDPR."@en .
+
+:DataSharing a owl:Class ;
+    rdfs:subClassOf :ProcessingActivity ;
+    rdfs:label "Data Sharing"@en ;
+    rdfs:comment "Communication, dissemination or transfer of personal data between agents. Sharing with an external processor requires a Data Processing Agreement (Art. 28), not merely security measures (Art. 32)."@en .
+
+:UnauthorisedDataSharing a owl:Class ;
+    rdfs:subClassOf :DataSharing ;
+    rdfs:label "Unauthorised Data Sharing"@en ;
+    rdfs:comment "Sharing of personal data without valid legal basis or without required processor agreement — constitutes a violation."@en .
+
+:InternationalTransfer a owl:Class ;
+    rdfs:subClassOf :DataSharing ;
+    rdfs:label "International Data Transfer"@en ;
+    rdfs:comment "Transfer of personal data to a third country or international organisation (Art. 44-49). Distinct from domestic data sharing with a processor (Art. 28)."@en .
+
+:CrossBorderTransfer a owl:Class ;
+    owl:equivalentClass :InternationalTransfer ;
+    rdfs:label "Cross-border Transfer"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT CrossBorderTransfer, equivalent to international data transfer."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#CrossBorderTransfer> .
+
+:Anonymisation a owl:Class ;
+    rdfs:subClassOf :ProcessingActivity ;
+    rdfs:label "Anonymisation"@en ;
+    rdfs:comment "Process by which personal data can no longer be attributed to a specific data subject."@en .
+
+:DataErasure a owl:Class ;
+    rdfs:subClassOf :ProcessingActivity ;
+    rdfs:label "Data Erasure"@en ;
+    rdfs:comment "Deletion of personal data, including right to erasure ('right to be forgotten') under Art. 17."@en .
+
+#################################################################
+# Acordos e instrumentos jurídicos
+#################################################################
+:DataProcessingAgreement a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Data Processing Agreement"@en ;
+    rdfs:comment "Binding contract between controller and processor required by Art. 28 GDPR. Must specify subject matter, duration, nature, purpose of processing, type of personal data, categories of data subjects, and obligations of the processor. Required when sharing data with any external technology provider acting as processor."@en ;
+    skos:altLabel "DPA"@en ;
+    skos:altLabel "Processor Agreement"@en .
+
+:DataProtectionImpactAssessment a owl:Class ;
+    rdfs:subClassOf :Document ;
+    rdfs:label "Data Protection Impact Assessment"@en ;
+    rdfs:comment "Assessment required prior to high-risk processing (Art. 35), including systematic biometric processing. Mandatory before implementing facial recognition systems."@en ;
+    skos:altLabel "DPIA"@en .
+
+#################################################################
+# Princípios (Art. 5 GDPR)
+#################################################################
+:Principle a owl:Class ;
+    rdfs:label "Principle"@en ;
+    rdfs:comment "General principle applicable to processing of personal data under Art. 5 GDPR."@en .
+
+:Purpose a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Purpose Limitation"@en ;
+    rdfs:comment "Personal data collected for specified, explicit and legitimate purposes, not further processed incompatibly (Art. 5(1)(b))."@en .
+
+:DataMinimisation a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Data Minimisation"@en ;
+    rdfs:comment "Personal data adequate, relevant and limited to what is necessary (Art. 5(1)(c), Art. 25)."@en .
+
+:Accuracy a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Accuracy"@en ;
+    rdfs:comment "Personal data accurate and kept up to date (Art. 5(1)(d))."@en .
+
+:StorageLimitation a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Storage Limitation"@en ;
+    rdfs:comment "Personal data kept no longer than necessary for processing purposes (Art. 5(1)(e))."@en .
+
+:Transparency a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Transparency"@en ;
+    rdfs:comment "Processing carried out in transparent manner; information provided in concise, intelligible form (Art. 5(1)(a), Art. 12)."@en .
+
+:IntegrityConfidentiality a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Integrity and Confidentiality"@en ;
+    rdfs:comment "Appropriate security of personal data including protection against unauthorised processing (Art. 5(1)(f))."@en .
+
+:Accountability a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Accountability"@en ;
+    rdfs:comment "Controller responsible for and able to demonstrate compliance with GDPR principles (Art. 5(2))."@en .
+
+:Proportionality a owl:Class ;
+    rdfs:subClassOf :Principle ;
+    rdfs:label "Proportionality"@en ;
+    rdfs:comment "Processing must not be excessive relative to its purpose. Using facial recognition merely to speed up school gate access is disproportionate when less intrusive alternatives exist."@en .
+
+#################################################################
+# Direitos do titular (Art. 12-22 GDPR)
+#################################################################
+:DataSubjectRight a owl:Class ;
+    rdfs:label "Data Subject Right"@en ;
+    rdfs:comment "Right guaranteed to the data subject regarding their personal data (Art. 12-22)."@en .
+
+:RightOfAccess a owl:Class ;
+    rdfs:subClassOf :DataSubjectRight ;
+    rdfs:label "Right of Access"@en ;
+    rdfs:comment "Right to obtain confirmation and access to personal data (Art. 15)."@en .
+
+:RightToRectification a owl:Class ;
+    rdfs:subClassOf :DataSubjectRight ;
+    rdfs:label "Right to Rectification"@en ;
+    rdfs:comment "Right to obtain correction of inaccurate personal data (Art. 16)."@en .
+
+:RightToErasure a owl:Class ;
+    rdfs:subClassOf :DataSubjectRight ;
+    rdfs:label "Right to Erasure"@en ;
+    rdfs:comment "Right to obtain erasure of personal data without undue delay (Art. 17). Also known as 'right to be forgotten'."@en .
+
+:RightToDataPortability a owl:Class ;
+    rdfs:subClassOf :DataSubjectRight ;
+    rdfs:label "Right to Data Portability"@en ;
+    rdfs:comment "Right to receive personal data in structured, commonly used format (Art. 20)."@en .
+
+:RightToObject a owl:Class ;
+    rdfs:subClassOf :DataSubjectRight ;
+    rdfs:label "Right to Object"@en ;
+    rdfs:comment "Right to object to processing based on legitimate interests or public task (Art. 21)."@en .
+
+:RightToWithdrawConsent a owl:Class ;
+    rdfs:subClassOf :DataSubjectRight ;
+    rdfs:label "Right to Withdraw Consent"@en ;
+    rdfs:comment "Right to withdraw consent at any time without affecting lawfulness of prior processing (Art. 7(3))."@en .
+
+#################################################################
+# Segurança, risco e incidentes
+#################################################################
+:Vulnerability a owl:Class ;
+    rdfs:label "Vulnerability"@en ;
+    rdfs:comment "Technical, organisational or procedural weakness that may compromise data protection."@en .
+
+:SecurityIncident a owl:Class ;
+    rdfs:label "Security Incident"@en ;
+    rdfs:comment "Personal data breach leading to accidental or unlawful destruction, loss, alteration or unauthorised disclosure (Art. 4(12))."@en .
+
+:DataBreach a owl:Class ;
+    owl:equivalentClass :SecurityIncident ;
+    rdfs:label "Data Breach"@en ;
+    rdfs:comment "Compatibility class aligned with GDPRtEXT DataBreach, equivalent to Security Incident."@en ;
+    skos:exactMatch <https://w3id.org/GDPRtEXT#DataBreach> .
+
+#################################################################
+# Sanções (Art. 83 GDPR)
+#################################################################
+:Sanction a owl:Class ;
+    rdfs:label "Sanction"@en ;
+    rdfs:comment "Administrative penalty applicable in case of GDPR infringement (Art. 83)."@en .
+
+:AdministrativeFine a owl:Class ;
+    rdfs:subClassOf :Sanction ;
+    rdfs:label "Administrative Fine"@en ;
+    rdfs:comment "Financial penalty up to €20M or 4% of global annual turnover for serious infringements (Art. 83(5)), or up to €10M or 2% for less serious ones (Art. 83(4))."@en .
+
+:ReprimandWarning a owl:Class ;
+    rdfs:subClassOf :Sanction ;
+    rdfs:label "Reprimand or Warning"@en ;
+    rdfs:comment "Non-financial corrective measure issued by supervisory authority (Art. 58(2))."@en .
+
+:TemporaryProcessingBan a owl:Class ;
+    rdfs:subClassOf :Sanction ;
+    rdfs:label "Temporary Processing Ban"@en ;
+    rdfs:comment "Temporary or definitive limitation on processing imposed by supervisory authority (Art. 58(2)(f))."@en .
+
+#################################################################
+# Object Properties
+#################################################################
+:isContainedIn a owl:ObjectProperty ;
+    rdfs:label "is contained in"@en ;
+    rdfs:comment "Relates an entity or excerpt to the document, database or structure that contains it."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+:partOf a owl:ObjectProperty ;
+    rdfs:label "part of"@en ;
+    rdfs:comment "Mereological relation between an entity and a larger whole."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+:hasChapter a owl:ObjectProperty ;
+    rdfs:subPropertyOf :isContainedIn ;
+    rdfs:label "has chapter"@en ;
+    rdfs:comment "Relates a legal or regulatory document to one of its chapters."@en ;
+    rdfs:domain :Document ;
+    rdfs:range :Chapter .
+
+:hasArticle a owl:ObjectProperty ;
+    rdfs:subPropertyOf :isContainedIn ;
+    rdfs:label "has article"@en ;
+    rdfs:comment "Relates a legal document or chapter to one of its articles."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Article .
+
+:hasPoint a owl:ObjectProperty ;
+    rdfs:subPropertyOf :isContainedIn ;
+    rdfs:label "has point"@en ;
+    rdfs:comment "Relates an article to one of its points, paragraphs or numbered subprovisions."@en ;
+    rdfs:domain :Article ;
+    rdfs:range :Point .
+
+:isPartOfChapter a owl:ObjectProperty ;
+    rdfs:subPropertyOf :partOf ;
+    rdfs:label "is part of chapter"@en ;
+    rdfs:comment "Relates a legal text subdivision to the chapter that contains it."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Chapter .
+
+:isPartOfArticle a owl:ObjectProperty ;
+    rdfs:subPropertyOf :partOf ;
+    rdfs:label "is part of article"@en ;
+    rdfs:comment "Relates a legal text subdivision to the article that contains it."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Article .
+
+:isPartOfPoint a owl:ObjectProperty ;
+    rdfs:subPropertyOf :partOf ;
+    rdfs:label "is part of point"@en ;
+    rdfs:comment "Relates a legal text subdivision to the point or paragraph that contains it."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Point .
+
+:hasNorm a owl:ObjectProperty ;
+    rdfs:label "has norm"@en ;
+    rdfs:domain :Entity ;
+    rdfs:range :Norm .
+
+:hasGuideline a owl:ObjectProperty ;
+    rdfs:label "has guideline"@en ;
+    rdfs:domain :Entity ;
+    rdfs:range :Guideline .
+
+:appliesTo a owl:ObjectProperty ;
+    rdfs:label "applies to"@en ;
+    rdfs:comment "Relates a norm, principle, sanction or rule to the entity or activity it governs."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+:permittedUnder a owl:ObjectProperty ;
+    rdfs:label "permitted under"@en ;
+    rdfs:comment "Relates an activity or processing to the legal basis under which it is permitted."@en ;
+    rdfs:domain :ProcessingActivity ;
+    rdfs:range :LegalBasis .
+
+:prohibitedUnder a owl:ObjectProperty ;
+    rdfs:label "prohibited under"@en ;
+    rdfs:comment "Relates an activity or processing to the legal provision under which it is prohibited."@en ;
+    rdfs:domain :ProcessingActivity ;
+    rdfs:range owl:Thing .
+
+:executedBy a owl:ObjectProperty ;
+    rdfs:label "executed by"@en ;
+    rdfs:domain :ProcessingActivity ;
+    rdfs:range :Entity .
+
+:hasResponsible a owl:ObjectProperty ;
+    rdfs:label "has responsible"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Entity .
+
+:hasLegalBasis a owl:ObjectProperty ;
+    rdfs:label "has legal basis"@en ;
+    rdfs:comment "Relates a processing activity to its lawful ground under Art. 6 (and Art. 9 for special categories)."@en ;
+    rdfs:domain :ProcessingActivity ;
+    rdfs:range :LegalBasis .
+
+:observesPrinciple a owl:ObjectProperty ;
+    rdfs:label "observes principle"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Principle .
+
+:processeData a owl:ObjectProperty ;
+    rdfs:label "processes data"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Data .
+
+:refersTo a owl:ObjectProperty ;
+    rdfs:label "refers to"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+:communicatesTo a owl:ObjectProperty ;
+    rdfs:label "communicates to"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Entity .
+
+:generatesSanction a owl:ObjectProperty ;
+    rdfs:label "generates sanction"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Sanction .
+
+:receivesSanction a owl:ObjectProperty ;
+    rdfs:label "receives sanction"@en ;
+    rdfs:domain :Entity ;
+    rdfs:range :Sanction .
+
+:designatesDPO a owl:ObjectProperty ;
+    rdfs:label "designates DPO"@en ;
+    rdfs:comment "Relates controller or processor to the designated Data Protection Officer (Art. 37)."@en ;
+    rdfs:domain :ProcessingAgent ;
+    rdfs:range :DataProtectionOfficer .
+
+:hasDocument a owl:ObjectProperty ;
+    rdfs:label "has document"@en ;
+    rdfs:domain :Entity ;
+    rdfs:range :Document .
+
+# ---------------------------------------------------------------
+# EXTENSÃO: Properties para domínio educacional e menores
+# ---------------------------------------------------------------
+
+:enrolledIn a owl:ObjectProperty ;
+    rdfs:label "enrolled in"@en ;
+    rdfs:comment "Relates a student to the educational institution they attend. Triggers presumption of minor status and Art. 8 applicability."@en ;
+    rdfs:domain :Student ;
+    rdfs:range :EducationalInstitution .
+
+:hasGuardian a owl:ObjectProperty ;
+    rdfs:label "has guardian"@en ;
+    rdfs:comment "Relates a minor data subject to their parent or legal guardian who must provide consent under Art. 8."@en ;
+    rdfs:domain :Minor ;
+    rdfs:range :ParentOrGuardian .
+
+:requiresParentalConsent a owl:ObjectProperty ;
+    rdfs:label "requires parental consent"@en ;
+    rdfs:comment "Relates a processing activity involving minors to the requirement of parental consent under Art. 8. Triggered when DataSubject is a Minor."@en ;
+    rdfs:domain :ProcessingActivity ;
+    rdfs:range :ParentalConsent .
+
+:requiresProcessingAgreement a owl:ObjectProperty ;
+    rdfs:label "requires processing agreement"@en ;
+    rdfs:comment "Relates a data sharing activity with an external processor to the mandatory Data Processing Agreement under Art. 28."@en ;
+    rdfs:domain :DataSharing ;
+    rdfs:range :DataProcessingAgreement .
+
+:actsAsProcessorFor a owl:ObjectProperty ;
+    rdfs:label "acts as processor for"@en ;
+    rdfs:comment "Relates a technology provider or external entity to the controller on whose behalf it processes data. Requires DPA under Art. 28."@en ;
+    rdfs:domain :TechnologyProvider ;
+    rdfs:range :Controller .
+
+:contractedBy a owl:ObjectProperty ;
+    rdfs:label "contracted by"@en ;
+    rdfs:comment "Relates a processor or technology provider to the controller that contracted it."@en ;
+    rdfs:domain :Processor ;
+    rdfs:range :Controller .
+
+:isMinor a owl:DatatypeProperty ;
+    rdfs:label "is minor"@en ;
+    rdfs:comment "Boolean flag indicating whether a data subject qualifies as a minor under applicable GDPR threshold (Art. 8)."@en ;
+    rdfs:domain :DataSubject ;
+    rdfs:range xsd:boolean .
+
+:regulatedBy a owl:ObjectProperty ;
+    rdfs:label "regulated by"@en ;
+    rdfs:comment "Relates an entity, activity or data type to the GDPR article that governs it."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+:triggersArticle a owl:ObjectProperty ;
+    rdfs:label "triggers article"@en ;
+    rdfs:comment "Relates a domain entity or condition to the GDPR article activated by its presence. E.g., Student triggers Art. 8; BiometricData triggers Art. 9."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+#################################################################
+# Datatype Properties
+#################################################################
+:name a owl:DatatypeProperty ;
+    rdfs:label "name"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:description a owl:DatatypeProperty ;
+    rdfs:label "description"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:content a owl:DatatypeProperty ;
+    rdfs:label "content"@en ;
+    rdfs:comment "Full or partial textual content of a document, chunk or record."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:articleReference a owl:DatatypeProperty ;
+    rdfs:label "article reference"@en ;
+    rdfs:comment "Reference to the GDPR article (e.g., 'Art. 8', 'Art. 9(2)(a)')."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:number a owl:DatatypeProperty ;
+    rdfs:label "number"@en ;
+    rdfs:comment "Official number, ordinal or item identifier of a chapter, article or point."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:title a owl:DatatypeProperty ;
+    rdfs:label "title"@en ;
+    rdfs:comment "Official or extracted title of a document subdivision."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:titleAlternative a owl:DatatypeProperty ;
+    rdfs:label "alternative title"@en ;
+    rdfs:comment "Alternative title or citation label for a document subdivision."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:chunkId a owl:DatatypeProperty ;
+    rdfs:label "chunk ID"@en ;
+    rdfs:domain :Chunk ;
+    rdfs:range xsd:string .
+
+:externalId a owl:DatatypeProperty ;
+    rdfs:label "external ID"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+:date a owl:DatatypeProperty ;
+    rdfs:label "date"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:date .
+
+:file a owl:DatatypeProperty ;
+    rdfs:label "file"@en ;
+    rdfs:domain :Document ;
+    rdfs:range xsd:string .
+
+#################################################################
+# Axiomas chave — regras de inferência documentadas
+# Estes comentários descrevem os caminhos de inferência que o
+# grafo deve suportar para responder à pergunta da escola
+#################################################################
+
+# REGRA 1 (indireta): EducationalInstitution → enrolledIn → Student
+#   → subClassOf Minor → triggersArticle → Art. 8
+#   → requiresParentalConsent → ParentalConsent (subClassOf ExplicitConsent)
+
+# REGRA 2 (indireta): TechnologyProvider → actsAsProcessorFor → Controller
+#   → triggersArticle → Art. 28
+#   → requiresProcessingAgreement → DataProcessingAgreement
+
+# REGRA 3 (direta): BiometricData → subClassOf SpecialCategoryData
+#   → prohibitedUnder → Art. 9(1)
+#   → exception → ExplicitConsent (Art. 9(2)(a))
+#   → EnrollmentContract NOT subClassOf ExplicitConsent (Art. 7(4))

@@ -83,9 +83,10 @@ P_EXTRACTED_FROM  = "relacionamento"    # Entidade -> Chunk
 P_DESCRICAO       = "descricao"
 USUARIO           = ""
 
-LLM_MODEL = ChatOpenAI(model="o4-mini")
-#LLM_MODEL = ChatGoogleGenerativeAI(model="gemini-3-pro-preview",temperature=0.1)
-#LLM_MODEL = ChatAnthropic(model="claude-haiku-4-5-20251001",temperature=0.1)
+#LLM_MODEL = ChatOpenAI(model="gpt-5.3-chat-latest")
+#LLM_MODEL = ChatOpenAI(model="o4-mini")
+#LLM_MODEL = ChatGoogleGenerativeAI(model="gemini-3.1-pro-preview",temperature=0)
+LLM_MODEL = ChatAnthropic(model="claude-sonnet-4-6")
 
 # normalização
 def _strip_accents(s: str) -> str:
@@ -190,7 +191,7 @@ def build_graph_transformer() -> LLMGraphTransformer:
     allowed_rels = sorted(list(CANON_RELATIONSHIPS))
 
     with open("src/ingest/_owl_lgpd_gpt.ttl", encoding="utf-8") as f:
-        ontology_txt = f.read()
+        ontology_txt = f.read()   
 
     system_txt = (f'''Você é um extrator de grafos jurídicos em pt-BR.
     Siga esta ontologia:
@@ -198,6 +199,11 @@ def build_graph_transformer() -> LLMGraphTransformer:
     Seu principal papel é extrair regras normativas expressas ou implicitamente deriváveis apenas quando houver suporte textual claro, 
     representando-as como instâncias de :Regra conectadas ao restante do grafo
     usando apenas as properties necessárias e semanticamente adequadas da ontologia.
+
+    Defimição de norma / regra:
+    Uma norma/regra é uma declaração prescritiva dentro de um documento normativo que regula o comportamento dos 
+    agentes, atribuindo uma modalidade deôntica (obrigação, permissão ou proibição) a uma ação específica 
+    realizada por um agente sob condições de aplicabilidade definidas.
     
     ##Exemplo de Regras:##
     1) Cardinalidade de biometria/foto:
@@ -222,8 +228,17 @@ def build_graph_transformer() -> LLMGraphTransformer:
     5) Relações com titular:
     quando houver vínculo entre pessoa e dado:
     (Titular) -[:refereSeA]-> (DadoPessoal ou DadoBiometrico)
-    
-    Saída fiel e sucinta, compatível para MERGE entre chunks.
+
+    Todas as regras possuem relacionamento com outras classes conforme a ontologia 
+    BiometricData → Prohibited → CommercialUse
+
+    Todos os atigos possuem ao menos uma regra deôntica, especificando o que é obrigatório, permitido ou proibido
+
+    Exemplo decomo deve ser a descrição de uma regra, classe :Regra
+    - Proibição da comercialização de dados pessoais
+    - Permissão de uso de dados pessoal para procedimentos de saúde
+
+    Saída fiel e sucinta.
     ''')       
 
     pt_template = ChatPromptTemplate.from_messages([

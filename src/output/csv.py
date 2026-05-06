@@ -1,10 +1,17 @@
 
 import csv,os
 
-def csv_create(name,retrieval,question,complexity,saf,nli,sim,response,model):
+def csv_create(name,retrieval,question,gold_answer,response,complexity,saf,nli,sim,relevancy,faithfulness,model):
 
     csv_file = name
-    output_row = [ retrieval, question, f'{complexity:.2f}',f'{saf:.2f}', f'{nli:.2f}', f'{sim:.2f}', response, model ]
+    output_row = [ 
+        retrieval, 
+        question, 
+        gold_answer,
+        response, 
+        f'{complexity:.2f}',f'{saf:.2f}', f'{nli:.2f}', f'{sim:.2f}', f'{relevancy:.2f}', f'{faithfulness:.2f}',
+        model 
+    ]
 
     file_exists = os.path.isfile(csv_file)
 
@@ -13,7 +20,14 @@ def csv_create(name,retrieval,question,complexity,saf,nli,sim,response,model):
         writer = csv.writer(f, quoting=csv.QUOTE_ALL, delimiter=';')
         
         if not file_exists:
-            writer.writerow(['type', 'question', 'saf_score', 'nli_score', 'sim_score', 'respose_llm'])
+            writer.writerow([
+                'type', 
+                'question', 
+                'gold_answer',
+                'llm_response',  
+                'complexity','saf', 'nli', 'sim', 'relevancy', 'faithfulness',
+                'model'
+            ])
         
         writer.writerow(output_row)
 

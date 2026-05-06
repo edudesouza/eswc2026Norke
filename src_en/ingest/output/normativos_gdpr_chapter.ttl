@@ -1,0 +1,433 @@
+<https://omc.co/5511993891773/7492/Chapter_I>
+        a v:Chapter ; 
+        v:chapterNumber "I" ; 
+        v:title  "General provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_I>
+        a v:Chapter ; 
+        v:chapterNumber "I" ; 
+        v:title  "General provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_I>
+        a v:Chapter ; 
+        v:chapterNumber "I" ; 
+        v:title  "General provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_I>
+        a v:Chapter ; 
+        v:chapterNumber "I" ; 
+        v:title  "General provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_II>
+        a v:Chapter ; 
+        v:chapterNumber "II" ; 
+        v:title  "Principles"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_III>
+        a v:Chapter ; 
+        v:chapterNumber "III" ; 
+        v:title  "Rights of the data subject"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IV>
+        a v:Chapter ; 
+        v:chapterNumber "IV" ; 
+        v:title  "Controller and processor"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_V>
+        a v:Chapter ; 
+        v:chapterNumber "V" ; 
+        v:title  "Transfers of personal data to third countries"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VI>
+        a v:Chapter ; 
+        v:chapterNumber "VI" ; 
+        v:title  "Independent supervisory authorities"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VII>
+        a v:Chapter ; 
+        v:chapterNumber "VII" ; 
+        v:title  "Cooperation and consistency"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_VIII>
+        a v:Chapter ; 
+        v:chapterNumber "VIII" ; 
+        v:title  "Remedies, liability and penalties"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_IX>
+        a v:Chapter ; 
+        v:chapterNumber "IX" ; 
+        v:title  "Provisions relating to specific processing"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_X>
+        a v:Chapter ; 
+        v:chapterNumber "X" ; 
+        v:title  "Delegated acts and implementing acts"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_X>
+        a v:Chapter ; 
+        v:chapterNumber "X" ; 
+        v:title  "Delegated acts and implementing acts"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .<https://omc.co/5511993891773/7492/Chapter_XI>
+        a v:Chapter ; 
+        v:chapterNumber "XI" ; 
+        v:title  "Final provisions"@en ;
+        v:is_part_of <https://omc.co/5511993891773/7492> .

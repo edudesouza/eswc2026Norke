@@ -1,0 +1,58 @@
+
+import time,asyncio,json
+
+from rich           import print
+from elasticsearch  import Elasticsearch
+
+from src.utils      import diff_time, normalize
+from src.config     import settings
+from src.ingest     import graph_ingest_gpdr
+
+async def run_batch():
+    
+    print( '\n--- inicio ---') 
+    print( f'--- Repo: {settings.repositorio} ---\n') 
+
+    inicio = time.time()
+
+    #with open("./src/ingest/output/chunks_normativos.json", encoding="utf-8") as f:
+    with open("./src/ingest/output/chunks_normativos_gpdr_v1.json", encoding="utf-8") as f:
+        json_chunks = json.loads(f.read())
+        
+    chunks    = [item for item in json_chunks if item.get("paragrafo") == "caput"]
+    total     = len(chunks)
+    processar = 0
+
+    # Reiniciar a partir da posição 60
+    start_index = 0 
+    chunks = chunks[start_index:]
+
+    for index, item in enumerate(chunks, start=start_index + 1): 
+
+        id   = item['id']
+        text = item['text']
+        file = '',   
+
+        data = {
+            "id":id,
+            "arquivo":file,
+            "id_usuario":"5511993891773",
+            "id_externo":7492,
+            "texto":normalize(text)
+            #"texto":"Realizar apresentação para clientes ou reunião de negócios"
+        }  
+
+        result = await graph_ingest_gpdr(data,debug=False) 
+        try:                
+            print( f'-> res: {result}' ) 
+        except Exception as erro:
+            print( f'-> ERRO processar ({id})' )  
+            
+        processar = total-index
+        print ( f'{index} de {total}, {processar}\n')
+
+    print( f'[red] --- fim ---' )
+    diff_time('\n-> fim ingest: ', inicio)
+
+if __name__ == "__main__":   
+    asyncio.run( run_batch() )
