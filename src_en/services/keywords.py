@@ -20,9 +20,6 @@ def keywords_create(question,model,api,url):
         You are an expert in Ontologies and Intent Extraction for condominium management systems.
         Your task is to analyze the user's question and extract structured metadata based on the provided Ontology.
         
-        ## 2. REFERENCE ONTOLOGY
-        {ontology_txt}
-        
         ## 3. EXTRACTION INSTRUCTIONS (5W3H METHODOLOGY)
         Analyze carefully to identify the main item being asked about.
         For the main topics, always look for at least 2 synonyms.

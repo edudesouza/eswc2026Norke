@@ -358,5 +358,5 @@ if __name__ == "__main__":
     
     # debug_one [query,retriever,ground_truth]
     # user_id,pergunta,retrieval=grafo|vetor,retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):
-    asyncio.run( main('5511993891773',pergunta,resposta,'grafo',20,5,False,None,None,0.75) )
+    asyncio.run( main('5511993891773',pergunta,resposta,'vetor',20,5,False,None,None,0.75) )
 

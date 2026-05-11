@@ -40,7 +40,10 @@ def vector_search(palavras_chave, pergunta, index_name, user_id, retrieval_size)
                             }
                         }
                     ],
-                    "filter": [{ "term": { "id_usuario": user_id } }]
+                    "filter": [
+                        { "term": { "id_usuario": user_id } },
+                        { "term": { "id_externo": 7942 } },
+                    ]
                 }
             }                 
         }
