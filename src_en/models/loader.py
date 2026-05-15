@@ -16,7 +16,7 @@ error3 = logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 if error1 or error2 or error3:
     print( f'error 1: {error1}\nerror 2: {error2}\nerror 3: {error3} ' )
 
-print("\n *** INICIANDO CARREGAMENTO DOS MODELOS US-EN***")
+print("\n *** INICIANDO CARREGAMENTO DOS MODELOS EN ***")
 
 embedding_model = SentenceTransformer(settings.EMB_MODEL_NAME)
 nli_tokenizer   = AutoTokenizer.from_pretrained(settings.NLI_MODEL_NAME, use_fast=False)

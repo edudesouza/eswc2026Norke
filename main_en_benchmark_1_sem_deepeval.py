@@ -1,4 +1,4 @@
-import os,sys,time,asyncio,json,re, csv
+import os,sys,time,asyncio,json,re,csv
 
 from rich import print
 
@@ -113,10 +113,12 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
     query_canonical  = expantion['query_expansion']['canonical']
     article          = expantion['query_expansion']['article']
     chapter          = expantion['query_expansion']['chapter']
+    classes          = expantion['query_expansion']['class']
 
     print( f'\n-> cononical fact: {query_canonical}' )
     print( f'-> breadcrumb: {article}, {chapter}' )
-    print( f'-> rewriting: {palavras_chave}' )    
+    print( f'-> classes: {classes}' ) 
+    print( f'-> rewriting: {palavras_chave}' ) 
     print( '-'*100,'\n' )
 
     #palavras_chave = 'Churrasco, Uso de churrasqueira, Regulamento do condomínio, Permissão para churrasco'
@@ -144,7 +146,9 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
     inicio = time.time() 
 
     if retrieval=='grafo':
-        class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
+        class_rules = classes
+        if not classes or str(classes).strip().lower() in ("null", "none"):
+            class_rules = class_extraction(palavras_chave,pergunta,query_canonical,'gpt')
         recuperacao = graph_search(class_rules,expantion,palavras_chave,pergunta,user_id,retrieval_size)
         contexto    = recuperacao['response']
         knowledge   = recuperacao['dataset']  
@@ -166,7 +170,7 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
 
     inicio = time.time() 
 
-    response_llm = await asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'ollama')
+    response_llm = await asyncio.to_thread(response_create,palavras_chave,pergunta,contexto,'google')
     resposta     = response_llm['answer']
     grounding    = response_llm['chunks']
     #key_snippet  = response_llm['key_snippet']
@@ -200,54 +204,57 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
     diff_time('\n-> #4 factualidade e comparação: ', inicio)
 
     #deepeval
-    resolvedor = "gpt-oss:120b-cloud"
-    avaliador  = "gpt-oss:120b-cloud"
-
-    print( f'\n-> resolvedor: {resolvedor}' )
-    print( f'-> avaliador: {avaliador}' )
-
-    model = OllamaModel(
-        model = avaliador,
-        base_url = "http://localhost:11434",
-        temperature=0
-    )
+    deep_eval = False
     
-    answer_relevancy = AnswerRelevancyMetric(model=model,include_reason=True)
-    faithfulness     = FaithfulnessMetric(model=model,include_reason=True)
+    if deep_eval==True:
 
-    retrieval_ctx = build_retrieval_context(recuperacao["dataset"], top_k=20)          
+        resolvedor = "gpt-oss:120b-cloud"
+        avaliador  = "gpt-oss:120b-cloud"
 
-    test_case = LLMTestCase(
-        input             = pergunta,
-        actual_output     = resposta,
-        expected_output   = resposta_gt,
-        retrieval_context = retrieval_ctx,      
-        context           = [recuperacao["response"]]
-    )
+        print( f'\n-> resolvedor: {resolvedor}' )
+        print( f'-> avaliador: {avaliador}' )
 
-    try:
-        answer_relevancy.measure(test_case)
-        print("- Relevancia: ", answer_relevancy.score)
-        print("- Reason: ", answer_relevancy.reason)
-        print('-'*100)
-    except Exception as erro:
-        print( f'ERRO relevancia: {erro}' )
+        model = OllamaModel(
+            model = avaliador,
+            base_url = "http://localhost:11434",
+            temperature=0
+        )
+        
+        answer_relevancy = AnswerRelevancyMetric(model=model,include_reason=True)
+        faithfulness     = FaithfulnessMetric(model=model,include_reason=True)
 
-    try:
-        faithfulness.measure(test_case)
-        print("- Confiabilidade: ", faithfulness.score)
-        print("- Reason: ", faithfulness.reason)
-        print('-'*100)
-    except Exception as erro:
-        print( f'ERRO confiabilidade: {erro}' )
+        retrieval_ctx = build_retrieval_context(recuperacao["dataset"], top_k=20)          
+
+        test_case = LLMTestCase(
+            input             = pergunta,
+            actual_output     = resposta,
+            expected_output   = resposta_gt,
+            retrieval_context = retrieval_ctx,      
+            context           = [recuperacao["response"]]
+        )
+
+        try:
+            answer_relevancy.measure(test_case)
+            print("- Relevancia: ", answer_relevancy.score)
+            print("- Reason: ", answer_relevancy.reason)
+            print('-'*100)
+        except Exception as erro:
+            print( f'ERRO relevancia: {erro}' )
+
+        try:
+            faithfulness.measure(test_case)
+            print("- Confiabilidade: ", faithfulness.score)
+            print("- Reason: ", faithfulness.reason)
+            print('-'*100)
+        except Exception as erro:
+            print( f'ERRO confiabilidade: {erro}' )
   
-
     if output:
         print('-> output ')
         csv_create(
             output, id, retrieval, pergunta, resposta_gt, response_llm, 
-            complexity_score, response_saf, nli_val, sim_val,answer_relevancy.score,faithfulness.score,
-            'gemma'
+            complexity_score, response_saf, nli_val, sim_val,0,0,
+            'maritaca'
         )
    
     # 1. CASO OURO: IA fiel ao documento e alinhada ao gabarito
@@ -275,7 +282,7 @@ async def main(id,resposta_gt,user_id,pergunta,retrieval='grafo',retrieval_size=
     diff_time('-> Tempo total: ', inicio_global) 
     print( f'[red] --- fim ---\n' )
 
-async def run_batch(json_path='_GDPR_qa_test_dataset_v2.csv', output_csv='gdpr_kaggle_gemma_1105_deepeval.csv'):
+async def run_batch(json_path='_GDPR_qa_test_dataset_v2.csv', output_csv='gdpr_kaggle_gemini_1505b_deepeval.csv'):
 
     print('\n--- inicio benchmark ---\n')
 
@@ -286,8 +293,8 @@ async def run_batch(json_path='_GDPR_qa_test_dataset_v2.csv', output_csv='gdpr_k
 
     total = len(perguntas)
 
-    for index, item in enumerate(perguntas[1:], start=1):     #rodar todas as perguntas a paorti da 1
-    #for index, item in enumerate(perguntas[60:61], start=60):  #rodar só a primeira pergunta
+    #for index, item in enumerate(perguntas[45:], start=45):    #rodar todas as perguntas a paorti da 1
+    for index, item in enumerate(perguntas[23:24], start=23):  #rodar só a primeira pergunta
     #for index, item in enumerate(perguntas[4:5], start=4):     #rodar algum outra linha
     #for index, item in ((i, perguntas[i]) for i in [49,50]):   #rodar para um range
 

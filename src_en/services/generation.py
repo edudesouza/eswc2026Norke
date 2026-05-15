@@ -10,8 +10,10 @@ from langchain_community.chat_models import ChatMaritalk
 
 from src_en.config import settings
 
-def class_extraction(keyword,question,query_canonical,model_provider):
+# py -m src_en.services.json_gdpr_paragrafo
 
+def class_extraction(keyword,question,query_canonical,model_provider):
+    
     if model_provider=='maritaca':
         llm = ChatMaritalk(
             model='sabia-4', 
@@ -42,13 +44,14 @@ def class_extraction(keyword,question,query_canonical,model_provider):
             #model="kimi-k2-thinking:cloud",
             #model="minimax-m2:cloud",
             #model="deepseek-v3.2:cloud",
-            model="GLM-4.7:cloud",
+            #model="GLM-4.7:cloud",
             #model="deepseek-v3.1:671b-cloud",
             #model="gpt-oss:120b-cloud",
             #model="gemini-3-pro-preview:latest",
             #model="mistral-large-3:675b-cloud",
             #model="qwen3-next:80b-cloud",
             #model="gemma3:27b-cloud",
+            model="gemma4:31b-cloud", 
             temperature=0,
             model_kwargs={"response_format": {"type": "json_object"}}
         )
@@ -59,29 +62,35 @@ def class_extraction(keyword,question,query_canonical,model_provider):
         ontology_txt = f.read()
 
     system = (f'''
-        You are a legal graph extractor in en-US.
-        With this information, extract the classes present in the ontology below.
-
-        Follow this ontology:
-        {ontology_txt}        
-
-        Example of extracting classes present in the ontology:
-
-        1. If the text says 'I want to hold a religious service in the party room', the entities are:
-
-        - Commonareause, for party room
-        - Religiouspurpose, for a religious service
-        - Partyroom, for party room
-        - Resident, for I want to hold
-
-        Return, as in the example below, only the classes, preceded by a colon, with the first letter capitalized and the other letters lowercase:
-        :Commonareause :Religiouspurpose :Partyroom :Resident
+        You are a legalknowledge graph extractor.
+        With this information, extract the classes present in the ontology. 
+              
+        Example:
+        :SensitivePersonalData :GivenConsent :Controller
+               
+        ## IMPORTANT ##
+        Use only in the ontology received
+        You are not allowed to search ontlogy on the web
+        You are not allowed to create classe          
     ''')
 
-    user = (f''' 
+    user = (f''' Follow this ontology:
+        {ontology_txt}   
         Analyze the user's question: {question}
         Aanalyze the rewritten and expanded question with a broader context: {keyword}
         Analyze the canonical fact that represents the main legal point to be answered: {query_canonical}
+        Return the related classes thar are present in the ontology        
+
+        ## IMPORTANT ##
+        DO NOT create any class that is not presente in the ontology
+        The soure should be only and always the given ontology
+
+        ## EXAMPLE OF RESULT ##
+        :SensitivePersonalData :GivenConsent :Controller
+
+        Returns only the classes without any comments, or any extra info
+        Always return plain text
+
     ''')
 
     msg = llm.invoke([("system", system), ("user", user)])
@@ -222,9 +231,22 @@ def response_create(keyword,question,context,model_provider):
             temperature=0.1, 
             max_tokens=1000, 
             model_kwargs={"response_format": {"type": "json_object"}}
-        )     
+        ) 
 
-    if model_provider=='gpt':
+    elif model_provider=='google':
+        llm = ChatGoogleGenerativeAI(
+            #model="gemini-3.1-flash-lite",
+            model="gemini-2.5-flash-lite",
+            #model="gemma-4-31b-it",
+            temperature=0,
+            max_tokens=None,
+            timeout=None,
+            max_retries=3,
+        ).bind(
+            response_mime_type="application/json"
+        )  
+
+    elif model_provider=='gpt':
         llm = ChatOpenAI(
             model='gpt-4.1', 
             api_key=settings.OPENAI_API_KEY,
@@ -232,7 +254,15 @@ def response_create(keyword,question,context,model_provider):
             model_kwargs={"response_format": {"type": "json_object"}}
         )    
 
-    if model_provider=='claude':
+    elif model_provider=='together':
+        llm = ChatTogether(
+            together_api_key=settings.TOGETHER_API_KEY,
+            temperature=0,
+            model="openai/gpt-oss-120b",
+            model_kwargs={"response_format": {"type": "json_object"}}
+        )
+
+    elif model_provider=='claude':
         llm = ChatAnthropic(
             anthropic_api_key=settings.ANTHROPIC_API_KEY,
             temperature=0,
@@ -240,23 +270,33 @@ def response_create(keyword,question,context,model_provider):
             model="claude-sonnet-4-6"
         )
 
-    if model_provider=='ollama':
+    elif model_provider=='ollama':
         llm = ChatOllama(  
 
             #model="kimi-k2-thinking:cloud",
             #model="kimi-k2.6:cloud",
-            #model="minimax-m2:cloud",
+
             #model="deepseek-v3.2:cloud",
             #model="deepseek-v3.1:671b-cloud",
-            #model="deepseek-v4-pro:cloud",            
+            #model="deepseek-v4-pro:cloud", 
+                       
             #model="qwen3-next:80b-cloud",
-            #model="gemini-3-pro-preview:latest",
-            #model="gemma3:27b-cloud",
-            
-            model="gemma4:31b-cloud",            
             #model="qwen3.5:397b-cloud",
+            #model="qwen3.5:0.8b",                   #pequeno
+
+            #model="gemini-3-pro-preview:latest",
+            #model="gemma4:31b-cloud",
+            #model="gemma3:27b-cloud",            
+            #model="gemma3:4b-cloud",            
+
             #model="mistral-large-3:675b-cloud",
-            #model="gpt-oss:120b-cloud",                 
+            model="ministral-3:3b-cloud",           #pequeno
+
+            #model="gpt-oss:20b-cloud",
+            #model="lfm2.5-thinking:1.2b",
+            
+            #model="minimax-m2.1:cloud",                  
+            #model="minimax-m2:cloud",
 
             num_predict=1024,
             temperature=0,
@@ -264,9 +304,18 @@ def response_create(keyword,question,context,model_provider):
             #model_kwargs={"response_format": {"type": "json_object"}}
         )
 
+    else:
+        raise ValueError(f"Unsupported model_provider for response_create: {model_provider!r}")
+
     print(f'--> create llm response, {model_provider} {getattr(llm, "model", None)}, temp.: {getattr(llm, "temperature", None)}')
 
-    system_v1 = ('''You are a legal assistant for law interpretation and explanations
+    with open(settings.ontology, encoding="utf-8") as f:
+        ontology_txt = f.read()
+
+    system_v1 = f'''You are a legal assistant for law interpretation and explanations  
+        Do not invent juridical relations outside the ontology.
+        Prefer rule-centric reasoning over semantic approximation.
+
         Answer ONLY based on the evidence provided.
         If there is an explicit rule, cite it.
         If there is not sufficient basis, state so.
@@ -285,21 +334,24 @@ def response_create(keyword,question,context,model_provider):
         - Do not use prior knowledge.
         - Preserve modal verbs exactly: shall, may, must.
         - Cite the node IDs used.
+        - Response should NOT have break line.
+        - Always return a valid JSON.
                  
         **GROUNDING**:  
         Do NOT infer a law name, topic, legal concept, or prior knowledge, if not present in current context
         The "breadcrumb" is the legal path that leads to the answer, it is the "trail" of legal concepts and rules that support the answer. It is mandatory to include the breadcrumb in the response, as it will be used to evaluate the accuracy and precision of the answer.
-
+        As avidence of a response you can only use the "breadcrumb"   
+                 
         **Required format**:
-         {
+         {{
             "answer": "Direct and grounded response (maximum of 900 characters). Cite the rule or norm. Do not include chunk IDs here.",
             "full_answer": "Detailed legal analysis (up to 2000 characters). Expand reasoning, exceptions, and implications.",
             "key_snippet": "Verbatim excerpt from the document that legally supports the answer (up to 100 characters).",
             "chunks": ["breadcrumb_1", "breadcrumb_1"],
             "percentage": ["80", "20"]
-        } 
-        '''
-    )   
+        }}
+    '''
+       
 
     user_v1 = f'''
         You are a legal assistant specializing in law interpretation and explanations
@@ -350,7 +402,7 @@ def response_create(keyword,question,context,model_provider):
 
         - Construct a response that integrates multiple chunks when applicable
         - Identify the most relevant excerpt (up to 100 characters)
-        - Provide a clear conclusion: YES / NO / DEPENDS + conditions
+        - Provide a clear conclusion: YES or NO, and explicitly state the conditions or evidence that support that conclusion.
         - Maintain accessible language without losing technical precision
 
         ## 3. REASONING PRINCIPLES
@@ -478,7 +530,7 @@ def response_create(keyword,question,context,model_provider):
 
     try:
 
-        print('--> llm response OK')
+        print('--> llm response OK!')
 
         texto_limpo = msg.content.replace('```json', '').replace('```', '').strip()
         resp_json   = json.loads(texto_limpo) 
@@ -487,7 +539,10 @@ def response_create(keyword,question,context,model_provider):
     
     except Exception as e:
 
-        print('--> llm response ERRO')
+        print('--> llm response ERRO!')
+        print( f"Erro ao processar resposta do modelo: {e} {msg}" )
+        print( msg.content )
+        print( '-'*100 )
 
         return {
             "resposta": f"Erro ao processar resposta do modelo: {e} {msg}"

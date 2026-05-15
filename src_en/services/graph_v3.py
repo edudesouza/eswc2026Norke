@@ -1,5 +1,5 @@
 
-import sys, requests, re, textwrap, ast, time, csv
+import sys, requests, re, textwrap, ast, time
 
 from langchain_openai                import ChatOpenAI, OpenAIEmbeddings
 from langchain_together              import ChatTogether     
@@ -10,8 +10,6 @@ from langchain_community.chat_models import ChatMaritalk
 
 from concurrent.futures import ThreadPoolExecutor
 from requests.auth  import HTTPBasicAuth
-
-from rdflib import Graph, Namespace
 
 from src_en.utils      import diff_time
 from src_en.config     import settings
@@ -268,7 +266,7 @@ def auto_query(model_provider,schema,user_question,extracted_classes,user_questi
         llm = ChatOllama(  
 
             #model="kimi-k2-thinking:cloud",
-            model="kimi-k2.6:cloud",            # 1º
+            #model="kimi-k2.6:cloud",            # 1º
             #model="minimax-m2:cloud",
             #model="deepseek-v3.2:cloud",
             #model="deepseek-v3.1:671b-cloud",
@@ -279,7 +277,7 @@ def auto_query(model_provider,schema,user_question,extracted_classes,user_questi
 
             #model="devstral-2:123b-cloud",
             #model="glm-5:cloud",               # 2º
-            #model="qwen3-coder-next:cloud",    # 3º
+            model="qwen3-coder-next:cloud",    # 3º
             #model="gemma4:31b-cloud",            
             #model="qwen3.5:397b-cloud",
             #model="mistral-large-3:675b-cloud",
@@ -339,70 +337,93 @@ def auto_query(model_provider,schema,user_question,extracted_classes,user_questi
         
         Below we have a template query:
 
-        PREFIX :            <https://omc.co/vocabulary/> 
-        PREFIX rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-        PREFIX rdfs:        <http://www.w3.org/2000/01/rdf-schema#> 
-        PREFIX luc:         <http://www.ontotext.com/connectors/lucene#> 
-        PREFIX luc-index:   <http://www.ontotext.com/connectors/lucene/instance#> 
-        
-        CONSTRUCT {{ ?uri rdf:type ?tipo . ?uri :fullText ?texto . ?uri :breadcrumb ?breadcrumb . ?uri :score ?score . }} 
-        FROM <https://omc.co/graph/5511993891773> 
-        WHERE {{
-            {{ 
-                ?uri rdf:type/rdfs:subClassOf* :Rule . 
-                ?uri (:appliesTo | :refersTo) ?obj . 
-                OPTIONAL {{ ?uri :descricao ?desc . }} 
-                OPTIONAL {{ ?uri :title ?tit . }}
-                BIND(COALESCE(?desc, ?tit, "") AS ?texto) 
-                  
-                FILTER(CONTAINS(LCASE(STR(?texto)), "board")    || 
-                CONTAINS(LCASE(STR(?texto)), "majority")        || 
-                CONTAINS(LCASE(STR(?texto)), "procedure")       || 
-                CONTAINS(LCASE(STR(?texto)), "rules")) 
-                         
-                BIND(:Rule AS ?tipo) BIND(0 AS ?score) 
-                                          
-            }} UNION {{ 
+        PREFIX : <https://omc.co/vocabulary/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX luc: <http://www.ontotext.com/connectors/lucene#>
+        PREFIX luc-index: <http://www.ontotext.com/connectors/lucene/instance#>
 
-                ?q a luc-index:eu_full ; 
-                luc:query "required majority for the Board to adopt its rules of procedure, to establish internal operational guidelines, condominium administration, when the Board decides to adopt rules, the Board, through voting or deliberation, the specific majority or quorum, majority Board rules procedure" ; 
-                
-                luc:entities ?uri . ?uri luc:score ?score . 
-                ?uri rdf:type/rdfs:subClassOf* :Point . 
-                OPTIONAL {{ ?uri :fullText ?texto . }}
-                OPTIONAL {{ ?uri :breadcrumb ?breadcrumb . }} 
-                BIND(:Point AS ?tipo) 
-            }} 
-            FILTER( CONTAINS(LCASE(STR(?breadcrumb)), "article 27") )
-        }} 
-        ORDER BY DESC(?score) 
-        ?uri LIMIT 10
+        CONSTRUCT {{
+        ?uri rdf:type ?tipo .
+        ?uri :fullText ?texto .
+        ?uri :descricao ?descricao .
+        ?uri :breadcrumb ?breadcrumb .
+        ?uri :score ?score .
+        }}
+        FROM <https://omc.co/graph/5511993891773>
+        WHERE {{
+        {{
+            VALUES ?classe {{
+            :Board
+            :Rule
+            }}
+
+            VALUES ?prop {{
+            :appliesTo
+            :refersTo
+            }}
+
+            ?uri rdf:type/rdfs:subClassOf* :Rule .
+            ?uri ?prop ?obj .
+            ?obj rdf:type/rdfs:subClassOf* ?classe .
+
+            OPTIONAL {{ ?uri :descricao ?descricao . }}
+            OPTIONAL {{ ?uri :fullText ?texto . }}
+            OPTIONAL {{ ?uri :breadcrumb ?breadcrumb . }}
+
+            BIND(:Rule AS ?tipo)
+            BIND(100 AS ?score)
+        }}
+        UNION
+        {{
+            ?q a luc-index:eu_full ;
+            luc:query "board majority rules of procedure" ;
+            luc:entities ?uri .
+
+            ?uri luc:score ?score .
+            ?uri rdf:type/rdfs:subClassOf* :Point .
+
+            OPTIONAL {{ ?uri :fullText ?texto . }}
+            OPTIONAL {{ ?uri :breadcrumb ?breadcrumb . }}
+
+            BIND(:Point AS ?tipo)
+        }}
+        }}
+        ORDER BY DESC(?score)
+        LIMIT 20
 
         ## IMPORTANT ##   
-        1. All queries MUST use CONSTRUCT (not SELECT), do not add "subClassOf" in any part
-        2. Choose the best uri relation and change this part of the code, choose the best property
-            ?uri (:appliesTo | :refersTo) ?obj .
-        3. Choose the related classes, to define some filters, the class list is: {extracted_classes}
-            FILTER(CONTAINS(LCASE(STR(?texto)), "board")    || 
-            CONTAINS(LCASE(STR(?texto)), "majority")        || 
-            CONTAINS(LCASE(STR(?texto)), "procedure")       || 
-            CONTAINS(LCASE(STR(?texto)), "rules"))         
-        4. Lucene index MUST use always: {extracted_classes}          
-        5. Apply filter in the lucene union ONLY if a filter is present: {filter}                  
-        6. The generated query MUST minimize the RDF output size.
-            Prefer compact subgraphs.
-            Use LIMIT 10-20 whenever possible.
-            Avoid retrieving:
-            - labels
-            - metadata
-            - owl:sameAs
-            - unrelated predicates
-            - redundant triples        
-        7. The response must be valid TTL (text/turtle).   
-        8. Returns only the SPARQL query without any comments, or any extra info like ```sparql or ```
-        9. Always return plain text  
-        10. Return only the minimum triples required to answer the question.
-        11. The final TTL response should remain under approximately 50 RDF triples whenever possible.
+        1. Lucene index MUST use always: {extracted_classes}
+        2. All queries MUST use CONSTRUCT (not SELECT).
+        3. The response must be valid TTL (text/turtle).   
+        4. Returns only the SPARQL query without any comments, or any extra info like ```sparql or ```
+        5. Always return plain text
+
+        6. Only change this part of the code, classes and properties
+        VALUES ?classe {{
+            :Board
+            :Rule
+        }}
+
+        VALUES ?prop {{
+            :appliesTo
+            :refersTo
+        }}
+
+        The generated query MUST minimize the RDF output size.
+        Prefer compact subgraphs.
+
+        Use LIMIT 10-20 whenever possible.
+
+        Avoid retrieving:
+        - labels
+        - metadata
+        - owl:sameAs
+        - unrelated predicates
+        - redundant triples
+
+        Return only the minimum triples required to answer the question.
+        The final TTL response should remain under approximately 50 RDF triples whenever possible.
     '''
     try:
         msg = llm.invoke([("system", system), ("user", user)])
@@ -552,7 +573,6 @@ def plain_query(model_provider,user_question,extracted_classes,user_question_5w3
 
     return msg.content
 
-# query direto no grafo sem SPARQL
 def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_size):
 
     print( f'\n--> search graph ({settings.repositorio})')
@@ -647,21 +667,19 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
             'dataset': {}
         }
 
-# resposta em toon
-def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_size):
+def __graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_size):
 
     print( f'\n--> search graph ({settings.repositorio})')
 
-    status              = ''
-    filter              = ''
-    knowledge_base      = {}
-    resp_final          = resp_rules_toon = resp_chunks_toon  = ""
-    filter_article      = filter_chapter  = ""    
-    keyword             = re.sub(r'[\\/]+', ' ', keyword)  
-    keyword             = re.sub(r'([\\\'"])', r'\\\1', keyword)
-    article             = expantion['query_expansion']['article']
-    chapter             = expantion['query_expansion']['chapter'] 
-    class_rules_lucene  = ", ".join(class_rules.split())      
+    status         = ''
+    filter         = ''
+    knowledge_base = {}
+    resp_final     = resp_rules_toon = resp_chunks_toon  = ""
+    filter_article = filter_chapter  = ""    
+    keyword        = re.sub(r'[\\/]+', ' ', keyword)  
+    keyword        = re.sub(r'([\\\'"])', r'\\\1', keyword)
+    article        = expantion['query_expansion']['article']
+    chapter        = expantion['query_expansion']['chapter']     
 
     if article and article.strip().lower() not in ('none', 'null'):
         #article = article.lower()
@@ -928,7 +946,7 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
             }}
             ORDER BY DESC(?score)
             LIMIT 20
-        '''        
+        '''
 
         query_chunks_v1 = f'''
             PREFIX :           <https://omc.co/vocabulary/>
@@ -1031,42 +1049,6 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
             LIMIT {retrieval_size}
         '''
 
-        query_lucene = f'''
-            PREFIX : <https://omc.co/vocabulary/>
-            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            PREFIX luc: <http://www.ontotext.com/connectors/lucene#>
-            PREFIX luc-index: <http://www.ontotext.com/connectors/lucene/instance#>
-
-            SELECT ?point ?breadcrumb ?score ?texto ?documento ?tipo
-            FROM <https://omc.co/graph/{named_graph}>
-            WHERE {{
-                {{
-                    ?uri rdf:type :Rule .        
-                    FILTER (?obj IN ({class_rules_lucene}))
-                    OPTIONAL {{ ?uri :descricao ?desc . }}
-                    OPTIONAL {{ ?uri :title ?tit . }}
-                    BIND(COALESCE(?desc, ?tit, "") AS ?texto)
-                    BIND(:Rule AS ?tipo)
-                    BIND(0 AS ?score)
-
-                }} UNION {{
-                    ?q a luc-index:eu_full ;
-                    luc:query "{keyword}" ;
-                    luc:entities ?uri .
-                    ?uri luc:score ?score .
-                    ?uri rdf:type :Point .
-                    OPTIONAL {{ ?uri :fullText ?texto . }}
-                    OPTIONAL {{ ?uri :breadcrumb ?bc . }}
-                    {filter}
-                    BIND(:Point AS ?tipo)
-
-                }}
-            }}
-            ORDER BY DESC(?score) ?uri
-            LIMIT 50
-        '''
-
         _query_chunks = f'''
             PREFIX :           <https://omc.co/vocabulary/>
             PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
@@ -1152,6 +1134,7 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
         print( query_chunks )'''
 
         # Buscar apenas Regras
+
         resp_rules = requests.post(
             url,
             data=query_class_rules,
@@ -1164,23 +1147,23 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
             results  = resp_rules.json()  
             bindings = results.get("results", {}).get("bindings", [])  
 
-            resp_rules_toon = 'breadcrumb;rule\n'  
+            resp_rules_toon = 'breadcrumb;texto_regra\n'  
 
             for index,item in enumerate(bindings,1): 
 
                 #print( '->',item.get("breadcrumb", {}).get("value", "") )       
 
-                score      = float( item.get("score", {}).get("value", 0) )
-                score      = round(score, 3)
-                breadcrumb = item.get("breadcrumb", {}).get("value", "")
-                regra_uri  = item.get("regraURI", {}).get("value", "")
-                texto      = normalize(item.get("texto", {}).get("value", ""))
+                score     = float( item.get("score", {}).get("value", 0) )
+                score     = round(score, 3)
+                id_chunk  = item.get("breadcrumb", {}).get("value", "")
+                regra_uri = item.get("regraURI", {}).get("value", "")
+                texto     = normalize(item.get("texto", {}).get("value", ""))
                 if texto=='':
                     texto = normalize(item.get("descricao", {}).get("value", "")) 
 
-                resp_rules_toon += f'{breadcrumb};{texto}\n' 
+                resp_rules_toon += f'{id_chunk};{texto}\n' 
             
-                knowledge_base[breadcrumb] = texto
+                knowledge_base[regra_uri] = texto
         
         else:
 
@@ -1197,14 +1180,26 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
                 'dataset': {}
             }         
         
-        print( query_class_rules )
+        '''print( query_class_rules )
         print( '-'*100 )
-        print( query_chunks )
+        print( query_chunks )'''
 
-        # Buscar apenas Chunks   
+        # Buscar apenas Chunks
+
+        if( filter!='' ):
+            #query = query_chunks
+            schema = extract_instances()
+            query  = auto_query('ollama',schema,question,class_rules,keyword,filter)
+            print( query )
+
+        else:
+            schema = extract_instances()
+            query  = auto_query('ollama',schema,question,class_rules,keyword,filter)
+            print( query )
+
         resp_chunks = requests.post(
             url,
-            data=query_lucene,
+            data=query,
             headers=headers,
             auth=HTTPBasicAuth(settings.GRAPHDB_USERNAME, settings.GRAPHDB_PASSWORD)  # ajuste usuário/senha
         )
@@ -1216,13 +1211,11 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
 
             '''print(results)
             print('-'*100)
-            print(bindings)'''  
-
-            resp_rules_toon = 'breadcrumb;score;context\n'           
+            print(bindings)'''            
 
             for index,item in enumerate(bindings,1): 
 
-                print( item.get("breadcrumb", {}).get("value", "") )       
+                #print( item.get("breadcrumb", {}).get("value", "") )       
 
                 score       = float( item.get("score", {}).get("value", 0) )
                 score       = round(score, 3)
@@ -1239,7 +1232,7 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
             error_msg = f"Graph DB ERROR ({resp_chunks.status_code}): {resp_chunks.text}"
             print(f"--> {error_msg}")
             print('---- chunks ----') 
-            print( query_lucene )
+            print( query_chunks )
 
             sys.exit()   
     
@@ -1249,24 +1242,15 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
                 'dataset': {}
             } 
         
-        with open('_retrieval_toon.txt', mode='w', encoding='utf-8') as f:
-            f.write('Rules\n')
-            f.write(resp_rules_toon)
-            f.write('Context\n')
-            f.write(resp_chunks_toon)
-
         resp_final = f'''Deontonic rules:
         {textwrap.dedent(resp_rules_toon)}
         General Context:
         {textwrap.dedent(resp_chunks_toon) }
-
-        
-
         ''' 
         
         '''print(resp_rules_toon)
         print('-'*100)
-        print(resp_chunks_toon)'''    
+        print(resp_chunks_toon)'''
 
         return {
             'status':'OK',
@@ -1288,8 +1272,7 @@ def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_si
             'dataset': {}
         }
 
-# resposta em turtle
-def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_size):
+def graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_size):
 
     print( f'\n--> search graph ({settings.repositorio})')
 
@@ -1301,8 +1284,7 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
     keyword        = re.sub(r'[\\/]+', ' ', keyword)  
     keyword        = re.sub(r'([\\\'"])', r'\\\1', keyword)
     article        = expantion['query_expansion']['article']
-    chapter        = expantion['query_expansion']['chapter'] 
-    class_rules_lucene = ", ".join(class_rules.split())  
+    chapter        = expantion['query_expansion']['chapter']     
 
     if article and article.strip().lower() not in ('none', 'null'):
         #article = article.lower()
@@ -1356,51 +1338,274 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
             PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-            CONSTRUCT {{
-                ?regraURI rdf:type ?tipo .
-                ?regraURI :descricao ?descricao .
-                ?regraURI :texto ?texto .
-                ?regraURI :breadcrumb ?breadcrumb .
-                ?regraURI :sourceChunk ?chunk .
-            }}
-
+            SELECT DISTINCT ?regraURI ?descricao ?texto ?breadcrumb ?tipo
             FROM <https://omc.co/graph/5511993891773>
             WHERE {{
-                VALUES ?classe {{
-                    {class_rules}
-                }}
 
-                # 1. Instância da classe extraída pelo LLM
-                ?instancia rdf:type ?classe .
+            VALUES ?classe {{
+                {class_rules}
+            }}
 
-                # 2. Chunk hub conectado à instância (em qualquer direção)
-                {{
-                    ?instancia :relacionamento ?chunk .
-                }} UNION {{
-                    ?chunk :relacionamento ?instancia .
-                }}
-                ?chunk rdf:type :Chunk .
+            # 1. Instância da classe extraída pelo LLM
+            ?instancia rdf:type ?classe .
 
-                # 3. Regras conectadas ao mesmo chunk hub
-                {{
-                    ?regraURI :relacionamento ?chunk .
-                }} UNION {{
-                    ?chunk :relacionamento ?regraURI .
-                }}
-                ?regraURI rdf:type/rdfs:subClassOf* :Rule .
+            # 2. Chunk hub conectado à instância (em qualquer direção)
+            {{
+                ?instancia :relacionamento ?chunk .
+            }} UNION {{
+                ?chunk :relacionamento ?instancia .
+            }}
+            ?chunk rdf:type :Chunk .
 
-                OPTIONAL {{ ?regraURI :descricao ?descricao . }}
-                OPTIONAL {{ ?regraURI rdf:type ?tipo }}
-                OPTIONAL {{ ?chunk :texto ?textoBruto . }}
-                OPTIONAL {{ ?chunk :idChunk ?breadcrumb }}
+            # 3. Regras conectadas ao mesmo chunk hub
+            {{
+                ?regraURI :relacionamento ?chunk .
+            }} UNION {{
+                ?chunk :relacionamento ?regraURI .
+            }}
+            ?regraURI rdf:type/rdfs:subClassOf* :Rule .
 
-                BIND(COALESCE(?textoBruto, ?descricao) AS ?texto)
+            OPTIONAL {{
+                ?regraURI :descricao ?descricao .
+                #FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+            }}
+            OPTIONAL {{ ?regraURI rdf:type ?tipo }}
+            OPTIONAL {{ ?chunk :texto ?textoBruto .
+                #FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+            }}
+            OPTIONAL {{ ?chunk :idChunk ?breadcrumb }}
 
+            BIND(COALESCE(?textoBruto, ?descricao) AS ?texto)
             }}
             ORDER BY ?regraURI
-            Limit 50
         '''
-       
+
+        query_rules = f'''
+            PREFIX :           <https://omc.co/vocabulary/>
+            PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+            PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+            PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao ?predicado ?direcao
+            FROM <https://omc.co/graph/{named_graph}>
+            WHERE {{
+            {{
+                # 1. SUBQUERY: Busca focada na REGRA (onde a descrição é boa)
+                SELECT ?rule (MAX(?s) AS ?score)
+                WHERE {{
+                ?q a luc-index:omc_full ;
+                    # Usamos a query rica em palavras-chave que você forneceu
+                    luc:query '{keyword}' ;
+                    luc:entities ?rule .
+
+                ?rule luc:score ?s .
+                }}
+                GROUP BY ?rule
+                ORDER BY DESC(?score)
+                LIMIT 500
+            }}
+
+            # 2. FILTRO DE TIPO COM REASONING
+            # Garante que o item encontrado é uma Regra ou uma subclasse de Regra
+            ?rule a/rdfs:subClassOf* :Rule .
+            
+            # Pega o tipo específico para exibir (ex: https://omc.co/vocabulary/Regra)
+            OPTIONAL {{ ?rule a ?tipo }}
+
+            # 3. RECUPERA A DESCRIÇÃO (O motivo do match)
+            ?rule :descricao ?descricao . FILTER(LANG(?descricao) = "" || LANGMATCHES(LANG(?descricao), "pt"))
+
+            # 4. EXPANSÃO: BUSCA O CHUNK CONECTADO (Para não vir vazio)
+            OPTIONAL {{
+                
+                # Procura vizinhos em qualquer direção (Regra->Chunk OU Chunk->Regra)
+                #{{ ?rule ?p ?chunkNode . }} UNION {{ ?chunkNode ?p ?rule . }}
+
+                # O filtro é: esse vizinho é um Chunk e tem texto?
+                #?chunkNode a :Chunk ;
+                #    :texto ?textoBruto .
+
+                {{
+                    # Direção 1: Regra -> Chunk
+                    ?rule ?p ?chunkNode .
+                    ?chunkNode a :Chunk .
+                    BIND(?p AS ?predicado)
+                    BIND("regra→chunk" AS ?direcao)
+                }} UNION {{
+                    # Direção 2: Chunk -> Regra  
+                    ?chunkNode ?p ?rule .
+                    ?chunkNode a :Chunk .
+                    BIND(?p AS ?predicado)
+                    BIND("chunk→regra" AS ?direcao)
+                }}
+
+                # Texto do chunk (fora do UNION para não duplicar)
+                ?chunkNode :texto ?textoBruto .
+                
+                # Valida idioma e atribui à variável de saída
+                FILTER(LANG(?textoBruto) = "" || LANGMATCHES(LANG(?textoBruto), "pt"))
+                BIND(?textoBruto AS ?texto)
+
+                # Tenta pegar o ID do Chunk
+                OPTIONAL {{ ?chunkNode :idChunk ?id }}
+                BIND(?id AS ?idChunk)
+            }}
+
+            BIND(?rule AS ?regraURI)
+            }}
+            ORDER BY DESC(?score)
+            LIMIT {retrieval_size}
+        '''   
+
+        query_rules_expandida = f'''
+            PREFIX :           <https://omc.co/vocabulary/>
+            PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+            PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+            PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT DISTINCT ?score ?idChunk ?texto ?regraURI ?tipo ?descricao
+            FROM <https://omc.co/graph/5511993891773>
+            WHERE {{
+
+            # ── BRANCH A: pivot é uma :Regra ──────────────────────────────────────
+            {{
+                {{
+                SELECT ?regra (MAX(?s) AS ?score)
+                WHERE {{
+                    ?q a luc-index:omc_full ;
+                    luc:query '{keyword}' ;
+                    luc:entities ?regra .
+                    ?regra luc:score ?s .
+                    ?regra a/rdfs:subClassOf* :Regra .
+                }}
+                GROUP BY ?regra
+                ORDER BY DESC(?score)
+                LIMIT 100
+                }}
+
+                OPTIONAL {{ ?regra a ?tipo }}
+                OPTIONAL {{
+                ?regra :descricao ?descricao .
+                FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+                }}
+
+                OPTIONAL {{
+                {{
+                    ?regra ?p ?chunkNode .
+                    ?chunkNode a :Chunk .
+                }} UNION {{
+                    ?chunkNode ?p ?regra .
+                    ?chunkNode a :Chunk .
+                }}
+                ?chunkNode :texto ?textoBruto .
+                FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+                OPTIONAL {{ ?chunkNode :idChunk ?idChunk }}
+                }}
+
+                BIND(COALESCE(?textoBruto, ?descricao) AS ?texto)
+                BIND(?regra AS ?regraURI)
+            }}
+
+            UNION
+
+            # ── BRANCH B: pivot é um :Chunk direto ────────────────────────────────
+            {{
+                {{
+                SELECT ?chunkNode (MAX(?s) AS ?score)
+                WHERE {{
+                    ?q a luc-index:omc_full ;
+                    luc:query  '{keyword}' ;
+                    luc:entities ?chunkNode .
+                    ?chunkNode luc:score ?s .
+                    ?chunkNode a :Chunk .
+                }}
+                GROUP BY ?chunkNode
+                ORDER BY DESC(?score)
+                LIMIT 100
+                }}
+
+                ?chunkNode :texto ?textoBruto .
+                FILTER(LANGMATCHES(LANG(?textoBruto), "pt") || LANG(?textoBruto) = "")
+
+                OPTIONAL {{
+                {{
+                    ?chunkNode ?p ?regra .
+                    ?regra a/rdfs:subClassOf* :Regra .
+                }} UNION {{
+                    ?regra ?p ?chunkNode .
+                    ?regra a/rdfs:subClassOf* :Regra .
+                }}
+                OPTIONAL {{
+                    ?regra :descricao ?descricao .
+                    FILTER(LANGMATCHES(LANG(?descricao), "pt") || LANG(?descricao) = "")
+                }}
+                }}
+
+                OPTIONAL {{ ?chunkNode a ?tipo }}
+                OPTIONAL {{ ?chunkNode :idChunk ?idChunk }}
+
+                BIND(?textoBruto AS ?texto)
+                BIND(COALESCE(?regra, ?chunkNode) AS ?regraURI)
+            }}
+
+            }}
+            ORDER BY DESC(?score)
+            LIMIT 20
+        '''
+
+        query_chunks_v1 = f'''
+            PREFIX :           <https://omc.co/vocabulary/>
+            PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+            PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+            PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+            SELECT ?point ?score ?texto ?documento ?tipo
+            FROM <https://omc.co/graph/{named_graph}>
+            WHERE {{  
+
+            {{
+                SELECT ?point 
+                    (MAX(?s) AS ?score) 
+                    (SAMPLE(?t) AS ?texto)
+                WHERE {{
+
+                #Busca Lucene (transversal)
+                ?q a luc-index:omc_full ;
+                    luc:query  '{keyword}' ;
+                    luc:entities ?point .
+
+                ?point luc:score ?s .
+
+                #FILTRO COM SUBCLASSES (o ponto chave)
+                ?point rdf:type/rdfs:subClassOf* :Point .
+
+                FILTER EXISTS {{
+                    ?point rdf:type/rdfs:subClassOf* :Point .
+                }}
+
+                OPTIONAL {{
+                    ?point :fullText ?t .
+                    #FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "en"))
+                }}
+
+                }}
+                GROUP BY ?point
+                ORDER BY DESC(?score)
+                LIMIT 200
+            }}
+
+            # Documento pai (artigo, seção, etc.)
+            OPTIONAL {{
+                ?point :is_part_of ?documento .
+                OPTIONAL {{ ?documento rdf:type ?tipo }}
+            }}
+
+            }}
+        ORDER BY DESC(?score)
+        LIMIT {retrieval_size}
+        '''
+
         query_chunks = f'''
             PREFIX :           <https://omc.co/vocabulary/>
             PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
@@ -1448,7 +1653,59 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
             ORDER BY DESC(?score)
             LIMIT {retrieval_size}
         '''
-       
+
+        _query_chunks = f'''
+            PREFIX :           <https://omc.co/vocabulary/>
+            PREFIX luc:        <http://www.ontotext.com/connectors/lucene#>
+            PREFIX luc-index:  <http://www.ontotext.com/connectors/lucene/instance#>
+            PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT ?idChunk ?score ?texto ?descricao ?documento ?tipo
+            FROM <https://omc.co/graph/{named_graph}>
+            WHERE {{  
+            {{
+                SELECT ?chunk (MAX(?s) AS ?score) (SAMPLE(?id) AS ?idChunk) (SAMPLE(?t)  AS ?texto) (SAMPLE(?descRegra) AS ?descricao)
+                WHERE {{
+                    ?q a luc-index:omc_full ;
+                    luc:query '{keyword}' ;
+                    luc:entities ?chunk .
+
+                    ?chunk luc:score ?s .
+
+                    OPTIONAL {{ ?chunk :idChunk ?id }}
+                    OPTIONAL {{ ?chunk :texto ?t . FILTER(LANG(?t) = "" || LANGMATCHES(LANG(?t), "pt")) }}
+                    OPTIONAL {{
+                        ?chunk a/rdfs:subClassOf* :Rule ;
+                        :descricao ?descRegra .
+                    }}
+                }}
+                GROUP BY ?chunk
+                ORDER BY DESC(?score)
+                LIMIT 500
+            }}
+
+            OPTIONAL {{
+            {{ 
+                # caso 1: chunk dentro de um documento
+                ?chunk :estaContidoEm ?documento .
+                OPTIONAL {{ ?documento a ?tipo }}
+            }}UNION{{
+                # caso 2: o próprio chunk é um documento/regra
+                BIND(?chunk AS ?documento) .
+                OPTIONAL {{ ?documento a ?tipo }}
+            }}
+            }}
+
+            FILTER EXISTS {{
+                VALUES ?tipoPermitido {{ :Chunk :Rule :Paragrafo }}
+                #VALUES ?tipoPermitido {{ :Chunk }}
+                ?chunk a ?tipoPermitido .
+            }}
+        }}
+        ORDER BY DESC(?score)
+        LIMIT {retrieval_size}
+        '''
+
         query_similaridade = f'''
             PREFIX : <http://www.ontotext.com/graphdb/similarity/>
             PREFIX inst: <http://www.ontotext.com/graphdb/similarity/instance/>
@@ -1473,47 +1730,17 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
             ORDER BY DESC(?score)
             LIMIT {retrieval_size} 
         '''
-        
-        query_lucene = f'''
-            PREFIX : <https://omc.co/vocabulary/>
-            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            PREFIX luc: <http://www.ontotext.com/connectors/lucene#>
-            PREFIX luc-index: <http://www.ontotext.com/connectors/lucene/instance#>
-
-            CONSTRUCT {{ ?uri rdf:type ?tipo . ?uri :fullText ?texto . ?uri :breadcrumb ?bc . ?uri :score ?score . }}
-            FROM <https://omc.co/graph/5511993891773>
-            WHERE {{
-                {{
-                    ?uri rdf:type :Rule .        
-                    FILTER (?obj IN ({class_rules_lucene}))
-                    OPTIONAL {{ ?uri :descricao ?desc . }}
-                    OPTIONAL {{ ?uri :title ?tit . }}
-                    BIND(COALESCE(?desc, ?tit, "") AS ?texto)
-                    BIND(:Rule AS ?tipo)
-                    BIND(0 AS ?score)
-
-                }} UNION {{
-                    ?q a luc-index:eu_full ;
-                    luc:query "{keyword}" ;
-                    luc:entities ?uri .
-                    ?uri luc:score ?score .
-                    ?uri rdf:type :Point .
-                    OPTIONAL {{ ?uri :fullText ?texto . }}
-                    OPTIONAL {{ ?uri :breadcrumb ?bc . }}
-                    {filter}
-                    BIND(:Point AS ?tipo)
-
-                }}
-            }}
-            ORDER BY DESC(?score) ?uri
-            LIMIT 50
-        '''
 
         url     = f"{settings.GRAPHDB_BASE_URL}/repositories/{settings.repositorio}"
-        headers = {"Content-Type": "application/sparql-query", "Accept": "text/turtle"}
+        headers = {"Content-Type": "application/sparql-query", "Accept": "application/sparql-results+json"}
+
+        
+        '''print( query_class_rules )
+        print( '-'*100 )
+        print( query_chunks )'''
 
         # Buscar apenas Regras
+
         resp_rules = requests.post(
             url,
             data=query_class_rules,
@@ -1523,34 +1750,31 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
 
         if resp_rules.status_code == 200:
             
-            V = Namespace("https://omc.co/vocabulary/")
+            results  = resp_rules
 
-            g = Graph()
-            g.parse(data=resp_rules.text, format="turtle")
+            '''
+            bindings = results.get("results", {}).get("bindings", []) 
+            resp_rules_toon = 'breadcrumb;texto_regra\n'  
 
-            '''with open('_retrieval.txt', mode='w', encoding='utf-8') as f:
-                f.write('Rules\n')
-                f.write(resp_rules.text)'''
+            for index,item in enumerate(bindings,1): 
 
-            for uri in set(g.subjects()):
-                
-                breadcrumb_node = next(g.objects(uri, V.breadcrumb), None)
-                score_node = next(g.objects(uri, V.score), None)
-                texto_node = (
-                    next(g.objects(uri, V.fullText), None)
-                    or next(g.objects(uri, V.texto), None)
-                    or next(g.objects(uri, V.descricao), None)
-                )
+                #print( '->',item.get("breadcrumb", {}).get("value", "") )       
 
-                breadcrumb = str(breadcrumb_node or uri)
-                score = round(float(score_node), 3) if score_node else 0
-                texto = normalize(str(texto_node or ""))
+                score     = float( item.get("score", {}).get("value", 0) )
+                score     = round(score, 3)
+                id_chunk  = item.get("breadcrumb", {}).get("value", "")
+                regra_uri = item.get("regraURI", {}).get("value", "")
+                texto     = normalize(item.get("texto", {}).get("value", ""))
+                if texto=='':
+                    texto = normalize(item.get("descricao", {}).get("value", "")) 
 
-                knowledge_base[breadcrumb] = texto
-
+                resp_rules_toon += f'{id_chunk};{texto}\n' 
+            
+                knowledge_base[regra_uri] = texto
+        '''
         else:
 
-            error_msg = f"GraphDB Rule ERROR ({resp_rules.status_code}): {resp_rules.text}"
+            error_msg = f"Graph DB ERROR ({resp_rules.status_code}): {resp_rules.text}"
             print(f"--> {error_msg}")
             print('---- rules ----') 
             print( query_class_rules )
@@ -1562,53 +1786,59 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
                 'response': error_msg, 
                 'dataset': {}
             }         
-                
-        #schema = extract_instances()
-        #query  = auto_query('ollama',schema,question,class_rules,keyword,filter)
-        #print( query_lucene )
+        
+        '''print( query_class_rules )
+        print( '-'*100 )
+        print( query_chunks )'''
+
+        # Buscar apenas Chunks
+
+        if( filter!='' ):
+            #query = query_chunks
+            schema = extract_instances()
+            query  = auto_query('ollama',schema,question,class_rules,keyword,filter)
+            print( query )
+
+        else:
+            schema = extract_instances()
+            query  = auto_query('ollama',schema,question,class_rules,keyword,filter)
+            print( query )
         
         headers = {"Content-Type": "application/sparql-query", "Accept": "text/turtle"}
 
         resp_chunks = requests.post(
             url,
-            data=query_lucene,
+            data=query,
             headers=headers,
             auth=HTTPBasicAuth(settings.GRAPHDB_USERNAME, settings.GRAPHDB_PASSWORD)  # ajuste usuário/senha
         )
-   
+
         if resp_chunks.status_code == 200:
             
-            V = Namespace("https://omc.co/vocabulary/")
+            results = resp_chunks 
+            
+            '''bindings = results.get("results", {}).get("bindings", [])
+         
+            for index,item in enumerate(bindings,1): 
 
-            g = Graph()
-            g.parse(data=resp_chunks.text, format="turtle")
+                #print( item.get("breadcrumb", {}).get("value", "") )       
 
-            '''with open('_retrieval.txt', mode='a', encoding='utf-8') as f:
-                f.write('Chunk\n')
-                f.write(resp_chunks.text)'''
+                score       = float( item.get("score", {}).get("value", 0) )
+                score       = round(score, 3)
+                breadcrumb  = item.get("breadcrumb", {}).get("value", "")
+                texto       = normalize(item.get("texto", {}).get("value", ""))
+                if texto=='':
+                    texto    = normalize(item.get("descricao", {}).get("value", ""))
 
-            for uri in set(g.subjects()):
-                
-                breadcrumb_node = next(g.objects(uri, V.breadcrumb), None)
-                score_node = next(g.objects(uri, V.score), None)
-                texto_node = (
-                    next(g.objects(uri, V.fullText), None)
-                    or next(g.objects(uri, V.texto), None)
-                    or next(g.objects(uri, V.descricao), None)
-                )
-
-                breadcrumb = str(breadcrumb_node or uri)
-                score = round(float(score_node), 3) if score_node else 0
-                texto = normalize(str(texto_node or ""))
-
-                knowledge_base[breadcrumb] = texto            
-                
+                resp_chunks_toon += f'{breadcrumb};{score};{texto}\n' 
+                knowledge_base[breadcrumb] = texto
+            '''    
         else:
             
-            error_msg = f"GraphDB lucene ERROR ({resp_chunks.status_code}): {resp_chunks.text}"
+            error_msg = f"Graph DB ERROR ({resp_chunks.status_code}): {resp_chunks.text}"
             print(f"--> {error_msg}")
             print('---- chunks ----') 
-            print( query_lucene )
+            print( query_chunks )
 
             sys.exit()   
     
@@ -1622,7 +1852,11 @@ def _graph_search(class_rules,expantion,keyword,question,named_graph,retrieval_s
         {textwrap.dedent(resp_rules.text)}
         General Context:
         {textwrap.dedent(resp_chunks.text) }
-        '''          
+        ''' 
+        
+        '''print(resp_rules_toon)
+        print('-'*100)
+        print(resp_chunks_toon)'''
 
         return {
             'status':'OK',

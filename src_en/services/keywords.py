@@ -38,13 +38,33 @@ def keywords_create(question,model,api,url):
         Do not include stop words.
         Do not use double quotes or single quotes.
         Do not use slashes, pipes, or backslashes: '/','\','|'; instead, write them textually using: 'or','and'.
+        
+        ## CANONICAL ##
         Also generate a canonical query with a maximum of 12 terms, using only nouns and main verbs, without generic terms such as resident, condominium, requester.
+        
+        ## ARTICLE AND CHAPTER ##
         Extract article and chapter ONLY if they are explicitly mentioned in the user's question otherwise mark as none.
         Do NOT infer article or chapter from the law name, topic, legal concept, or prior knowledge, if not present mark as none.
         Identify if the question has writen a specific article, if note mark as none
         Identify if the question has writen a specific chapter, if note mark as none
         In cases that you find more than one article or chapter, separate them with pipe, for example: 'article 2|article 5' or 'chapter i|chapter ii'.
         Avoid duplicates.
+
+        ## CLASSES ##
+        Analyze the user's question
+        Aanalyze the rewritten and expanded question with as broader context
+        Analyze the canonical fact that represents the main legal point to be answered
+        Return the related classes thaart e present in the ontology        
+
+        Returns only the classes without any comments, or any extra info
+        Always return plain text
+
+        Example:
+        :SensitivePersonalData :GivenConsent :Controller
+
+        - DO NOT create any class that is not presente in the ontology
+        - The soure should be only and always the given ontology               
+        -  As a result we will deliver only classes present in the ontology
     '''
 
     examples = [
@@ -66,7 +86,8 @@ def keywords_create(question,model,api,url):
                         "how_many": "Not informed (may influence usage rules)",
                         "canonical": "pool operating hours",
                         "article": "article 2",
-                        "chapter": "chapter (i,1)"
+                        "chapter": "chapter (i,1)",
+                        "class":":SensitivePersonalData :GivenConsent :Controller"
                     },
                 )
             ],
@@ -107,8 +128,19 @@ def keywords_create(question,model,api,url):
     components = []
     expansion  = {}
 
-    valid_parts = [v for t in triples for v in t.values() if str(v).upper() != 'NULL']
-    keywords    = ", ".join(valid_parts)
+    #valid_parts = [v for t in triples for v in t.values() if str(v).upper() != 'NULL']
+    #keywords    = ", ".join(valid_parts)
+
+    allowed_parts = ["what", "why", "where", "when", "who", "how", "how_much", "how_many"]
+
+    valid_parts = [
+        t.get(part)
+        for t in triples
+        for part in allowed_parts
+        if str(t.get(part)).upper() != "NULL"
+    ]
+
+    keywords = ", ".join(valid_parts)
 
     for t in triples:  
 
@@ -134,7 +166,9 @@ def keywords_create(question,model,api,url):
             "how_many":t.get('how_many'),
             "canonical":t.get('canonical'),
             "article":t.get('article'),
-            "chapter":t.get('chapter')
+            "chapter":t.get('chapter'),
+            "class":t.get('class')
+
         }
 
         '''print( f' what:     {t.get('what')}' )

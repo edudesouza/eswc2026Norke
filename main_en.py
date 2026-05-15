@@ -286,7 +286,7 @@ async def main(user_id,pergunta,resposta_gt,retrieval='grafo',retrieval_size=5,s
     print( '-'*100 )
     print( response_gt )'''
 
-    resolvedor = "gpt-oss:120b-cloud"
+    '''resolvedor = "gpt-oss:120b-cloud"
     avaliador  = "gpt-oss:120b-cloud"
 
     print( f'\n-> resolvedor: {resolvedor}' )
@@ -326,7 +326,7 @@ async def main(user_id,pergunta,resposta_gt,retrieval='grafo',retrieval_size=5,s
         print("- Reason: ", faithfulness.reason)
         print('-'*100)
     except Exception as erro:
-        print( f'ERRO confiabilidade: {erro}' )
+        print( f'ERRO confiabilidade: {erro}' )'''
 
     diff_time('-> Tempo total: ', inicio_global) 
     print( f'[red] --- fim ---\n' )
@@ -343,8 +343,8 @@ if __name__ == "__main__":
     _resposta = 'Article 1 lays down rules relating to the protection of natural persons with regard to the processing of personal data and rules relating to the free movement of personal data.'
 
     # GPT
-    _pergunta = 'My 15-year-old son s school requires facial recognition for entry and attendance. They say it is for security and asked for consent, but students who refuse cannot enter. The system is run by an external company that also uses the data to improve its technology. Since it is mandatory and for safety, I assume this is allowed under GDPR, correct?'
-    _resposta = 'The use of facial recognition for a 15-year-old student involves the processing of biometric data, which is classified as a special category of personal data under the GDPR and is generally prohibited unless a valid legal basis applies. Consent in this context is unlikely to be valid, as it must be freely given, and denying access to the school in case of refusal indicates coercion. Additionally, children are afforded specific protection, and their consent may not be sufficient depending on national age thresholds. The involvement of a third-party company and the use of data for additional purposes further require a clear legal basis, transparency, and strict purpose limitation. Therefore, the described processing is likely not compliant with GDPR.'
+    pergunta = 'My 15-year-old son s school requires facial recognition for entry and attendance. They say it is for security and asked for consent, but students who refuse cannot enter. The system is run by an external company that also uses the data to improve its technology. Since it is mandatory and for safety, I assume this is allowed under GDPR, correct?'
+    resposta = 'The use of facial recognition for a 15-year-old student involves the processing of biometric data, which is classified as a special category of personal data under the GDPR and is generally prohibited unless a valid legal basis applies. Consent in this context is unlikely to be valid, as it must be freely given, and denying access to the school in case of refusal indicates coercion. Additionally, children are afforded specific protection, and their consent may not be sufficient depending on national age thresholds. The involvement of a third-party company and the use of data for additional purposes further require a clear legal basis, transparency, and strict purpose limitation. Therefore, the described processing is likely not compliant with GDPR.'
     
     # Claude
     _pergunta = 'Our school wants to speed up student entry at the gate, so we thought about using facial recognition. Since it is only for internal access control and parents already signed the enrollment contract, I believe consent is already covered. Can we share this data with the camera system provider?'
@@ -353,8 +353,8 @@ if __name__ == "__main__":
     _pergunta = 'Can a school require facial recognition?'
     _resposta = 'No, Article 9 GDPR prohibits the processing of special categories of personal data without a valid legal basis and permission to process special categories of personal data with explicit consent'
 
-    pergunta = 'Under what circumstances can a supervisory authority confer investigative powers on the members or staff of a seconding supervisory authority?'
-    resposta = 'A supervisory authority may, in accordance with Member State law, and with the seconding supervisory authority s authorisation, confer powers, including investigative powers on the seconding supervisory authority s members or staff involved in joint operations or, in so far as the law of the Member State of the host supervisory authority permits, allow the seconding supervisory authority s members or staff to exercise their investigative powers in accordance with the law of the Member State of the seconding supervisory authority.'
+    _pergunta = 'Under what circumstances can a supervisory authority confer investigative powers on the members or staff of a seconding supervisory authority?'
+    _resposta = 'A supervisory authority may, in accordance with Member State law, and with the seconding supervisory authority s authorisation, confer powers, including investigative powers on the seconding supervisory authority s members or staff involved in joint operations or, in so far as the law of the Member State of the host supervisory authority permits, allow the seconding supervisory authority s members or staff to exercise their investigative powers in accordance with the law of the Member State of the seconding supervisory authority.'
     
     # debug_one [query,retriever,ground_truth]
     # user_id,pergunta,retrieval=grafo|vetor,retrieval_size=5,size_gt=5,debug_all=False,debug_one=None,output=None,threshold=0.60):

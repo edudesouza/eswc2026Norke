@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns="https://omc.co/lgpd#"
+	xmlns:agg="http://jena.apache.org/ARQ/function/aggregate#"
+	xmlns:sail="http://www.openrdf.org/config/sail#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:geof="http://www.opengis.net/def/function/geosparql/"
+	xmlns:prefix="http://www.ontotext.com/connectors/lucene#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:fn="http://www.w3.org/2005/xpath-functions"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:spif="http://spinrdf.org/spif#"
+	xmlns:path="http://www.ontotext.com/path#"
+	xmlns:array="http://www.w3.org/2005/xpath-functions/array"
+	xmlns:terms="http://purl.org/dc/terms/"
+	xmlns:apf="http://jena.apache.org/ARQ/property#"
+	xmlns:rep="http://www.openrdf.org/config/repository#"
+	xmlns:vann="http://purl.org/vocab/vann/"
+	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	xmlns:sr="http://www.openrdf.org/config/repository/sail#"
+	xmlns:rdf4j="http://rdf4j.org/schema/rdf4j#"
+	xmlns:wgs="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	xmlns:vaem="http://www.linkedmodel.org/schema/vaem#"
+	xmlns:gn="http://www.geonames.org/ontology#"
+	xmlns:afn="http://jena.apache.org/ARQ/function#"
+	xmlns:list="http://jena.apache.org/ARQ/list#"
+	xmlns:gdpr="https://omc.co/vocabulary/"
+	xmlns:GDPRtEXT="https://w3id.org/GDPRtEXT#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:ofn="http://www.ontotext.com/sparql/functions/"
+	xmlns:geoext="http://rdf.useekm.com/ext#"
+	xmlns:inst="http://www.ontotext.com/connectors/lucene/instance#"
+	xmlns:graphdb="http://www.ontotext.com/config/graphdb#"
+	xmlns:sesame="http://www.openrdf.org/schema/sesame#"
+	xmlns:bibo="http://purl.org/ontology/bibo/"
+	xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+	xmlns:omgeo="http://www.ontotext.com/owlim/geo#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+<rdf:Description rdf:about="https://omc.co/5511993891773">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Entity"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/id/documento/7492">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Documento"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Document"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Rule1">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Rule"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Personaldata">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Personaldata"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/chapter_i_article_1">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Chunk"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Article1">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Article"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Datasharing">
+	<rdf:type rdf:resource="https://omc.co/vocabulary/Datasharing"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/id/documento/7492">
+	<rdfs:label xml:lang="pt">GDPR - Lei Geral de Proteção de Dados - EU</rdfs:label>
+	<rdfs:label xml:lang="en">GDPR - Lei Geral de Proteção de Dados - EU</rdfs:label>
+	<gdpr:identificador>7492</gdpr:identificador>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/id/usuario/5511993891773">
+	<gdpr:possuiDocumento rdf:resource="https://omc.co/id/documento/7492"/>
+	<gdpr:responsavelPor rdf:resource="https://omc.co/id/documento/7492"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Rule1">
+	<gdpr:appliesTo rdf:resource="https://omc.co/5511993891773/7492/entidade/Personaldata"/>
+	<gdpr:refersTo rdf:resource="https://omc.co/5511993891773/7492/entidade/Datasharing"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Article1">
+	<gdpr:title>Subject-matter and objectives</gdpr:title>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Rule1">
+	<gdpr:isContainedIn rdf:resource="https://omc.co/5511993891773/7492/chapter_i_article_1"/>
+	<gdpr:isContainedIn rdf:resource="https://omc.co/5511993891773/7492/entidade/Article1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Personaldata">
+	<gdpr:isContainedIn rdf:resource="https://omc.co/5511993891773/7492/chapter_i_article_1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/chapter_i_article_1">
+	<gdpr:isContainedIn rdf:resource="https://omc.co/5511993891773/7492"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Article1">
+	<gdpr:isContainedIn rdf:resource="https://omc.co/5511993891773/7492/chapter_i_article_1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Datasharing">
+	<gdpr:isContainedIn rdf:resource="https://omc.co/5511993891773/7492/chapter_i_article_1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Rule1">
+	<gdpr:name>Prohibition of restricting or prohibiting free movement of personal data within the Union for data protection reasons</gdpr:name>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773">
+	<gdpr:externalId>5511993891773</gdpr:externalId>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492">
+	<gdpr:externalId>7492</gdpr:externalId>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773">
+	<gdpr:hasDocument rdf:resource="https://omc.co/5511993891773/7492"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/entidade/Article1">
+	<gdpr:articlereference>Art. 1</gdpr:articlereference>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492">
+	<gdpr:file>GDPR</gdpr:file>
+	<gdpr:hasResponsible rdf:resource="https://omc.co/5511993891773"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="https://omc.co/5511993891773/7492/chapter_i_article_1">
+	<gdpr:chunkId>chapter_i_article_1</gdpr:chunkId>
+	<gdpr:content xml:lang="pt">Article 1: Subject-matter and objectives 1 This Regulation lays down rules relating to the protection of natural persons with regard to the processing of personal data and rules relating to the free movement of personal data. 2 This Regulation protects fundamental rights and freedoms of natural persons and in particular their right to the protection of personal data. 3 The free movement of personal data within the Union shall be neither restricted nor prohibited for reasons connected with the protection of natural persons with regard to the processing of personal data.</gdpr:content>
+</rdf:Description>
+
+</rdf:RDF>
